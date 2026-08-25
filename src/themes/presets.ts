@@ -1,71 +1,143 @@
 /**
  * Presets de tema.
  *
- * Los presets viven en codigo, no en Sanity. Sanity guarda unicamente el id del
- * preset elegido mas los overrides opcionales. Consecuencia buscada: cuando
- * mejoras el preset "parrilla", mejoran todos los clientes que lo usan, sin
- * tocar su contenido.
+ * Cambio de rol respecto de la primera version: un preset ya NO es un tema
+ * cerrado, es un PUNTO DE PARTIDA que precarga los controles. El restaurante
+ * elige "Bodegón" y queda con su fondo, su acento y sus tipografias; despues
+ * cambia lo que quiera desde las listas curadas.
  *
- * ESTADO: provisional. La Fase 0/4 define los 6 presets reales a partir de
- * mockups. Estos dos existen para que la cadena tema -> CSS funcione punta a
- * punta y se pueda validar el mecanismo antes de decidir la estetica.
+ * Los colores no viven aca: viven en palette.ts, y el preset solo nombra cual
+ * fondo y cual acento usa. Asi el cliente que arranco de un preset y cambio el
+ * acento sigue teniendo una combinacion valida, en vez de una mezcla rara entre
+ * un preset y un override suelto.
  */
-export interface ThemeTokens {
-  bg: string;
-  surface: string;
-  text: string;
-  textMuted: string;
-  accent: string;
-  /** Color del texto que va ENCIMA de accent. Se valida contraste contra accent. */
-  accentContrast: string;
-  border: string;
-  radius: string;
-  fontDisplay: string;
-  fontBody: string;
-}
-
 export interface ThemePreset {
   id: string;
   label: string;
-  tokens: ThemeTokens;
+  /** Descripcion corta para que el dueño elija sin ver codigo. */
+  hint: string;
+  /** id de SURFACES en palette.ts */
+  surface: string;
+  /** id de ACCENTS en palette.ts */
+  accent: string;
+  /**
+   * Hoja de Google Fonts del preset. Se emite solo la del preset activo, asi
+   * que un restaurante nunca descarga tipografias de los otros cinco.
+   * Pendiente: self-hostear con @fontsource para sacar el request externo.
+   */
+  fontLink: string;
+  fontDisplay: string;
+  fontBody: string;
+  radius: string;
+
+  /* Identidad tipografica del encabezado de categoria. Es lo que mas separa a
+     un preset de otro sin tocar el layout. */
+  categorySize: string;
+  categoryTransform: string;
+  categoryTracking: string;
+  /** Regla debajo del titulo de categoria, como shorthand de border-top. */
+  categoryRule: string;
 }
 
 export const PRESETS: readonly ThemePreset[] = [
   {
-    id: 'clasico',
-    label: 'Clasico',
-    tokens: {
-      bg: '#faf9f7',
-      surface: '#ffffff',
-      text: '#1c1917',
-      textMuted: '#57534e',
-      accent: '#9a3412',
-      accentContrast: '#ffffff',
-      border: '#e7e5e4',
-      radius: '0.5rem',
-      fontDisplay: '"Fraunces", Georgia, serif',
-      fontBody: '"Inter", system-ui, sans-serif',
-    },
+    id: 'bodegon',
+    label: 'Bodegón',
+    hint: 'Cálido y tipográfico. Para parrillas, bodegones y cocina de barrio.',
+    surface: 'crema',
+    accent: 'bordo',
+    fontLink:
+      'https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap',
+    fontDisplay: '"Zilla Slab", Georgia, serif',
+    fontBody: '"Work Sans", system-ui, sans-serif',
+    radius: '0px',
+    categorySize: '0.875rem',
+    categoryTransform: 'uppercase',
+    categoryTracking: '0.2em',
+    categoryRule: '3px double var(--border)',
   },
   {
-    id: 'nocturno',
-    label: 'Nocturno',
-    tokens: {
-      bg: '#12100e',
-      surface: '#1c1917',
-      text: '#f5f5f4',
-      textMuted: '#a8a29e',
-      accent: '#fbbf24',
-      accentContrast: '#1c1917',
-      border: '#292524',
-      radius: '0.5rem',
-      fontDisplay: '"Fraunces", Georgia, serif',
-      fontBody: '"Inter", system-ui, sans-serif',
-    },
+    id: 'pizarra',
+    label: 'Pizarra',
+    hint: 'Oscuro, títulos enormes. Para bares, cervecerías y pizzerías.',
+    surface: 'carbon',
+    accent: 'ambar',
+    fontLink:
+      'https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;700&display=swap',
+    fontDisplay: '"Anton", Impact, sans-serif',
+    fontBody: '"Space Grotesk", system-ui, sans-serif',
+    radius: '0px',
+    categorySize: '1.875rem',
+    categoryTransform: 'uppercase',
+    categoryTracking: '0.01em',
+    categoryRule: '1px solid var(--border)',
+  },
+  {
+    id: 'editorial',
+    label: 'Editorial',
+    hint: 'Mínimo y con mucho aire. Para cocina de autor y vinotecas.',
+    surface: 'papel',
+    accent: 'ladrillo',
+    fontLink:
+      'https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Public+Sans:wght@400;500;600&display=swap',
+    fontDisplay: '"Instrument Serif", Georgia, serif',
+    fontBody: '"Public Sans", system-ui, sans-serif',
+    radius: '0px',
+    categorySize: '0.6875rem',
+    categoryTransform: 'uppercase',
+    categoryTracking: '0.24em',
+    categoryRule: 'none',
+  },
+  {
+    id: 'vitrina',
+    label: 'Vitrina',
+    hint: 'Fuerte y directo, la foto manda. Conviene si hay fotos buenas.',
+    surface: 'blanco',
+    accent: 'naranja',
+    fontLink:
+      'https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;500;600&display=swap',
+    fontDisplay: '"Archivo Black", Impact, sans-serif',
+    fontBody: '"Archivo", system-ui, sans-serif',
+    radius: '0px',
+    categorySize: '1.75rem',
+    categoryTransform: 'uppercase',
+    categoryTracking: '0.02em',
+    categoryRule: '2px solid var(--border)',
+  },
+  {
+    id: 'marca',
+    label: 'Marca',
+    hint: 'Limpio, con el color de la marca al frente. Para rotiserías y take away.',
+    surface: 'papel',
+    accent: 'verde',
+    fontLink: 'https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;800&display=swap',
+    fontDisplay: '"Manrope", system-ui, sans-serif',
+    fontBody: '"Manrope", system-ui, sans-serif',
+    radius: '14px',
+    categorySize: '0.8125rem',
+    categoryTransform: 'uppercase',
+    categoryTracking: '0.16em',
+    categoryRule: 'none',
+  },
+  {
+    id: 'bistro',
+    label: 'Bistró',
+    hint: 'Elegante, con miniatura por plato. Para bistrós y cafés de especialidad.',
+    surface: 'marfil',
+    accent: 'bronce',
+    fontLink:
+      'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400&family=Karla:wght@400;500;600&display=swap',
+    fontDisplay: '"Cormorant Garamond", Georgia, serif',
+    fontBody: '"Karla", system-ui, sans-serif',
+    radius: '8px',
+    categorySize: '1.5rem',
+    categoryTransform: 'none',
+    categoryTracking: '0em',
+    categoryRule: '1px solid var(--border)',
   },
 ];
 
-export const DEFAULT_PRESET_ID = 'clasico';
+export const DEFAULT_PRESET_ID = 'bodegon';
 
 export function getPreset(id: string | undefined): ThemePreset {
   return (
@@ -75,5 +147,8 @@ export function getPreset(id: string | undefined): ThemePreset {
   );
 }
 
-/** Para poblar el dropdown del Studio sin duplicar la lista. */
-export const PRESET_OPTIONS = PRESETS.map((p) => ({ title: p.label, value: p.id }));
+/** Para poblar el selector del Studio sin duplicar la lista. */
+export const PRESET_OPTIONS = PRESETS.map((p) => ({
+  title: `${p.label} — ${p.hint}`,
+  value: p.id,
+}));

@@ -37,6 +37,10 @@ export const MENU_QUERY = defineQuery(`*[_type == "restaurant"][0]{
     alt,
     asset->{ _id, url, metadata { lqip, dimensions { width, height } } }
   },
+  hero{
+    alt,
+    asset->{ _id, url, metadata { lqip, dimensions { width, height } } }
+  },
   "promotions": promotions[
     defined(@->_id) &&
     (!defined(@->validFrom) || @->validFrom <= $today) &&
@@ -139,6 +143,7 @@ export interface RestaurantData {
   };
   hours?: { days: string; hours: string }[];
   logo?: SanityPhoto;
+  hero?: SanityPhoto;
   promotions?: PromotionData[];
   menu?: CategoryData[];
 }

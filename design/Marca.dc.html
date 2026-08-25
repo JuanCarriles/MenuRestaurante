@@ -1,0 +1,137 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;800&display=swap">
+  <style>
+    body { margin: 0; }
+    a { color: #0d7d5a; } a:hover { color: #0a6046; }
+  </style>
+</helmet>
+
+<div style="width: 375px; min-height: 812px; background: #ffffff; color: #16211d; font-family: 'Manrope', system-ui, sans-serif; font-size: 16px; line-height: 1.5;">
+
+  <header style="display: flex; align-items: center; gap: 12px; padding: 18px 20px; border-bottom: 1px solid #ecefee;">
+    <div style="width: 40px; height: 40px; border-radius: 50%; background: #0d7d5a; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v8a3 3 0 0 0 6 0V3"></path><path d="M10 11v10"></path><path d="M18 3c-1.5 2-2 4-2 6s.5 3 2 3v9"></path></svg>
+    </div>
+    <div style="flex-grow: 1;">
+      <div style="font-weight: 800; font-size: 18px; letter-spacing: -0.01em;">La Tropilla</div>
+      <div style="font-size: 13px; color: #64716c;">Cocina de barrio</div>
+    </div>
+  </header>
+
+  <div style="background: #eefaf5; color: #0a5741; padding: 12px 20px; font-size: 15px; font-weight: 500;">10% de descuento pagando en efectivo</div>
+
+  <section style="padding: 20px 20px 0;">
+    <div style="background: #0d7d5a; color: #ffffff; padding: 18px; border-radius: 14px;">
+      <div style="font-size: 11px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: #e0f8f0;">Promo del día</div>
+      <h2 style="margin: 8px 0 0; font-size: 21px; font-weight: 800; line-height: 1.22; letter-spacing: -0.01em;">Combo Milanesa + Papas + Bebida</h2>
+      <div style="display: flex; align-items: baseline; gap: 10px; margin-top: 14px;">
+        <span style="font-size: 28px; font-weight: 800;">$&#8239;4.900</span>
+        <span style="font-size: 15px; color: #e0f8f0; text-decoration: line-through;">$&#8239;9.000</span>
+        <span style="margin-left: auto; font-size: 12px; font-weight: 800; color: #0a5741; background: #ffffff; padding: 6px 9px; border-radius: 999px;">46% OFF</span>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding: 26px 20px 0;">
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px;">
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 16px 10px; border: 1px solid #ecefee; border-radius: 14px; min-height: 44px;">
+        <sc-if value="{{ fotos }}" hint-placeholder-val="{{ true }}">
+          <div style="width: 56px; height: 56px; border-radius: 50%; background: #eef2f0; display: flex; align-items: center; justify-content: center;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94a29c" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="4"></circle></svg>
+          </div>
+        </sc-if>
+        <sc-if value="{{ sinFotos }}" hint-placeholder-val="{{ true }}">
+          <div style="width: 56px; height: 56px; border-radius: 50%; background: #0d7d5a; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 22px; color: #ffffff;">E</div>
+        </sc-if>
+        <div style="font-weight: 600; font-size: 15px; text-align: center;">Entradas</div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 16px 10px; border: 1px solid #ecefee; border-radius: 14px; min-height: 44px;">
+        <sc-if value="{{ fotos }}" hint-placeholder-val="{{ true }}">
+          <div style="width: 56px; height: 56px; border-radius: 50%; background: #eef2f0; display: flex; align-items: center; justify-content: center;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94a29c" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="4"></circle></svg>
+          </div>
+        </sc-if>
+        <sc-if value="{{ sinFotos }}" hint-placeholder-val="{{ true }}">
+          <div style="width: 56px; height: 56px; border-radius: 50%; background: #0d7d5a; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 22px; color: #ffffff;">P</div>
+        </sc-if>
+        <div style="font-weight: 600; font-size: 15px; text-align: center;">Principales</div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding: 30px 20px 0;">
+    <h2 style="margin: 0 0 14px; font-size: 13px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: #64716c;">Entradas</h2>
+    <div style="display: flex; flex-direction: column; gap: 16px;">
+      <div style="display: flex; gap: 10px; align-items: baseline;">
+        <div style="font-weight: 600; font-size: 16px; white-space: nowrap;">Empanadas de carne</div>
+        <div style="flex-grow: 1; border-bottom: 1px dotted #c9d2ce; transform: translateY(-4px);"></div>
+        <div style="font-weight: 800; font-size: 16px; white-space: nowrap;">$&#8239;1.200</div>
+      </div>
+      <div style="display: flex; gap: 10px; align-items: baseline;">
+        <div style="font-weight: 600; font-size: 16px; white-space: nowrap;">Provoleta</div>
+        <div style="flex-grow: 1; border-bottom: 1px dotted #c9d2ce; transform: translateY(-4px);"></div>
+        <div style="font-weight: 800; font-size: 16px; white-space: nowrap;">$&#8239;3.800</div>
+      </div>
+      <div style="display: flex; gap: 10px; align-items: baseline;">
+        <div style="font-weight: 600; font-size: 16px; white-space: nowrap;">Rabas</div>
+        <div style="flex-grow: 1; border-bottom: 1px dotted #c9d2ce; transform: translateY(-4px);"></div>
+        <div style="font-weight: 800; font-size: 16px; white-space: nowrap;">$&#8239;6.500</div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding: 28px 20px 0;">
+    <h2 style="margin: 0 0 14px; font-size: 13px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: #64716c;">Principales</h2>
+    <div style="display: flex; flex-direction: column; gap: 16px;">
+      <div>
+        <div style="display: flex; gap: 10px; align-items: baseline;">
+          <div style="font-weight: 600; font-size: 16px; white-space: nowrap;">Milanesa con guarnición</div>
+          <div style="flex-grow: 1; border-bottom: 1px dotted #c9d2ce; transform: translateY(-4px);"></div>
+          <div style="font-weight: 800; font-size: 16px; white-space: nowrap;">$&#8239;7.999</div>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: baseline; margin-top: 8px; padding-left: 14px;">
+          <div style="font-size: 15px; color: #64716c; white-space: nowrap;">Para dos</div>
+          <div style="flex-grow: 1; border-bottom: 1px dotted #dbe2df; transform: translateY(-4px);"></div>
+          <div style="font-weight: 600; font-size: 15px; color: #64716c; white-space: nowrap;">$&#8239;12.000</div>
+        </div>
+      </div>
+      <div style="display: flex; gap: 10px; align-items: baseline;">
+        <div style="font-weight: 600; font-size: 16px; white-space: nowrap;">Bife de chorizo</div>
+        <div style="flex-grow: 1; border-bottom: 1px dotted #c9d2ce; transform: translateY(-4px);"></div>
+        <div style="font-weight: 800; font-size: 16px; white-space: nowrap;">$&#8239;14.500</div>
+      </div>
+      <div style="display: flex; gap: 10px; align-items: baseline;">
+        <div style="font-weight: 600; font-size: 16px; white-space: nowrap;">Ñoquis caseros</div>
+        <div style="flex-grow: 1; border-bottom: 1px dotted #c9d2ce; transform: translateY(-4px);"></div>
+        <div style="font-weight: 800; font-size: 16px; white-space: nowrap;">$&#8239;8.900</div>
+      </div>
+    </div>
+  </section>
+
+  <footer style="margin-top: 30px; border-top: 1px solid #ecefee; padding: 22px 20px 30px; color: #64716c; font-size: 14px;">
+    <div>Lunes a sábados &#183; 12:00 a 15:30 y 20:00 a 00:00</div>
+    <div style="margin-top: 10px; font-size: 12px;">Precios actualizados al 24 de agosto</div>
+  </footer>
+
+</div>
+</x-dc>
+
+<script data-dc-script data-props='{"fotos":{"editor":"boolean","default":true,"section":"Contenido"}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const fotos = this.props.fotos ?? true;
+    return { fotos: fotos, sinFotos: !fotos };
+  }
+}
+</script>
+</body>
+</html>

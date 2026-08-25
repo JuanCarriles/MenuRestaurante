@@ -1,0 +1,76 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html", "title": "1 · Bodegón", "x": 0, "y": 0, "w": 375, "h": 1120 },
+    { "file": "Pizarra.dc.html", "title": "2 · Pizarra", "x": 470, "y": 0, "w": 375, "h": 1120 },
+    { "file": "Editorial.dc.html", "title": "3 · Editorial", "x": 940, "y": 0, "w": 375, "h": 1120 },
+    { "file": "Vitrina.dc.html", "title": "4 · Vitrina", "x": 0, "y": 1420, "w": 375, "h": 1250 },
+    { "file": "Marca.dc.html", "title": "5 · Marca", "x": 470, "y": 1420, "w": 375, "h": 1250 },
+    { "file": "Bistro.dc.html", "title": "6 · Bistró", "x": 940, "y": 1420, "w": 375, "h": 1250 }
+  ],
+  "annotations": [
+    {
+      "id": "fila-sin-fotos",
+      "x": -420,
+      "y": 0,
+      "w": 360,
+      "text": "FILA 1 — NO NECESITAN NINGUNA FOTO\n\nSe sostienen solos con tipografía y color. Son los que le das a un restaurante que no tiene fotos usables, que van a ser la mayoría.\n\nSlots de imagen: solo el logo, y es opcional."
+    },
+    {
+      "id": "fila-con-fotos",
+      "x": -420,
+      "y": 1420,
+      "w": 360,
+      "text": "FILA 2 — USAN FOTOS\n\nMás atractivos cuando hay material bueno, más frágiles cuando no.\n\nCada uno trae el interruptor \"fotos\" arriba del artboard: apagalo para ver cómo se degrada cuando el restaurante no manda imágenes."
+    },
+    {
+      "id": "nota-bodegon",
+      "x": 0,
+      "y": -230,
+      "w": 375,
+      "text": "1 · BODEGÓN\n\nZilla Slab + Work Sans. Crema #faf5ec, bordó #8c2f27.\n\nSeña: reglas dobles y el recuadro estampado de la promo.\n\nPara: parrillas, bodegones, cocina casera de barrio.\n\nImágenes: ninguna (logo opcional)."
+    },
+    {
+      "id": "nota-pizarra",
+      "x": 470,
+      "y": -230,
+      "w": 375,
+      "text": "2 · PIZARRA\n\nAnton + Space Grotesk. Carbón #16161a, ámbar #f0a92b.\n\nSeña: títulos condensados enormes y líneas de puntos hasta el precio.\n\nPara: bares, cervecerías, pizzerías, lugares de noche.\n\nImágenes: ninguna (logo opcional)."
+    },
+    {
+      "id": "nota-editorial",
+      "x": 940,
+      "y": -230,
+      "w": 375,
+      "text": "3 · EDITORIAL\n\nInstrument Serif + Public Sans. Blanco puro, un solo acento #b3421f.\n\nSeña: contención extrema. Sin cajas, sin bordes, aire.\n\nPara: cocina de autor, vinotecas, lugares caros.\n\nImágenes: ninguna (logo opcional)."
+    },
+    {
+      "id": "nota-vitrina",
+      "x": 0,
+      "y": 1180,
+      "w": 375,
+      "text": "4 · VITRINA\n\nArchivo Black + Archivo. Blanco, naranja quemado #c2410c.\n\nSeña: cada categoría es una banda fotográfica con el nombre en mayúsculas encima.\n\nEl velo oscuro sobre la foto no es decorativo: garantiza que el texto siga siendo legible sobre CUALQUIER foto que suba el cliente.\n\nImágenes: foto por categoría (necesaria), foto por plato (opcional)."
+    },
+    {
+      "id": "nota-marca",
+      "x": 470,
+      "y": 1180,
+      "w": 375,
+      "text": "5 · MARCA\n\nManrope. Blanco, verde #0d7d5a como color de marca.\n\nSeña: grilla de categorías arriba y líneas punteadas hasta el precio.\n\nSin fotos cae a iniciales en un círculo del color de marca, así que no se rompe.\n\nPara: rotiserías, casas de empanadas, heladerías, take away.\n\nImágenes: logo, ícono por categoría (opcional)."
+    },
+    {
+      "id": "nota-bistro",
+      "x": 940,
+      "y": 1180,
+      "w": 375,
+      "text": "6 · BISTRÓ\n\nCormorant Garamond + Karla. Marfil #fdfbf7, bronce #8a5c33.\n\nSeña: regla ornamental centrada y miniatura redonda por plato. Es el más cercano a tu referencia de The Yummy Place.\n\nÚnico que muestra notas de alérgenos.\n\nImágenes: portada, foto por plato (las redondas piden fotos decentes)."
+    },
+    {
+      "id": "que-decidir",
+      "x": -420,
+      "y": 700,
+      "w": 360,
+      "text": "QUÉ HAY QUE DECIDIR\n\n1) Cuáles de los seis van a la v1. No hace falta que entren todos.\n\n2) Si el catálogo de fotos por categoría (Vitrina) justifica agregar el campo de imagen a las categorías en Sanity.\n\nTodos usan los mismos tokens que ya existen en el código, así que entrar no cuesta trabajo de componentes."
+    }
+  ],
+  "launch": { "view": "canvas" }
+}

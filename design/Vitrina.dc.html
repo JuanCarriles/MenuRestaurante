@@ -1,0 +1,148 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;500;600&display=swap">
+  <style>
+    body { margin: 0; }
+    a { color: #c2410c; } a:hover { color: #9a3412; }
+  </style>
+</helmet>
+
+<div style="width: 375px; min-height: 812px; background: #ffffff; color: #14100e; font-family: 'Archivo', system-ui, sans-serif; font-size: 16px; line-height: 1.5;">
+
+  <div style="background: #14100e; color: #ffffff; padding: 12px 20px; font-size: 15px; font-weight: 500; text-align: center;">10% de descuento pagando en efectivo</div>
+
+  <header style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 22px 20px 18px;">
+    <h1 style="margin: 0; font-family: 'Archivo Black', Impact, sans-serif; font-size: 26px; line-height: 1; letter-spacing: -0.02em; text-transform: uppercase;">La Tropilla</h1>
+    <div style="font-size: 13px; color: #6b625c; white-space: nowrap;">Cocina de barrio</div>
+  </header>
+
+  <section style="padding: 0 0 8px;">
+    <div style="position: relative; height: 168px; overflow: hidden; background: #f4ede8;">
+      <sc-if value="{{ fotos }}" hint-placeholder-val="{{ true }}">
+        <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: #e4d5cb;">
+          <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#a08977" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="4"></circle></svg>
+        </div>
+      </sc-if>
+      <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(20,16,14,0.15) 0%, rgba(20,16,14,0.72) 100%);"></div>
+      <div style="position: absolute; left: 0; right: 0; bottom: 0; padding: 18px 20px;">
+        <div style="font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: #ffb894;">Promo del día</div>
+        <h2 style="margin: 6px 0 0; font-family: 'Archivo Black', Impact, sans-serif; font-size: 24px; line-height: 1.08; text-transform: uppercase; color: #ffffff;">Combo Milanesa<br>+ Papas + Bebida</h2>
+      </div>
+    </div>
+    <div style="display: flex; align-items: baseline; gap: 10px; padding: 14px 20px 0;">
+      <span style="font-family: 'Archivo Black', Impact, sans-serif; font-size: 27px; color: #c2410c;">$&#8239;4.900</span>
+      <span style="font-size: 15px; color: #6b625c; text-decoration: line-through;">$&#8239;9.000</span>
+      <span style="margin-left: auto; font-size: 12px; font-weight: 600; color: #ffffff; background: #c2410c; padding: 6px 9px;">46% OFF</span>
+    </div>
+  </section>
+
+  <section style="padding: 26px 0 0;">
+    <div style="position: relative; height: 132px; overflow: hidden; background: #efe9e4;">
+      <sc-if value="{{ fotos }}" hint-placeholder-val="{{ true }}">
+        <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: #ded3ca;">
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9d8b7d" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="4"></circle></svg>
+        </div>
+      </sc-if>
+      <sc-if value="{{ sinFotos }}" hint-placeholder-val="{{ true }}">
+        <div style="position: absolute; inset: 0; background: #14100e;"></div>
+      </sc-if>
+      <div style="position: absolute; inset: 0; background: rgba(20,16,14,0.5);"></div>
+      <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;">
+        <h2 style="margin: 0; font-family: 'Archivo Black', Impact, sans-serif; font-size: 30px; letter-spacing: 0.02em; text-transform: uppercase; color: #ffffff; text-align: center;">Entradas</h2>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 0; padding: 4px 20px 0;">
+      <div style="display: flex; gap: 14px; align-items: baseline; padding: 16px 0; border-bottom: 1px solid #eae5e1;">
+        <div style="flex-grow: 1;">
+          <div style="font-weight: 600; font-size: 17px;">Empanadas de carne</div>
+          <div style="font-size: 15px; color: #6b625c; margin-top: 2px;">Cortadas a cuchillo, horno de barro.</div>
+        </div>
+        <div style="font-family: 'Archivo Black', Impact, sans-serif; font-size: 17px; white-space: nowrap;">$&#8239;1.200</div>
+      </div>
+      <div style="display: flex; gap: 14px; align-items: baseline; padding: 16px 0; border-bottom: 1px solid #eae5e1;">
+        <div style="flex-grow: 1;">
+          <div style="font-weight: 600; font-size: 17px;">Provoleta a la parrilla</div>
+          <div style="font-size: 15px; color: #6b625c; margin-top: 2px;">Con orégano y aceite de oliva.</div>
+        </div>
+        <div style="font-family: 'Archivo Black', Impact, sans-serif; font-size: 17px; white-space: nowrap;">$&#8239;3.800</div>
+      </div>
+      <div style="display: flex; gap: 14px; align-items: baseline; padding: 16px 0;">
+        <div style="flex-grow: 1;">
+          <div style="font-weight: 600; font-size: 17px;">Rabas</div>
+          <div style="font-size: 15px; color: #6b625c; margin-top: 2px;">Con alioli de limón.</div>
+        </div>
+        <div style="font-family: 'Archivo Black', Impact, sans-serif; font-size: 17px; white-space: nowrap;">$&#8239;6.500</div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding: 22px 0 0;">
+    <div style="position: relative; height: 132px; overflow: hidden; background: #efe9e4;">
+      <sc-if value="{{ fotos }}" hint-placeholder-val="{{ true }}">
+        <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: #d6cabf;">
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#95836f" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="4"></circle></svg>
+        </div>
+      </sc-if>
+      <sc-if value="{{ sinFotos }}" hint-placeholder-val="{{ true }}">
+        <div style="position: absolute; inset: 0; background: #c2410c;"></div>
+      </sc-if>
+      <div style="position: absolute; inset: 0; background: rgba(20,16,14,0.5);"></div>
+      <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;">
+        <h2 style="margin: 0; font-family: 'Archivo Black', Impact, sans-serif; font-size: 30px; letter-spacing: 0.02em; text-transform: uppercase; color: #ffffff; text-align: center;">Principales</h2>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; padding: 4px 20px 0;">
+      <div style="display: flex; gap: 14px; align-items: baseline; padding: 16px 0; border-bottom: 1px solid #eae5e1;">
+        <div style="flex-grow: 1;">
+          <div style="font-weight: 600; font-size: 17px;">Milanesa con guarnición</div>
+          <div style="font-size: 15px; color: #6b625c; margin-top: 2px;">Papas, puré o mixto.</div>
+        </div>
+        <div style="text-align: right;">
+          <div style="font-family: 'Archivo Black', Impact, sans-serif; font-size: 17px; white-space: nowrap;">$&#8239;7.999</div>
+          <div style="font-size: 13px; color: #6b625c; white-space: nowrap; margin-top: 3px;">Para dos $&#8239;12.000</div>
+        </div>
+      </div>
+      <div style="display: flex; gap: 14px; align-items: baseline; padding: 16px 0; border-bottom: 1px solid #eae5e1;">
+        <div style="flex-grow: 1;">
+          <div style="font-weight: 600; font-size: 17px;">Bife de chorizo</div>
+          <div style="font-size: 15px; color: #6b625c; margin-top: 2px;">400&#8239;g, a punto o jugoso.</div>
+        </div>
+        <div style="font-family: 'Archivo Black', Impact, sans-serif; font-size: 17px; white-space: nowrap;">$&#8239;14.500</div>
+      </div>
+      <div style="display: flex; gap: 14px; align-items: baseline; padding: 16px 0;">
+        <div style="flex-grow: 1;">
+          <div style="font-weight: 600; font-size: 17px;">Ñoquis caseros</div>
+          <div style="font-size: 15px; color: #6b625c; margin-top: 2px;">Salsa mixta o bolognesa.</div>
+        </div>
+        <div style="font-family: 'Archivo Black', Impact, sans-serif; font-size: 17px; white-space: nowrap;">$&#8239;8.900</div>
+      </div>
+    </div>
+  </section>
+
+  <footer style="margin-top: 26px; border-top: 1px solid #eae5e1; padding: 22px 20px 30px; color: #6b625c; font-size: 14px;">
+    <div>Lunes a sábados &#183; 12:00 a 15:30 y 20:00 a 00:00</div>
+    <div style="margin-top: 10px; font-size: 12px;">Precios actualizados al 24 de agosto</div>
+  </footer>
+
+</div>
+</x-dc>
+
+<script data-dc-script data-props='{"fotos":{"editor":"boolean","default":true,"section":"Contenido"}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const fotos = this.props.fotos ?? true;
+    return { fotos: fotos, sinFotos: !fotos };
+  }
+}
+</script>
+</body>
+</html>
