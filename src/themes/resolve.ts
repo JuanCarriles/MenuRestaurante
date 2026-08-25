@@ -1,121 +1,99 @@
-import { getPreset, type ThemeTokens } from './presets';
+import { getPreset } from './presets';
+import {
+  accentWorksOn,
+  accentsFor,
+  contrastForAccent,
+  getAccent,
+  getSurface,
+  type Accent,
+  type Surface,
+} from './palette';
 
 /**
- * Resolucion de tema con validacion de contraste.
+ * Resolucion de tema.
  *
- * El modo "avanzado" deja al restaurante pisar tokens individuales, que es la
- * via mas rapida a un menu ilegible en una mesa con poca luz. Regla: un
- * override solo se aplica si el resultado sigue cumpliendo WCAG AA. Si no,
- * se descarta en silencio y queda el valor del preset. Preferimos un menu que
- * no es exactamente el color que pidieron a un menu que no se puede leer.
+ * El preset define el punto de partida; el restaurante puede cambiar el fondo
+ * y el acento desde las listas curadas de palette.ts. Como las listas ya son
+ * seguras, la unica validacion que queda es la COMBINACION: un acento valido
+ * sobre un fondo claro puede no distinguirse sobre uno oscuro. Si el par no
+ * funciona se cae al acento del preset, y si ese tampoco, al primero valido
+ * para ese fondo. Preferimos un menu que no es exactamente el color pedido a
+ * un menu que no se puede leer en una mesa con poca luz.
  */
 
-function parseHex(hex: string): [number, number, number] | null {
-  const clean = hex.trim().replace(/^#/, '');
-  const full =
-    clean.length === 3
-      ? clean
-          .split('')
-          .map((c) => c + c)
-          .join('')
-      : clean;
-  if (!/^[0-9a-fA-F]{6}$/.test(full)) return null;
-  return [
-    parseInt(full.slice(0, 2), 16),
-    parseInt(full.slice(2, 4), 16),
-    parseInt(full.slice(4, 6), 16),
-  ];
-}
-
-function relativeLuminance(rgb: [number, number, number]): number {
-  const [r, g, b] = rgb.map((v) => {
-    const s = v / 255;
-    return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
-  }) as [number, number, number];
-  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
-}
-
-/** Ratio WCAG entre dos colores hex. Devuelve 0 si alguno no es hex valido. */
-export function contrastRatio(a: string, b: string): number {
-  const ca = parseHex(a);
-  const cb = parseHex(b);
-  if (!ca || !cb) return 0;
-  const la = relativeLuminance(ca);
-  const lb = relativeLuminance(cb);
-  const [hi, lo] = la > lb ? [la, lb] : [lb, la];
-  return (hi + 0.05) / (lo + 0.05);
+export interface ThemeTokens {
+  bg: string;
+  surface: string;
+  text: string;
+  textMuted: string;
+  accent: string;
+  /** Texto que va ENCIMA del acento. Lo calcula el sistema, no el restaurante. */
+  accentContrast: string;
+  border: string;
+  radius: string;
+  fontDisplay: string;
+  fontBody: string;
+  categorySize: string;
+  categoryTransform: string;
+  categoryTracking: string;
+  categoryRule: string;
 }
 
 /** Forma cruda que llega desde Sanity (todo opcional). */
 export interface ThemeInput {
   preset?: string;
+  surface?: string;
   accent?: string;
-  accentContrast?: string;
-  advanced?: Partial<Pick<ThemeTokens, 'bg' | 'surface' | 'text' | 'textMuted' | 'border'>>;
-  radius?: string;
 }
 
 export interface ResolvedTheme {
   tokens: ThemeTokens;
-  /** Overrides descartados por contraste. Se muestran como aviso en el Studio. */
-  rejected: string[];
+  /** Hoja de Google Fonts del preset activo. Solo se emite esta. */
+  fontLink: string;
+  /** true si el acento pedido no servia con el fondo y se uso otro. */
+  accentReplaced: boolean;
 }
 
-const AA_TEXT = 4.5;
-const AA_LARGE = 3;
+function resolveAccent(
+  requested: string | undefined,
+  presetAccentId: string,
+  surface: Surface,
+): { accent: Accent; replaced: boolean } {
+  const wanted = getAccent(requested ?? presetAccentId);
+  if (accentWorksOn(wanted, surface)) return { accent: wanted, replaced: false };
+
+  const presetAccent = getAccent(presetAccentId);
+  if (accentWorksOn(presetAccent, surface)) return { accent: presetAccent, replaced: true };
+
+  const fallback = accentsFor(surface.id)[0];
+  return { accent: fallback ?? wanted, replaced: true };
+}
 
 export function resolveTheme(input: ThemeInput | undefined): ResolvedTheme {
   const preset = getPreset(input?.preset);
-  const tokens: ThemeTokens = { ...preset.tokens };
-  const rejected: string[] = [];
+  const surface = getSurface(input?.surface ?? preset.surface);
+  const { accent, replaced } = resolveAccent(input?.accent, preset.accent, surface);
 
-  if (!input) return { tokens, rejected };
-
-  const bg = input.advanced?.bg;
-  if (bg && parseHex(bg)) {
-    const text = input.advanced?.text ?? tokens.text;
-    if (contrastRatio(text, bg) >= AA_TEXT) tokens.bg = bg;
-    else rejected.push('bg');
-  }
-
-  const text = input.advanced?.text;
-  if (text && parseHex(text)) {
-    if (contrastRatio(text, tokens.bg) >= AA_TEXT) tokens.text = text;
-    else rejected.push('text');
-  }
-
-  const textMuted = input.advanced?.textMuted;
-  if (textMuted && parseHex(textMuted)) {
-    if (contrastRatio(textMuted, tokens.bg) >= AA_TEXT) tokens.textMuted = textMuted;
-    else rejected.push('textMuted');
-  }
-
-  const surface = input.advanced?.surface;
-  if (surface && parseHex(surface)) {
-    if (contrastRatio(tokens.text, surface) >= AA_TEXT) tokens.surface = surface;
-    else rejected.push('surface');
-  }
-
-  const border = input.advanced?.border;
-  if (border && parseHex(border)) tokens.border = border;
-
-  // El acento se usa en badges y botones: importa el contraste del par
-  // accent/accentContrast, y que el acento se distinga del fondo.
-  if (input.accent && parseHex(input.accent)) {
-    const pairedContrast = input.accentContrast ?? tokens.accentContrast;
-    const okPair = contrastRatio(pairedContrast, input.accent) >= AA_TEXT;
-    const okAgainstBg = contrastRatio(input.accent, tokens.bg) >= AA_LARGE;
-    if (okPair && okAgainstBg) {
-      tokens.accent = input.accent;
-      tokens.accentContrast = pairedContrast;
-    } else {
-      rejected.push('accent');
-    }
-  }
-
-  if (input.radius) tokens.radius = input.radius;
-
-  return { tokens, rejected };
+  return {
+    fontLink: preset.fontLink,
+    accentReplaced: replaced,
+    tokens: {
+      bg: surface.bg,
+      surface: surface.surface,
+      text: surface.text,
+      textMuted: surface.textMuted,
+      border: surface.border,
+      accent: accent.value,
+      accentContrast: contrastForAccent(accent),
+      radius: preset.radius,
+      fontDisplay: preset.fontDisplay,
+      fontBody: preset.fontBody,
+      categorySize: preset.categorySize,
+      categoryTransform: preset.categoryTransform,
+      categoryTracking: preset.categoryTracking,
+      categoryRule: preset.categoryRule,
+    },
+  };
 }
 
 const CSS_VAR_NAMES: Record<keyof ThemeTokens, string> = {
@@ -129,6 +107,10 @@ const CSS_VAR_NAMES: Record<keyof ThemeTokens, string> = {
   radius: '--radius',
   fontDisplay: '--font-display',
   fontBody: '--font-body',
+  categorySize: '--category-size',
+  categoryTransform: '--category-transform',
+  categoryTracking: '--category-tracking',
+  categoryRule: '--category-rule',
 };
 
 /** Serializa los tokens a un bloque :root inyectable en el <head>. */
@@ -138,3 +120,5 @@ export function themeToCss(tokens: ThemeTokens): string {
     .join(';');
   return `:root{${decls}}`;
 }
+
+export { contrastRatio } from './contrast';

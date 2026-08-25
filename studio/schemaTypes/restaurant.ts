@@ -33,6 +33,14 @@ export const restaurant = defineType({
     }),
     defineField({ name: 'logo', title: 'Logo', type: 'photo', group: 'identidad' }),
     defineField({
+      name: 'hero',
+      title: 'Imagen de portada',
+      description:
+        'Opcional. Va arriba de todo, con el logo y el nombre encima. Conviene una foto apaisada del local o de un plato insignia. No hace falta que sea perfecta: el degradado se encarga de que el texto se lea igual.',
+      type: 'photo',
+      group: 'identidad',
+    }),
+    defineField({
       name: 'notice',
       title: 'Aviso del dia',
       description:

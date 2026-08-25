@@ -4,11 +4,34 @@ Menú digital para restaurantes, accesible por QR. Astro + Sanity, deploy en Ver
 
 ## Estado
 
-- [x] **Fase 1 — Andamiaje.** Proyecto Astro 7 + Tailwind v4 + Studio multi-workspace, buildeando y corriendo. Ruta `/r/[slug]` renderizando con tema aplicado.
+- [x] **Fase 1 — Andamiaje.** Proyecto Astro 7 + Tailwind v4 + Studio multi-workspace, desplegado en Vercel. Ruta `/r/[slug]` renderizando con tema aplicado.
+- [x] **Studio embebido confirmado en produccion.** `/studio/<slug>` funciona en el deploy; queda descartado el plan B de publicar un Studio por proyecto con `sanity deploy`. En desarrollo se usa `npm run studio` (puerto 3333).
 - [x] **Fase 2 — Modelo de contenido.** Schemas completos en `studio/schemaTypes/`, singleton fijado, estructura del Studio en espanol.
 - [x] **Fase 3 — Capa de datos.** Query GROQ unica, cliente por tenant, ISR configurado. Falta el webhook de invalidacion inmediata.
-- [ ] **Pendiente para arrancar de verdad:** crear el primer proyecto real de Sanity y reemplazar el placeholder en `src/tenants.ts` (ver README).
-- [ ] **Fase 0 — Definicion visual.** Sigue siendo el proximo paso: sin mockups, los presets de `src/themes/presets.ts` son provisionales.
+- [x] **Primer cliente real cargado.** Proyecto `6z4dmaab` ("La Tropilla") en `src/tenants.ts`, con menu y promocion renderizando.
+- [x] **Fase 0 — Definicion visual.** Seis direcciones disenadas y publicadas como lienzo:
+      https://claude.ai/code/artifact/bdae0ef2-01ce-47fc-9cb5-f3644921142c
+      Bodegon, Pizarra y Editorial no usan fotos; Vitrina, Marca y Bistro si.
+      Los 28 pares de color verificados contra WCAG AA.
+      Archivos fuente en `design/`.
+- [ ] **Decision pendiente:** cuales de los seis presets entran a la v1, y si
+      Vitrina justifica agregar campo de imagen a `menuCategory` en Sanity.
+- [x] **Fase 4 (tokens) — Los 6 presets cargados al codigo.** `src/themes/presets.ts`
+      con paleta, tipografias y estilo de encabezado de categoria de cada uno.
+      Cada pagina emite solo la hoja de Google Fonts de su preset.
+- [x] **Personalización libre, primera mitad.** Imagen de portada (hero) con
+      degradado calculado, y paleta curada de 8 fondos x 12 acentos elegibles
+      por muestra visual en el Studio. El acento se filtra segun el fondo: solo
+      se ofrecen los que se leen bien encima.
+- [ ] **Personalización libre, segunda mitad.** Select de tipografias con
+      preview renderizado (12-16 familias), y presentacion por categoria
+      (lista / grilla de 2 / destacado con foto).
+- [ ] **Fase 5 — Variantes de layout.** Hoy los 6 presets comparten UNA sola
+      estructura de pagina: se distinguen por color y tipografia, no por layout.
+      Vitrina (banda fotografica por categoria), Marca (grilla de categorias) y
+      Bistro (miniatura redonda) todavia no existen como layouts.
+- [ ] **Optimizacion pendiente:** self-hostear las tipografias con @fontsource
+      para sacar el request a fonts.googleapis.com del camino critico.
 
 Versiones reales instaladas (mas nuevas que las asumidas al escribir este plan):
 Astro 7.2, Sanity 6.10, @astrojs/vercel 11.0, Tailwind 4.3, React 19.2.
@@ -19,7 +42,7 @@ Astro 7.2, Sanity 6.10, @astrojs/vercel 11.0, Tailwind 4.3, React 19.2.
 |---|---|
 | Modelo | **Multi-restaurante**: un solo deploy, **un Sanity project gratuito por restaurante**, ruta `/r/[slug]` |
 | Edición | **Por etapas**: fase 1 carga Bejuca, fase 2 se pule el Studio para autogestión del dueño |
-| Estética | **Presets + override avanzado**: 4–6 temas curados, acento/logo/tipografía editables, sección "avanzado" para pisar tokens |
+| Estética | **Preset como punto de partida + paleta curada**: el preset precarga fondo, acento y tipografías; el restaurante los cambia desde listas cerradas de colores (nunca hex libre) |
 
 ## Contexto de uso (esto manda sobre todo lo demás)
 
@@ -194,6 +217,28 @@ Este es el corazón del producto y lo que lo diferencia de un PDF en Drive.
 **Total estimado: ~8–10 días de trabajo efectivo** (Fase 7 es diferida).
 
 ---
+
+## Personalizacion: por que listas cerradas y no campos libres
+
+El primer diseño daba un campo hex libre con un validador que descartaba en
+silencio lo que rompia el contraste. Funcionaba, pero el cliente no entendia por
+que "su color no se aplico".
+
+El modelo actual invierte eso: se elige de listas curadas, asi que no existe la
+opcion rota. Un FONDO no es un color suelto sino un juego coherente de cinco
+tokens (fondo, tarjetas, texto, texto secundario, bordes), y el ACENTO se filtra
+contra el fondo elegido — Ambar solo aparece sobre fondos oscuros, Bordo y Azul
+solo sobre claros. Cada fondo conserva entre 8 y 11 acentos validos, asi que
+filtrar no deja al cliente sin opciones.
+
+Lo que NO se le ofrece al restaurante: el color del texto sobre el acento. Lo
+calcula el sistema (blanco o casi negro, el que mas contraste de). Un acento con
+texto de fantasia encima es la receta de un boton ilegible.
+
+El degradado del hero cumple la misma funcion. Sobre una foto blanca — el peor
+caso — el texto blanco necesita 0.535 de opacidad de negro para pasar AA; el
+degradado entrega 0.72 a 0.76 donde cae el texto, o sea 9:1 a 11:1, y deja la
+parte de arriba clara para que la foto se siga viendo.
 
 ## Aprendizajes de la implementacion
 

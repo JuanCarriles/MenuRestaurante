@@ -37,8 +37,8 @@ npm run studio   # Sanity Studio  -> http://localhost:3333
 
 ### Limitacion conocida: el Studio embebido no levanta en `npm run dev`
 
-`/studio/<slug>` funciona en el **build de produccion** pero **no** con el
-servidor de desarrollo de Astro. Astro 7 pre-bundlea dependencias con rolldown,
+`/studio/<slug>` funciona en **produccion** (verificado en el deploy) pero
+**no** con el servidor de desarrollo de Astro. Astro 7 pre-bundlea dependencias con rolldown,
 y ese paso falla resolviendo los exports internos del paquete `sanity`, que se
 auto-referencia (`sanity/lib/structure.js` importa de `sanity`). La pagina del
 Studio queda en blanco con `Failed to fetch dynamically imported module`.

@@ -1,0 +1,155 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400&family=Karla:wght@400;500;600&display=swap">
+  <style>
+    body { margin: 0; }
+    a { color: #8a5c33; } a:hover { color: #6d4826; }
+  </style>
+</helmet>
+
+<div style="width: 375px; min-height: 812px; background: #fdfbf7; color: #2b2622; font-family: 'Karla', system-ui, sans-serif; font-size: 16px; line-height: 1.5;">
+
+  <sc-if value="{{ fotos }}" hint-placeholder-val="{{ true }}">
+    <div style="height: 108px; background: #e8ddd0; display: flex; align-items: center; justify-content: center;">
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#a8937c" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="4"></circle></svg>
+    </div>
+  </sc-if>
+
+  <header style="display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 26px 24px 18px;">
+    <h1 style="margin: 0; font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 36px; line-height: 1.1; letter-spacing: 0.01em;">La Tropilla</h1>
+    <div style="font-size: 13px; color: #7a6b5d; letter-spacing: 0.06em;">Cocina de barrio &#183; Parrilla</div>
+  </header>
+
+  <nav style="display: flex; gap: 8px; padding: 0 16px 18px; border-bottom: 1px solid #ece3d7;">
+    <div style="display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 16px; border-radius: 999px; background: #8a5c33; color: #fdfbf7; font-size: 15px; font-weight: 600;">Entradas</div>
+    <div style="display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid #ddd0c0; color: #5c5046; font-size: 15px;">Principales</div>
+    <div style="display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid #ddd0c0; color: #5c5046; font-size: 15px;">Postres</div>
+  </nav>
+
+  <section style="padding: 20px 20px 0;">
+    <div style="border: 1px solid #e0cdb4; background: #fbf4e9; padding: 16px;">
+      <div style="font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 15px; color: #8a5c33;">Promoción del día</div>
+      <h2 style="margin: 6px 0 0; font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 25px; line-height: 1.2;">Combo Milanesa + Papas + Bebida</h2>
+      <div style="display: flex; align-items: baseline; gap: 10px; margin-top: 12px;">
+        <span style="font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 27px; color: #8a5c33;">$&#8239;4.900</span>
+        <span style="font-size: 15px; color: #7a6b5d; text-decoration: line-through;">$&#8239;9.000</span>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding: 28px 20px 0;">
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <div style="flex-grow: 1; border-top: 1px solid #e3d8c9;"></div>
+      <h2 style="margin: 0; font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 24px; white-space: nowrap;">Entradas</h2>
+      <div style="flex-grow: 1; border-top: 1px solid #e3d8c9;"></div>
+    </div>
+    <div style="text-align: center; font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 15px; color: #7a6b5d; margin-top: 4px;">Para compartir en la mesa</div>
+
+    <div style="display: flex; flex-direction: column; gap: 18px; padding-top: 18px;">
+      <div style="display: flex; gap: 12px; align-items: flex-start;">
+        <sc-if value="{{ fotos }}" hint-placeholder-val="{{ true }}">
+          <div style="width: 56px; height: 56px; border-radius: 50%; background: #eee3d5; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#b3a08a" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="4"></circle></svg>
+          </div>
+        </sc-if>
+        <div style="flex-grow: 1;">
+          <div style="font-weight: 600; font-size: 16px;">Empanadas de carne</div>
+          <div style="font-size: 15px; color: #7a6b5d; margin-top: 2px;">Cortadas a cuchillo, horno de barro.</div>
+          <div style="font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 14px; color: #82715f; margin-top: 3px;">Contiene gluten</div>
+        </div>
+        <div style="font-weight: 600; font-size: 16px; color: #8a5c33; white-space: nowrap;">$&#8239;1.200</div>
+      </div>
+
+      <div style="display: flex; gap: 12px; align-items: flex-start;">
+        <sc-if value="{{ fotos }}" hint-placeholder-val="{{ true }}">
+          <div style="width: 56px; height: 56px; border-radius: 50%; background: #e9ded0; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#b3a08a" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="4"></circle></svg>
+          </div>
+        </sc-if>
+        <div style="flex-grow: 1;">
+          <div style="font-weight: 600; font-size: 16px;">Provoleta a la parrilla</div>
+          <div style="font-size: 15px; color: #7a6b5d; margin-top: 2px;">Con orégano y aceite de oliva.</div>
+          <div style="font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 14px; color: #82715f; margin-top: 3px;">Contiene lácteos</div>
+        </div>
+        <div style="font-weight: 600; font-size: 16px; color: #8a5c33; white-space: nowrap;">$&#8239;3.800</div>
+      </div>
+
+      <div style="display: flex; gap: 12px; align-items: flex-start;">
+        <sc-if value="{{ fotos }}" hint-placeholder-val="{{ true }}">
+          <div style="width: 56px; height: 56px; border-radius: 50%; background: #eae0d2; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#b3a08a" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="4"></circle></svg>
+          </div>
+        </sc-if>
+        <div style="flex-grow: 1;">
+          <div style="font-weight: 600; font-size: 16px;">Rabas</div>
+          <div style="font-size: 15px; color: #7a6b5d; margin-top: 2px;">Con alioli de limón.</div>
+        </div>
+        <div style="font-weight: 600; font-size: 16px; color: #8a5c33; white-space: nowrap;">$&#8239;6.500</div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding: 30px 20px 0;">
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <div style="flex-grow: 1; border-top: 1px solid #e3d8c9;"></div>
+      <h2 style="margin: 0; font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 24px; white-space: nowrap;">Principales</h2>
+      <div style="flex-grow: 1; border-top: 1px solid #e3d8c9;"></div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 18px; padding-top: 18px;">
+      <div style="display: flex; gap: 12px; align-items: flex-start;">
+        <sc-if value="{{ fotos }}" hint-placeholder-val="{{ true }}">
+          <div style="width: 56px; height: 56px; border-radius: 50%; background: #e7dccd; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#b3a08a" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="4"></circle></svg>
+          </div>
+        </sc-if>
+        <div style="flex-grow: 1;">
+          <div style="font-weight: 600; font-size: 16px;">Milanesa con guarnición</div>
+          <div style="font-size: 15px; color: #7a6b5d; margin-top: 2px;">Papas, puré o mixto.</div>
+        </div>
+        <div style="text-align: right;">
+          <div style="font-weight: 600; font-size: 16px; color: #8a5c33; white-space: nowrap;">$&#8239;7.999</div>
+          <div style="font-size: 14px; color: #7a6b5d; white-space: nowrap; margin-top: 3px;">Dos $&#8239;12.000</div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 12px; align-items: flex-start;">
+        <sc-if value="{{ fotos }}" hint-placeholder-val="{{ true }}">
+          <div style="width: 56px; height: 56px; border-radius: 50%; background: #ecdfcf; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#b3a08a" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="4"></circle></svg>
+          </div>
+        </sc-if>
+        <div style="flex-grow: 1;">
+          <div style="font-weight: 600; font-size: 16px;">Bife de chorizo</div>
+          <div style="font-size: 15px; color: #7a6b5d; margin-top: 2px;">400&#8239;g, a punto o jugoso.</div>
+        </div>
+        <div style="font-weight: 600; font-size: 16px; color: #8a5c33; white-space: nowrap;">$&#8239;14.500</div>
+      </div>
+    </div>
+  </section>
+
+  <footer style="margin-top: 32px; border-top: 1px solid #ece3d7; padding: 22px 24px 30px; text-align: center; color: #7a6b5d; font-size: 14px;">
+    <div>Lunes a sábados &#183; 12:00 a 15:30 y 20:00 a 00:00</div>
+    <div style="margin-top: 10px; font-size: 12px;">Precios actualizados al 24 de agosto</div>
+  </footer>
+
+</div>
+</x-dc>
+
+<script data-dc-script data-props='{"fotos":{"editor":"boolean","default":true,"section":"Contenido"}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const fotos = this.props.fotos ?? true;
+    return { fotos: fotos, sinFotos: !fotos };
+  }
+}
+</script>
+</body>
+</html>

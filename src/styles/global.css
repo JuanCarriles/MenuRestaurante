@@ -42,6 +42,10 @@
     --radius: 0.5rem;
     --font-display: Georgia, serif;
     --font-body: system-ui, sans-serif;
+    --category-size: 1.25rem;
+    --category-transform: none;
+    --category-tracking: 0em;
+    --category-rule: 1px solid #e7e5e4;
   }
 
   body {
@@ -63,5 +67,25 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/*
+ * Encabezado de categoria. Es donde vive buena parte de la identidad de cada
+ * preset sin cambiar el layout: Pizarra grita en mayusculas de 30px, Editorial
+ * susurra en 11px muy espaciados, Bistro usa serif en caja baja.
+ */
+@layer components {
+  .cat-title {
+    font-family: var(--font-display);
+    font-size: var(--category-size);
+    text-transform: var(--category-transform);
+    letter-spacing: var(--category-tracking);
+    line-height: 1.15;
+    margin: 0;
+  }
+
+  .cat-rule {
+    border-top: var(--category-rule);
   }
 }
