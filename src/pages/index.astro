@@ -1,0 +1,38 @@
+---
+import { TENANTS } from '~/tenants';
+import '~/styles/global.css';
+
+// Indice interno: no es una pagina de producto, es la puerta de entrada para
+// nosotros mientras desarrollamos. Los clientes llegan por QR directo a /r/<slug>.
+export const prerender = false;
+---
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>ManuRestaurantes</title>
+  </head>
+  <body class="mx-auto max-w-2xl px-6 py-12">
+    <h1 class="font-display text-3xl">ManuRestaurantes</h1>
+    <p class="mt-2 text-text-muted">Menus digitales por QR.</p>
+
+    <h2 class="mt-10 text-sm font-semibold uppercase tracking-wide text-text-muted">
+      Restaurantes
+    </h2>
+    <ul class="mt-3 space-y-2">
+      {
+        TENANTS.map((tenant) => (
+          <li class="flex items-center justify-between rounded-card border border-border bg-surface px-4 py-3">
+            <span>{tenant.label}</span>
+            <span class="flex gap-4 text-sm">
+              <a class="underline" href={`/r/${tenant.slug}`}>Menu</a>
+              <a class="underline" href={`/studio/${tenant.slug}`}>Studio</a>
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+  </body>
+</html>

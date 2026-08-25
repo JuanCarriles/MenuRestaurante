@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+/*
+ * Los tokens del tema los inyecta cada pagina en el <head> como un bloque
+ * :root, resuelto desde Sanity en src/themes/resolve.ts. Aca solo se mapean a
+ * utilidades de Tailwind. `inline` es necesario porque los valores son
+ * referencias a otras variables, no colores literales.
+ */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
+  --color-accent: var(--accent);
+  --color-accent-contrast: var(--accent-contrast);
+  --color-border: var(--border);
+  --radius-card: var(--radius);
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+}
+
+/*
+ * IMPORTANTE: esto va dentro de @layer base a proposito.
+ *
+ * El bloque de tema que inyecta la pagina es CSS sin capa, y el CSS sin capa
+ * le gana a cualquier capa por mas abajo que este. Si estos fallbacks
+ * estuvieran fuera de la capa, tendrian la misma especificidad que el tema
+ * (:root vs :root) y ganaria el que cargue ultimo, que es esta hoja: el tema
+ * del restaurante quedaria pisado en silencio.
+ */
+@layer base {
+  /* Red de seguridad: si una pagina se renderizara sin tema resuelto, tiene
+     que seguir siendo legible en vez de quedar texto negro sobre fondo negro. */
+  :root {
+    --bg: #faf9f7;
+    --surface: #ffffff;
+    --text: #1c1917;
+    --text-muted: #57534e;
+    --accent: #9a3412;
+    --accent-contrast: #ffffff;
+    --border: #e7e5e4;
+    --radius: 0.5rem;
+    --font-display: Georgia, serif;
+    --font-body: system-ui, sans-serif;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    /* Se lee en una mesa, a veces con poca luz. 16px es el piso, no el objetivo. */
+    font-size: 1rem;
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
