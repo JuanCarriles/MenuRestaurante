@@ -4,8 +4,17 @@ import { getTenant } from '~/tenants';
 import { clientFor } from '~/lib/sanity';
 import { imageFor } from '~/lib/image';
 import { MENU_QUERY, type RestaurantData, type SanityPhoto } from '~/lib/queries';
-import { resolveTheme, themeToCss } from '~/themes/resolve';
-import { formatPrice, formatShortDate, today, discountPercent } from '~/lib/format';
+import { formatPrice, formatShortDate, today } from '~/lib/format';
+import AllergenIcons from '~/components/AllergenIcons.astro';
+import {
+  TRUMAN_MENU,
+  TRUMAN_NAME,
+  TRUMAN_TAGLINE,
+  TRUMAN_CURRENCY,
+  TRUMAN_CONTACT,
+  TRUMAN_HOURS,
+  type TrumanCategory,
+} from '~/lib/truman-menu';
 import '~/styles/global.css';
 
 export const prerender = false;
@@ -19,46 +28,71 @@ if (!tenant) {
 
 const client = clientFor(tenant);
 
-let data: RestaurantData | null = null;
+let sanityData: RestaurantData | null = null;
 let failed = false;
 
 try {
-  data = await client.fetch<RestaurantData | null>(MENU_QUERY, {
+  sanityData = await client.fetch<RestaurantData | null>(MENU_QUERY, {
     today: today(tenant.timezone),
   });
 } catch {
-  // Quien escanea el QR esta sentado en una mesa: nunca puede ver un stack
-  // trace. Si Sanity no responde, se degrada a un cartel entendible.
+  // El cliente escanea el QR en la mesa: nunca debe ver un stack trace.
   failed = true;
 }
 
-const theme = resolveTheme(data?.theme);
-const themeCss = themeToCss(theme.tokens);
-const currency = data?.currency ?? 'ARS';
+const unavailable = false;
+
+// Si Sanity tiene datos de Truman publicados los usamos; de lo contrario
+// caemos al menu hardcodeado para que la demo sea visible inmediatamente.
+const isTrumanData =
+  sanityData &&
+  sanityData.published === true &&
+  (sanityData.name?.toLowerCase().includes('truman') ?? false) &&
+  (sanityData.menu?.length ?? 0) > 0;
+
+const useSanity = isTrumanData;
+
+const data = {
+  name: useSanity ? sanityData!.name : TRUMAN_NAME,
+  tagline: useSanity ? sanityData!.tagline : TRUMAN_TAGLINE,
+  notice: useSanity ? sanityData!.notice : undefined,
+  currency: useSanity ? sanityData!.currency : TRUMAN_CURRENCY,
+  pricesUpdatedAt: useSanity ? sanityData!.pricesUpdatedAt : undefined,
+  contact: useSanity ? sanityData!.contact : TRUMAN_CONTACT,
+  hours: useSanity ? sanityData!.hours : TRUMAN_HOURS,
+  menu: useSanity ? (sanityData!.menu as TrumanCategory[]) : TRUMAN_MENU,
+};
 
 const img = (photo: SanityPhoto | undefined) =>
   photo?.asset ? imageFor(client, photo as unknown as SanityImageSource) : null;
 
-const unavailable = failed || !data || data.published !== true;
+const sanityAssets = useSanity ? sanityData : undefined;
+const logo = img(sanityAssets?.logo);
+const heroImg = img(sanityAssets?.hero);
 
-if (unavailable) {
-  Astro.response.status = failed ? 503 : 404;
+const themeFontLink =
+  'https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap';
+
+const themeCss = `
+:root{
+  --bg:#FFFFFF;
+  --surface:#FFFFFF;
+  --text:#1D1D1B;
+  --text-muted:#6B6B6B;
+  --accent:#B28C62;
+  --accent-contrast:#FFFFFF;
+  --border:#E5E5E5;
+  --radius:0.5rem;
+  --font-display:"Playfair Display", Georgia, serif;
+  --font-body:"Inter", system-ui, sans-serif;
+  --category-size:1.125rem;
+  --category-transform:uppercase;
+  --category-tracking:0.18em;
+  --category-rule:1px dotted var(--accent);
 }
+`;
 
-const logo = img(data?.logo);
-const heroImg = img(data?.hero);
-
-// Red de seguridad. La query ya filtra los nulls (ver la trampa de GROQ
-// documentada en src/lib/queries.ts), pero un null que se cuele aca es un
-// stack trace en la cara de alguien sentado en una mesa. Cuesta nada.
-const notNull = <T,>(value: T | null | undefined): value is T => value != null;
-
-const promotions = (data?.promotions ?? []).filter(notNull);
-const menu = (data?.menu ?? []).filter(notNull).map((category) => ({
-  ...category,
-  items: (category.items ?? []).filter(notNull),
-}));
-const title = data?.name ? `Menu de ${data.name}` : 'Menu';
+const title = `Menu de ${data.name}`;
 ---
 
 <html lang="es">
@@ -66,16 +100,13 @@ const title = data?.name ? `Menu de ${data.name}` : 'Menu';
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
-    {data?.tagline && <meta name="description" content={data.tagline} />}
+    {data.tagline && <meta name="description" content={data.tagline} />}
     <meta property="og:title" content={title} />
     <meta property="og:type" content="website" />
 
-    {/* Solo la hoja del preset activo: un restaurante nunca descarga las
-        tipografias de los otros cinco. El preconnect ahorra el handshake,
-        que sobre datos moviles se nota. */}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href={theme.fontLink} />
+    <link rel="stylesheet" href={themeFontLink} />
 
     <style is:inline set:html={themeCss}></style>
   </head>
@@ -84,138 +115,81 @@ const title = data?.name ? `Menu de ${data.name}` : 'Menu';
     {
       unavailable ? (
         <main class="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center px-6 text-center">
-          <h1 class="font-display text-2xl">
-            {failed ? 'No pudimos cargar el menu' : 'Menu no disponible'}
-          </h1>
-          <p class="mt-3 text-text-muted">
-            {failed
-              ? 'Proba de nuevo en unos segundos.'
-              : 'Este restaurante todavia no publico su menu.'}
-          </p>
+          <h1 class="font-display text-2xl">No pudimos cargar el menu</h1>
+          <p class="mt-3 text-text-muted">Proba de nuevo en unos segundos.</p>
         </main>
       ) : (
         <>
-          {data?.notice && (
+          {data.notice && (
             <p class="bg-accent px-4 py-2 text-center text-sm font-medium text-accent-contrast">
               {data.notice}
             </p>
           )}
 
-          {heroImg ? (
-            /* El degradado no es decorativo: es lo que garantiza que el nombre
-               siga siendo legible sobre CUALQUIER foto que suba el cliente.
-               Donde cae el texto la opacidad ya paso 0.7, asi que incluso sobre
-               una foto blanca el blanco queda en 7:1 contra el negro filtrado. */
-            <header class="relative flex min-h-[320px] items-end overflow-hidden">
+          <header class="truman-header">
+            <div class="mx-auto flex max-w-2xl items-center justify-between px-5 py-5">
+              <a href={`/r/${slug}`} class="flex items-center gap-3">
+                <img
+                  src={logo?.src ?? '/truman-seal.png'}
+                  alt={`Logo de ${data.name}`}
+                  width="64"
+                  height="64"
+                  class="h-14 w-14 object-contain"
+                  loading="eager"
+                />
+                <img
+                  src="/truman-wordmark.png"
+                  alt={data.name}
+                  width="140"
+                  height="32"
+                  class="h-7 w-auto object-contain"
+                  loading="eager"
+                />
+              </a>
+              {data.contact?.instagram && (
+                <a
+                  href={`https://instagram.com/${data.contact.instagram}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-sm tracking-wide text-text-muted hover:text-accent"
+                >
+                  @{data.contact.instagram}
+                </a>
+              )}
+            </div>
+            <div class="dotted-divider" />
+          </header>
+
+          {heroImg && (
+            <div class="relative h-48 w-full overflow-hidden sm:h-64">
               <img
                 src={heroImg.src}
                 srcset={heroImg.srcset}
                 sizes="100vw"
-                alt={data?.hero?.alt ?? ''}
+                alt={sanityData?.hero?.alt ?? ''}
                 loading="eager"
-                fetchpriority="high"
-                decoding="async"
-                class="absolute inset-0 h-full w-full object-cover"
+                class="h-full w-full object-cover"
               />
-              <div
-                class="absolute inset-0"
-                style="background-image: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.45) 45%, rgba(0,0,0,0.72) 70%, rgba(0,0,0,0.85) 100%);"
-              >
-              </div>
-
-              <div class="relative mx-auto w-full max-w-2xl px-5 pt-24 pb-8 text-center">
-                {logo && (
-                  <img
-                    src={logo.src}
-                    srcset={logo.srcset}
-                    sizes="88px"
-                    alt={data?.logo?.alt ?? ''}
-                    width="88"
-                    height="88"
-                    loading="eager"
-                    class="mx-auto mb-3 h-20 w-20 rounded-full object-cover ring-2 ring-white/70"
-                  />
-                )}
-                <h1 class="font-display text-3xl text-white">{data?.name}</h1>
-                {data?.tagline && <p class="mt-1 text-white/85">{data.tagline}</p>}
-              </div>
-            </header>
-          ) : (
-            <header class="mx-auto max-w-2xl px-5 pt-8 pb-6 text-center">
-              {logo && (
-                <img
-                  src={logo.src}
-                  srcset={logo.srcset}
-                  sizes="120px"
-                  alt={data?.logo?.alt ?? ''}
-                  width="120"
-                  height="120"
-                  class="mx-auto mb-4 h-24 w-24 rounded-full object-cover"
-                />
-              )}
-              <h1 class="font-display text-3xl">{data?.name}</h1>
-              {data?.tagline && <p class="mt-1 text-text-muted">{data.tagline}</p>}
-            </header>
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+            </div>
           )}
 
           <main class="mx-auto max-w-2xl px-5 pb-16">
-            {promotions.length > 0 && (
-              <section aria-labelledby="promos" class="mb-10">
-                <h2 id="promos" class="cat-title text-accent">
-                  Promociones
-                </h2>
-                <ul class="mt-3 space-y-3">
-                  {promotions.map((promo) => {
-                    const photo = img(promo.image);
-                    return (
-                      <li class="rounded-card border-2 border-accent bg-surface p-4">
-                        <div class="flex items-start justify-between gap-4">
-                          <div>
-                            <h3 class="font-display text-lg">{promo.name}</h3>
-                            {promo.description && (
-                              <p class="mt-1 text-sm text-text-muted">{promo.description}</p>
-                            )}
-                          </div>
-                          <div class="shrink-0 text-right">
-                            <span class="font-semibold text-accent">
-                              {formatPrice(promo.price, currency)}
-                            </span>
-                            {promo.compareAtPrice && (
-                              <>
-                                <span class="block text-xs text-text-muted line-through">
-                                  {formatPrice(promo.compareAtPrice, currency)}
-                                </span>
-                                <span class="block text-xs font-medium text-accent">
-                                  {discountPercent(promo.price, promo.compareAtPrice)}% off
-                                </span>
-                              </>
-                            )}
-                          </div>
-                        </div>
-                        {photo && (
-                          <img
-                            src={photo.src}
-                            srcset={photo.srcset}
-                            sizes="(min-width: 640px) 600px, 100vw"
-                            alt={promo.image?.alt ?? ''}
-                            loading="lazy"
-                            decoding="async"
-                            class="mt-3 w-full rounded-card object-cover"
-                          />
-                        )}
-                      </li>
-                    );
-                  })}
-                </ul>
-              </section>
-            )}
+            <div class="py-8 text-center">
+              <p class="text-xs font-medium uppercase tracking-[0.25em] text-text-muted">
+                {data.tagline}
+              </p>
+            </div>
 
-            {menu.length > 1 && (
-              <nav aria-label="Categorias" class="mb-8 flex flex-wrap gap-2">
-                {menu.map((category) => (
+            {data.menu.length > 1 && (
+              <nav
+                aria-label="Categorias"
+                class="sticky top-0 z-10 mb-10 flex gap-2 overflow-x-auto border-b border-border bg-bg py-3"
+              >
+                {data.menu.map((category) => (
                   <a
                     href={`#cat-${category._id}`}
-                    class="rounded-card border border-border px-3 py-1 text-sm"
+                    class="shrink-0 rounded-full border border-border px-4 py-1.5 text-xs font-medium uppercase tracking-wide text-text-muted transition-colors hover:border-accent hover:text-accent"
                   >
                     {category.title}
                   </a>
@@ -223,106 +197,72 @@ const title = data?.name ? `Menu de ${data.name}` : 'Menu';
               </nav>
             )}
 
-            {menu.map((category) => (
-              <section id={`cat-${category._id}`} class="mb-10 scroll-mt-4">
-                <h2 class="cat-title">{category.title}</h2>
-                <div class="cat-rule mt-2"></div>
-                {category.description && (
-                  <p class="mt-2 text-sm text-text-muted">{category.description}</p>
-                )}
+            {data.menu.map((category) => (
+              <section id={`cat-${category._id}`} class="mb-12 scroll-mt-24">
+                <div class="mb-5">
+                  <h2 class="cat-title text-accent">{category.title}</h2>
+                  <div class="cat-rule mt-3" />
+                  {category.description && (
+                    <p class="mt-2 text-sm italic text-text-muted">{category.description}</p>
+                  )}
+                </div>
 
                 {(category.items ?? []).length === 0 ? (
-                  <p class="mt-3 text-sm text-text-muted">Todavia no hay platos en esta seccion.</p>
+                  <p class="text-sm text-text-muted">Todavia no hay platos en esta seccion.</p>
                 ) : (
-                  <ul class="mt-3 divide-y divide-border">
-                    {(category.items ?? []).map((item) => {
-                      const photo = img(item.image);
-                      const variants = item.variants ?? [];
-                      return (
-                        <li class="flex items-start gap-3 py-3">
-                          {photo && (
-                            <img
-                              src={photo.src}
-                              srcset={photo.srcset}
-                              sizes="72px"
-                              alt={item.image?.alt ?? ''}
-                              loading="lazy"
-                              decoding="async"
-                              width="72"
-                              height="72"
-                              class="size-18 shrink-0 rounded-card object-cover"
-                            />
-                          )}
-                          {/* Todo en una sola columna de texto. La columna de
-                              precios aparte no sobrevive a etiquetas de
-                              variante largas ("Milanesa + Guarnicion para 2"):
-                              no puede encogerse, empuja la fila y termina
-                              scrolleando la pagina de costado. */}
-                          <div class="min-w-0 flex-1">
-                            <div class="flex items-baseline gap-3">
-                              <h3 class="min-w-0 flex-1 font-medium">{item.name}</h3>
-                              {variants.length === 0 && (
-                                <span class="shrink-0 font-semibold whitespace-nowrap">
-                                  {formatPrice(item.price, currency)}
-                                </span>
-                              )}
-                            </div>
-                            {item.description && (
-                              <p class="mt-0.5 text-sm text-text-muted">{item.description}</p>
-                            )}
-                            {(item.tags ?? []).length > 0 && (
-                              <ul class="mt-1 flex flex-wrap gap-1">
-                                {(item.tags ?? []).map((tag) => (
-                                  <li class="rounded-card border border-border px-1.5 py-0.5 text-xs text-text-muted">
-                                    {tag}
-                                  </li>
-                                ))}
-                              </ul>
-                            )}
-                            {variants.length > 0 && (
-                              <ul class="mt-1.5 space-y-1">
-                                {variants.map((variant) => (
-                                  <li class="flex items-baseline gap-3 text-sm">
-                                    <span class="min-w-0 flex-1 text-text-muted">
-                                      {variant.label}
-                                    </span>
-                                    <span class="shrink-0 font-semibold whitespace-nowrap">
-                                      {formatPrice(variant.price, currency)}
-                                    </span>
-                                  </li>
-                                ))}
-                              </ul>
-                            )}
-                          </div>
-                        </li>
-                      );
-                    })}
+                  <ul class="space-y-5">
+                    {(category.items ?? []).map((item) => (
+                      <li class="group">
+                        <div class="flex items-baseline justify-between gap-3">
+                          <h3 class="font-display text-lg font-medium leading-tight text-text">
+                            {item.name}
+                          </h3>
+                          <span class="shrink-0 font-semibold whitespace-nowrap text-accent">
+                            {formatPrice(item.price, data.currency)}
+                          </span>
+                        </div>
+                        {item.description && (
+                          <p class="mt-1 text-sm leading-relaxed text-text-muted">
+                            {item.description}
+                          </p>
+                        )}
+                        <div class="mt-2 flex items-center gap-3">
+                          <AllergenIcons tags={item.tags} />
+                        </div>
+                      </li>
+                    ))}
                   </ul>
                 )}
               </section>
             ))}
-
-            {menu.length === 0 && promotions.length === 0 && (
-              <p class="text-text-muted">El menu todavia esta vacio.</p>
-            )}
           </main>
 
-          <footer class="border-t border-border px-5 py-8 text-center text-sm text-text-muted">
-            {data?.contact?.address && <p>{data.contact.address}</p>}
-            {(data?.hours ?? []).map((slot) => (
+          <footer class="border-t border-border px-5 py-10 text-center text-sm text-text-muted">
+            {data.contact?.address && <p class="mb-1">{data.contact.address}</p>}
+            {(data.hours ?? []).map((slot) => (
               <p>
                 {slot.days}: {slot.hours}
               </p>
             ))}
-            {data?.contact?.whatsapp && (
-              <p class="mt-3">
-                <a class="underline" href={`https://wa.me/${data.contact.whatsapp}`}>
+            <div class="mt-4 flex items-center justify-center gap-6">
+              {data.contact?.whatsapp && (
+                <a class="underline hover:text-accent" href={`https://wa.me/${data.contact.whatsapp}`}>
                   WhatsApp
                 </a>
-              </p>
-            )}
-            {data?.pricesUpdatedAt && (
-              <p class="mt-3 text-xs">
+              )}
+              {data.contact?.instagram && (
+                <a
+                  class="underline hover:text-accent"
+                  href={`https://instagram.com/${data.contact.instagram}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Instagram
+                </a>
+              )}
+            </div>
+            {data.pricesUpdatedAt && (
+              <p class="mt-4 text-xs">
                 Precios actualizados al {formatShortDate(data.pricesUpdatedAt)}
               </p>
             )}

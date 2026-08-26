@@ -41,7 +41,7 @@ export interface Tenant {
 export const TENANTS: readonly Tenant[] = [
   {
     slug: 'demo',
-    label: 'Demo',
+    label: 'Truman',
     projectId: '6z4dmaab',
     dataset: 'production',
     timezone: 'America/Argentina/Buenos_Aires',
