@@ -1,0 +1,365 @@
+---
+import type { SanityClient } from '@sanity/client';
+import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
+import AllergenIcons from '~/components/AllergenIcons.astro';
+import Icon from '~/components/Icon.astro';
+import { imageFor } from '~/lib/image';
+import { discountPercent, formatPrice, formatShortDate } from '~/lib/format';
+import { facebookUrl, instagramUrl } from '~/lib/social';
+import type { RestaurantData, SanityPhoto } from '~/lib/queries';
+
+export interface Props {
+  data: RestaurantData;
+  slug: string;
+  client: SanityClient;
+}
+
+const { data, client } = Astro.props;
+
+const img = (photo: SanityPhoto | undefined) =>
+  photo?.asset ? imageFor(client, photo as unknown as SanityImageSource) : null;
+
+const logo = img(data.logo);
+const heroImg = img(data.hero);
+const currency = data.currency ?? 'ARS';
+const menu = (data.menu ?? []).filter((c) => c != null);
+const promotions = (data.promotions ?? []).filter((p) => p != null);
+const hours = data.hours ?? [];
+
+const instagram = instagramUrl(data.contact?.instagram);
+const facebook = facebookUrl(data.contact?.facebook);
+const whatsapp = data.contact?.whatsapp;
+
+// Cierre de la carta impresa. Va en el diseño y no en Sanity porque es parte
+// de la identidad del local, como el logo de Truman: no es contenido que el
+// dueño cambie desde el panel.
+const CIERRE = 'Consultá nuestro menú ejecutivo!';
+---
+
+{data.notice && (
+  <p class="bg-accent px-5 py-2.5 text-center text-xs tracking-[0.18em] text-accent-contrast uppercase">
+    {data.notice}
+  </p>
+)}
+
+{heroImg && (
+  <div class="h-44 w-full overflow-hidden sm:h-60">
+    <img
+      src={heroImg.src}
+      srcset={heroImg.srcset}
+      sizes="100vw"
+      alt={data.hero?.alt ?? ''}
+      loading="eager"
+      fetchpriority="high"
+      class="h-full w-full object-cover grayscale"
+    />
+  </div>
+)}
+
+{/* El encabezado es el nombre del local, no la palabra "MENÚ" del impreso:
+    quien escanea el QR ya sabe qué está mirando. */}
+<header class="px-6 pt-12 pb-10 text-center">
+  {/* El logo se toma de Sanity. Si el local todavía no lo subió no se
+      renderiza nada: el encabezado se sostiene solo con la manuscrita, que es
+      el elemento distintivo del diseño. */}
+  {logo && (
+    <img
+      src={logo.src}
+      srcset={logo.srcset}
+      sizes="80px"
+      alt={data.logo?.alt ?? `Logo de ${data.name}`}
+      width="80"
+      height="80"
+      loading="eager"
+      class="mx-auto mb-5 size-20 object-contain"
+    />
+  )}
+  <h1 class="nombre-local">{data.name}</h1>
+  {data.tagline && <p class="etiqueta mt-1 text-text-muted">{data.tagline}</p>}
+</header>
+
+{menu.length > 1 && (
+  <nav
+    aria-label="Secciones de la carta"
+    class="sticky top-0 z-10 border-y border-border bg-bg"
+  >
+    <div class="flex gap-7 overflow-x-auto px-6 py-3.5">
+      {promotions.length > 0 && <a href="#promos" class="salto">Promos</a>}
+      {menu.map((category) => (
+        <a href={`#cat-${category._id}`} class="salto">
+          {category.title}
+        </a>
+      ))}
+    </div>
+  </nav>
+)}
+
+<main class="mx-auto max-w-2xl px-6 pb-20">
+  {promotions.length > 0 && (
+    <section id="promos" class="seccion scroll-mt-16">
+      <h2 class="cat-title">Promociones</h2>
+
+      <ul class="lista">
+        {promotions.map((promo) => {
+          const off =
+            promo.compareAtPrice != null && promo.compareAtPrice > promo.price
+              ? discountPercent(promo.price, promo.compareAtPrice)
+              : null;
+          return (
+            <li>
+              <div class="flex items-baseline justify-between gap-4">
+                <h3 class="plato min-w-0 flex-1">{promo.name}</h3>
+                <span class="precio">{formatPrice(promo.price, currency)}</span>
+              </div>
+              {promo.description && <p class="detalle">{promo.description}</p>}
+              {(promo.compareAtPrice != null || off != null) && (
+                <p class="mt-1.5 flex items-center gap-3 text-xs">
+                  {promo.compareAtPrice != null && (
+                    <span class="text-text-muted line-through">
+                      {formatPrice(promo.compareAtPrice, currency)}
+                    </span>
+                  )}
+                  {off != null && (
+                    <span class="bg-accent px-1.5 py-0.5 tracking-[0.12em] text-accent-contrast uppercase">
+                      {off}% off
+                    </span>
+                  )}
+                </p>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  )}
+
+  {menu.map((category) => (
+    <section id={`cat-${category._id}`} class="seccion scroll-mt-16">
+      <h2 class="cat-title">{category.title}</h2>
+      {category.description && <p class="nota">{category.description}</p>}
+
+      {(category.items ?? []).length === 0 ? (
+        <p class="detalle mt-4">Todavía no hay platos en esta sección.</p>
+      ) : (
+        <ul class="lista">
+          {(category.items ?? [])
+            .filter((i) => i != null)
+            .map((item) => {
+              const variants = item.variants ?? [];
+              return (
+                <li>
+                  <div class="flex items-baseline justify-between gap-4">
+                    <span class="flex min-w-0 flex-1 flex-wrap items-center gap-x-2.5 gap-y-1">
+                      <h3 class="plato">{item.name}</h3>
+                      <AllergenIcons tags={item.tags} />
+                    </span>
+                    {variants.length === 0 && item.price != null && (
+                      <span class="precio">{formatPrice(item.price, currency)}</span>
+                    )}
+                  </div>
+
+                  {item.description && <p class="detalle">{item.description}</p>}
+
+                  {variants.length > 0 && (
+                    <ul class="mt-1.5 flex flex-col gap-1">
+                      {variants.map((variant) => (
+                        <li class="flex items-baseline justify-between gap-4">
+                          <span class="detalle min-w-0 flex-1">{variant.label}</span>
+                          <span class="precio">{formatPrice(variant.price, currency)}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              );
+            })}
+        </ul>
+      )}
+    </section>
+  ))}
+
+  <p class="cierre">{CIERRE}</p>
+</main>
+
+<footer class="border-t border-border px-6 py-10 text-center">
+  {data.contact?.address && <p class="etiqueta">{data.contact.address}</p>}
+  {hours.map((slot) => (
+    <p class="etiqueta mt-1">
+      {slot.days} · {slot.hours}
+    </p>
+  ))}
+
+  {/* Solo icono: el nombre accesible va en el enlace, y el SVG queda oculto
+      para lectores de pantalla para no anunciarlo dos veces. */}
+  {(whatsapp || instagram || facebook) && (
+    <div class="mt-4 flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
+      {whatsapp && (
+        <a class="social-btn boton-red" href={`https://wa.me/${whatsapp}`} aria-label="WhatsApp">
+          <Icon name="whatsapp" />
+        </a>
+      )}
+      {instagram && (
+        <a
+          class="social-btn boton-red"
+          href={instagram}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Instagram"
+        >
+          <Icon name="instagram" />
+        </a>
+      )}
+      {facebook && (
+        <a
+          class="social-btn boton-red"
+          href={facebook}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Facebook"
+        >
+          <Icon name="facebook" />
+        </a>
+      )}
+    </div>
+  )}
+
+  {data.pricesUpdatedAt && (
+    <p class="etiqueta mt-5 text-text-muted">
+      Precios actualizados al {formatShortDate(data.pricesUpdatedAt)}
+    </p>
+  )}
+</footer>
+
+<style>
+  /* El nombre del local y los títulos de sección en manuscrita, a una escala
+     muy por encima de todo lo demás. Es lo único ruidoso del diseño: el resto
+     se mantiene callado para que esto se lea de un vistazo. */
+  .nombre-local {
+    font-family: var(--font-display);
+    font-size: 3.25rem;
+    line-height: 1.05;
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  .seccion {
+    /* La carta separa secciones con aire, no con líneas. */
+    margin-top: 4rem;
+  }
+
+  .seccion :global(.cat-title) {
+    line-height: 1.3;
+  }
+
+  .nota {
+    margin: 0.5rem 0 0;
+    font-size: 0.8125rem;
+    line-height: 1.55;
+    color: var(--text-muted);
+  }
+
+  .lista {
+    list-style: none;
+    margin: 1.75rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  /* Los NOMBRES van en mayúsculas con tracking amplio, como el impreso: son
+     cadenas cortas y aguantan bien. */
+  .plato {
+    margin: 0;
+    font-size: 0.9375rem;
+    font-weight: 300;
+    letter-spacing: 0.14em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+
+  /* Las DESCRIPCIONES van en caja normal, a diferencia del impreso. En papel se
+     escanean por columnas; en un teléfono, "INCLUYE GUARNICIÓN A ELECCIÓN
+     (PAPAS FRITAS, PURÉ...)" en versalitas y con tracking cuesta leerlo en un
+     salón con poca luz. */
+  .detalle {
+    margin: 0.4rem 0 0;
+    font-size: 0.8125rem;
+    font-weight: 300;
+    line-height: 1.6;
+    letter-spacing: 0.01em;
+    color: var(--text-muted);
+  }
+
+  .precio {
+    flex-shrink: 0;
+    white-space: nowrap;
+    font-size: 0.875rem;
+    font-weight: 400;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.04em;
+  }
+
+  .etiqueta {
+    margin: 0;
+    font-size: 0.6875rem;
+    font-weight: 300;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+
+  /* Navegación y enlaces: palabras, no píldoras. La carta no tiene una sola
+     curva, así que tampoco la tiene la interfaz. */
+  .salto {
+    flex-shrink: 0;
+    font-size: 0.6875rem;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 2px;
+    transition: border-color 140ms ease;
+  }
+  .salto:hover {
+    border-bottom-color: var(--text);
+  }
+  .salto:focus-visible {
+    outline: 2px solid var(--text);
+    outline-offset: 3px;
+  }
+
+  /* Sin subrayado ni borde: el icono ya es el elemento, y la carta no tiene
+     una sola caja. La señal de interacción es el peso del negro. */
+  .boton-red {
+    color: var(--text);
+    opacity: 0.72;
+    transition: opacity 140ms ease;
+  }
+  .boton-red:hover {
+    opacity: 1;
+  }
+  .boton-red:focus-visible {
+    outline: 2px solid var(--text);
+    outline-offset: 2px;
+  }
+
+  .cierre {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    line-height: 1.35;
+    text-align: center;
+    margin: 4.5rem 0 0;
+    text-wrap: balance;
+  }
+
+  @media (min-width: 640px) {
+    .nombre-local {
+      font-size: 4rem;
+    }
+    .cierre {
+      font-size: 2.125rem;
+    }
+  }
+</style>

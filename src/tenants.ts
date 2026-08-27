@@ -40,9 +40,25 @@ export interface Tenant {
 
 export const TENANTS: readonly Tenant[] = [
   {
-    slug: 'demo',
-    label: 'Demo',
+    slug: 'truman',
+    label: 'Truman',
     projectId: '6z4dmaab',
+    dataset: 'production',
+    timezone: 'America/Argentina/Buenos_Aires',
+  },
+  {
+    slug: 'latropilla',
+    label: 'La Tropilla',
+    projectId: 'tzauffbj',
+    dataset: 'production',
+    timezone: 'America/Argentina/Buenos_Aires',
+  },
+  {
+    // Restaurante demo: la pieza que se le muestra a prospectos. No es un
+    // cliente real, pero se trata como uno para que el link no delate nada.
+    slug: 'sobremesa',
+    label: 'Sobremesa (demo)',
+    projectId: 'opz7h4cd',
     dataset: 'production',
     timezone: 'America/Argentina/Buenos_Aires',
   },

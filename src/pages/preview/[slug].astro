@@ -1,0 +1,129 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+import { clientFor } from '~/lib/sanity';
+import type { RestaurantData } from '~/lib/queries';
+import { getDesign } from '~/restaurants';
+import { getTenant } from '~/tenants';
+import '~/styles/global.css';
+
+export const prerender = false;
+
+/**
+ * Previsualización del diseño de un restaurante a partir de su carta en JSON,
+ * SIN pasar por Sanity.
+ *
+ * Existe para poder diseñar antes de que el contenido esté cargado o publicado,
+ * y para ver la página llena con los `precioMaqueta` en cartas que no llevan
+ * precio impreso. Usa el MISMO componente que la ruta real, así que lo que se
+ * ve acá es lo que se va a ver en la mesa.
+ *
+ * Solo en desarrollo: en producción devuelve 404.
+ */
+
+if (!import.meta.env.DEV) {
+  return new Response('No disponible', { status: 404 });
+}
+
+const { slug } = Astro.params;
+const tenant = getTenant(slug);
+const design = getDesign(slug);
+
+if (!tenant || !design) {
+  return new Response('Restaurante no encontrado', { status: 404 });
+}
+
+const archivo = path.join(process.cwd(), 'scripts', `${slug}-carta.json`);
+if (!fs.existsSync(archivo)) {
+  return new Response(`No existe scripts/${slug}-carta.json`, { status: 404 });
+}
+
+interface PlatoCarta {
+  clave: string;
+  name: string;
+  description?: string;
+  tags?: string[];
+  price?: number;
+  precioMaqueta?: number;
+  variants?: { label: string; price: number }[];
+}
+
+interface CategoriaCarta {
+  clave: string;
+  title: string;
+  description?: string;
+  platos: PlatoCarta[];
+}
+
+interface PromoCarta {
+  clave: string;
+  name: string;
+  description?: string;
+  price: number;
+  compareAtPrice?: number;
+}
+
+const carta = JSON.parse(fs.readFileSync(archivo, 'utf8')) as {
+  restaurante: Partial<RestaurantData>;
+  categorias: CategoriaCarta[];
+  promociones?: PromoCarta[];
+};
+
+const data: RestaurantData = {
+  name: carta.restaurante.name ?? slug!,
+  tagline: carta.restaurante.tagline,
+  notice: carta.restaurante.notice,
+  published: true,
+  currency: carta.restaurante.currency ?? 'ARS',
+  contact: carta.restaurante.contact,
+  hours: carta.restaurante.hours,
+  promotions: (carta.promociones ?? []).map((p) => ({
+    _id: p.clave,
+    name: p.name,
+    description: p.description,
+    price: p.price,
+    compareAtPrice: p.compareAtPrice,
+  })),
+  menu: carta.categorias.map((c) => ({
+    _id: c.clave,
+    title: c.title,
+    description: c.description,
+    items: c.platos.map((p) => ({
+      _id: p.clave,
+      name: p.name,
+      description: p.description,
+      // El precio de maqueta solo vive acá: el import a Sanity lo ignora.
+      price: p.price ?? p.precioMaqueta,
+      tags: p.tags,
+      variants: p.variants,
+    })),
+  })),
+};
+
+const Menu = design.component;
+const client = clientFor(tenant);
+---
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Vista previa · {data.name}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href={design.fontLink} />
+
+    <style is:inline set:html={design.themeCss}></style>
+  </head>
+
+  <body>
+    <p
+      style="margin:0;padding:6px 12px;background:#1d4ed8;color:#fff;font:500 12px/1.4 system-ui,sans-serif;text-align:center;letter-spacing:0.04em;"
+    >
+      Vista previa desde scripts/{slug}-carta.json · precios de maqueta · no es el menú real
+    </p>
+    <Menu data={data} slug={slug!} client={client} />
+  </body>
+</html>

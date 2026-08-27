@@ -1,0 +1,1077 @@
+{
+  "_aviso": "Fuente de verdad del import. Editar ESTE archivo, no el codigo.",
+  "_transcripcion": "Transcrito de las capturas de la carta impresa de La Tropilla. La carta impresa NO tiene precios: los cargados aca son INVENTADOS, para poder demostrarle al cliente como se edita un precio.",
+  "revisado": true,
+  "restaurante": {
+    "name": "La Tropilla",
+    "tagline": "Parrilla",
+    "currency": "ARS",
+    "contact": {},
+    "hours": [],
+    "cierre": "Consultá nuestro menú ejecutivo!"
+  },
+  "categorias": [
+    {
+      "clave": "entradas",
+      "title": "Entradas",
+      "platos": [
+        {
+          "clave": "chinchulines",
+          "name": "Tablita de chinchulines",
+          "description": "Acompañada con papas fritas.",
+          "tags": [
+            "sin-tacc"
+          ],
+          "price": 13500
+        },
+        {
+          "clave": "mollejas",
+          "name": "Tablita de mollejas",
+          "description": "Acompañada con papas fritas.",
+          "tags": [
+            "sin-tacc"
+          ],
+          "price": 15500
+        },
+        {
+          "clave": "rinon",
+          "name": "Tablita de riñón a la provenzal",
+          "description": "Acompañada con papas fritas.",
+          "tags": [
+            "sin-tacc"
+          ],
+          "price": 12500
+        },
+        {
+          "clave": "chorizo",
+          "name": "Chorizo (2 parrilleros)",
+          "description": "Acompañados con papas fritas.",
+          "tags": [
+            "sin-tacc"
+          ],
+          "price": 9500
+        },
+        {
+          "clave": "morcilla",
+          "name": "Morcilla",
+          "description": "Acompañada con papas fritas.",
+          "tags": [
+            "sin-tacc"
+          ],
+          "price": 9500
+        },
+        {
+          "clave": "rabas",
+          "name": "Rabas",
+          "price": 16500
+        },
+        {
+          "clave": "provoleta",
+          "name": "Provoleta",
+          "tags": [
+            "vegetariano",
+            "sin-tacc"
+          ],
+          "price": 11500
+        }
+      ]
+    },
+    {
+      "clave": "empanadas",
+      "title": "Empanadas",
+      "platos": [
+        {
+          "clave": "emp-carne",
+          "name": "Carne",
+          "price": 2600
+        },
+        {
+          "clave": "emp-carne-picante",
+          "name": "Carne picante",
+          "price": 2600
+        },
+        {
+          "clave": "emp-pollo",
+          "name": "Pollo",
+          "price": 2600
+        },
+        {
+          "clave": "emp-mondongo",
+          "name": "Mondongo",
+          "price": 2600
+        },
+        {
+          "clave": "emp-sfija",
+          "name": "Sfija",
+          "price": 2600
+        },
+        {
+          "clave": "emp-jyq",
+          "name": "Jamón y queso",
+          "price": 2600
+        },
+        {
+          "clave": "emp-ternera",
+          "name": "Ternera y queso",
+          "price": 2600
+        },
+        {
+          "clave": "emp-queso",
+          "name": "Queso",
+          "tags": [
+            "vegetariano"
+          ],
+          "price": 2600
+        },
+        {
+          "clave": "emp-cebolla",
+          "name": "Cebolla y queso",
+          "tags": [
+            "vegetariano"
+          ],
+          "price": 2600
+        },
+        {
+          "clave": "emp-cuatro-quesos",
+          "name": "Cuatro quesos",
+          "tags": [
+            "vegetariano"
+          ],
+          "price": 2600
+        },
+        {
+          "clave": "emp-humita",
+          "name": "Humita",
+          "tags": [
+            "vegetariano"
+          ],
+          "price": 2600
+        }
+      ]
+    },
+    {
+      "clave": "infantil",
+      "title": "Infantil",
+      "platos": [
+        {
+          "clave": "inf-hamburguesa",
+          "name": "Hamburguesa con papas",
+          "price": 9800
+        },
+        {
+          "clave": "inf-nuggets",
+          "name": "Nuggets de pollo con papas",
+          "price": 9800
+        }
+      ]
+    },
+    {
+      "clave": "carnes",
+      "title": "Carnes a las brasas",
+      "description": "Incluyen guarnición a elección: papas fritas, puré de papas, arroz, ensalada rusa o mixta.",
+      "platos": [
+        {
+          "clave": "promo-parrillada",
+          "name": "Promo parrillada",
+          "description": "Tira de asado, bondiola, chinchulín, molleja, riñón, chorizo y morcilla.",
+          "tags": [
+            "sin-tacc"
+          ],
+          "price": 42000
+        },
+        {
+          "clave": "tira-asado",
+          "name": "Tira de asado",
+          "tags": [
+            "sin-tacc"
+          ],
+          "price": 22500
+        },
+        {
+          "clave": "entrana-fina",
+          "name": "Entraña fina",
+          "tags": [
+            "sin-tacc"
+          ],
+          "price": 26500
+        },
+        {
+          "clave": "bife-chorizo",
+          "name": "Bife de chorizo",
+          "tags": [
+            "sin-tacc"
+          ],
+          "price": 24500
+        },
+        {
+          "clave": "picana",
+          "name": "Picana",
+          "tags": [
+            "sin-tacc"
+          ],
+          "price": 27500
+        },
+        {
+          "clave": "vacio",
+          "name": "Vacío de novillo",
+          "tags": [
+            "sin-tacc"
+          ],
+          "price": 23500
+        },
+        {
+          "clave": "matambrito-cerdo",
+          "name": "Matambrito de cerdo",
+          "tags": [
+            "sin-tacc"
+          ],
+          "price": 21500
+        },
+        {
+          "clave": "bondiola-cerdo",
+          "name": "Bondiola de cerdo",
+          "tags": [
+            "sin-tacc"
+          ],
+          "price": 21500
+        }
+      ]
+    },
+    {
+      "clave": "guarniciones",
+      "title": "Guarniciones",
+      "platos": [
+        {
+          "clave": "ens-rucula",
+          "name": "Ensalada de rúcula, parmesano y nuez",
+          "tags": [
+            "vegetariano",
+            "sin-tacc"
+          ],
+          "price": 8500
+        },
+        {
+          "clave": "ens-rusa",
+          "name": "Ensalada rusa",
+          "tags": [
+            "vegetariano",
+            "sin-tacc"
+          ],
+          "price": 6500
+        },
+        {
+          "clave": "ens-mixta",
+          "name": "Ensalada mixta",
+          "tags": [
+            "vegetariano",
+            "sin-tacc"
+          ],
+          "price": 6000
+        },
+        {
+          "clave": "papas-fritas",
+          "name": "Papas fritas",
+          "tags": [
+            "vegetariano",
+            "sin-tacc"
+          ],
+          "price": 6500
+        },
+        {
+          "clave": "papas-gratinadas",
+          "name": "Papas gratinadas",
+          "tags": [
+            "vegetariano",
+            "sin-tacc"
+          ],
+          "price": 7500
+        },
+        {
+          "clave": "pure-papas",
+          "name": "Puré de papas",
+          "tags": [
+            "vegetariano",
+            "sin-tacc"
+          ],
+          "price": 6000
+        },
+        {
+          "clave": "pure-mixto",
+          "name": "Puré mixto (zapallo al horno y papas)",
+          "tags": [
+            "vegetariano",
+            "sin-tacc"
+          ],
+          "price": 6500
+        },
+        {
+          "clave": "arroz",
+          "name": "Arroz",
+          "tags": [
+            "vegetariano",
+            "sin-tacc"
+          ],
+          "price": 5500
+        }
+      ]
+    },
+    {
+      "clave": "pastas",
+      "title": "Pastas caseras",
+      "description": "Todas incluyen salsa clásica a elección.",
+      "platos": [
+        {
+          "clave": "sorrentinos-jyq",
+          "name": "Sorrentinos de jamón y queso",
+          "price": 15500
+        },
+        {
+          "clave": "sorrentinos-espinaca",
+          "name": "Sorrentinos de espinaca y ricota",
+          "tags": [
+            "vegetariano"
+          ],
+          "price": 15500
+        },
+        {
+          "clave": "sorrentinos-ternera",
+          "name": "Sorrentinos de ternera y queso",
+          "price": 15500
+        },
+        {
+          "clave": "sorrentinos-calabaza",
+          "name": "Sorrentinos de calabaza",
+          "tags": [
+            "vegetariano"
+          ],
+          "price": 15500
+        },
+        {
+          "clave": "fettuccine",
+          "name": "Fettuccine",
+          "description": "Espinaca o morrón.",
+          "tags": [
+            "vegetariano"
+          ],
+          "price": 13500
+        },
+        {
+          "clave": "spaghetti",
+          "name": "Spaghetti",
+          "description": "Espinaca o morrón. Opcional sin TACC.",
+          "tags": [
+            "vegetariano",
+            "sin-tacc"
+          ],
+          "price": 13500
+        },
+        {
+          "clave": "noquis",
+          "name": "Ñoquis",
+          "tags": [
+            "vegetariano"
+          ],
+          "price": 13500
+        },
+        {
+          "clave": "canelones",
+          "name": "Canelones",
+          "tags": [
+            "vegetariano"
+          ],
+          "price": 15500
+        },
+        {
+          "clave": "malfatti",
+          "name": "Malfatti",
+          "tags": [
+            "vegetariano",
+            "sin-tacc"
+          ],
+          "price": 15500
+        }
+      ]
+    },
+    {
+      "clave": "salsas-clasicas",
+      "title": "Salsas clásicas",
+      "description": "Incluidas en todas las pastas.",
+      "platos": [
+        {
+          "clave": "fileto",
+          "name": "Fileto",
+          "description": "Salsa de tomate, cebolla, ajo, oliva, sal y pimienta.",
+          "tags": [
+            "vegetariano",
+            "sin-tacc"
+          ]
+        },
+        {
+          "clave": "blanca",
+          "name": "Blanca",
+          "description": "Salsa a base de leche, maicena, manteca y pimienta negra.",
+          "tags": [
+            "vegetariano",
+            "sin-tacc"
+          ]
+        },
+        {
+          "clave": "mixta",
+          "name": "Mixta",
+          "description": "Combinación de salsa roja y blanca.",
+          "tags": [
+            "vegetariano",
+            "sin-tacc"
+          ]
+        },
+        {
+          "clave": "bolonesa",
+          "name": "Boloñesa",
+          "description": "Salsa de tomate, cebolla, ajo, zanahoria y carne molida.",
+          "tags": [
+            "sin-tacc"
+          ]
+        }
+      ]
+    },
+    {
+      "clave": "salsas-acompanar",
+      "title": "Salsas para acompañar",
+      "description": "Para pastas y carnes.",
+      "platos": [
+        {
+          "clave": "fileto-pollo",
+          "name": "Fileto con pollo",
+          "description": "Salsa de tomate con pollo.",
+          "price": 4500
+        },
+        {
+          "clave": "fileto-carne",
+          "name": "Fileto con carne",
+          "description": "Salsa de tomate con carne.",
+          "price": 4500
+        },
+        {
+          "clave": "margarita",
+          "name": "Margarita",
+          "description": "Cherrys, ajo, albahaca, crema de leche y vino chardonnay.",
+          "tags": [
+            "vegetariano",
+            "sin-tacc"
+          ],
+          "price": 4500
+        },
+        {
+          "clave": "entrana-salsa",
+          "name": "Entraña",
+          "description": "Entraña, morrones, ajo, crema de leche y vino chardonnay.",
+          "tags": [
+            "sin-tacc"
+          ],
+          "price": 5500
+        },
+        {
+          "clave": "hongos",
+          "name": "Hongos del bosque",
+          "description": "Ajo, pimienta negra, manteca, hongos, vino chardonnay, crema de leche, aceite de oliva y queso parmesano.",
+          "tags": [
+            "sin-tacc"
+          ],
+          "price": 5500
+        },
+        {
+          "clave": "puttanesca",
+          "name": "Alla puttanesca",
+          "description": "Salsa de tomate, albahaca, olivas negras, alcaparras, anchoas, ají molido, aceite de oliva y ajo.",
+          "tags": [
+            "sin-tacc"
+          ],
+          "price": 5000
+        },
+        {
+          "clave": "cuatro-quesos-salsa",
+          "name": "Cuatro quesos",
+          "description": "Crema de leche, vino chardonnay, muzzarella, roquefort, cremoso y parmesano.",
+          "tags": [
+            "vegetariano",
+            "sin-tacc"
+          ],
+          "price": 5500
+        },
+        {
+          "clave": "parisienne",
+          "name": "Parisienne",
+          "description": "Salsa blanca, pollo y jamón.",
+          "tags": [
+            "sin-tacc"
+          ],
+          "price": 5000
+        },
+        {
+          "clave": "verdeo",
+          "name": "Verdeo",
+          "description": "Crema de leche, leche y cebolla de verdeo.",
+          "tags": [
+            "vegetariano",
+            "sin-tacc"
+          ],
+          "price": 4500
+        },
+        {
+          "clave": "provenzal",
+          "name": "Provenzal",
+          "description": "Ajo y perejil.",
+          "tags": [
+            "vegetariano",
+            "sin-tacc"
+          ],
+          "price": 3500
+        }
+      ]
+    },
+    {
+      "clave": "minutas",
+      "title": "Minutas",
+      "description": "Incluyen guarnición a elección: papas fritas, puré de papas, arroz, ensalada rusa o mixta.",
+      "platos": [
+        {
+          "clave": "bife-pollo",
+          "name": "Bife de pollo a la plancha o a las brasas",
+          "tags": [
+            "sin-tacc"
+          ],
+          "price": 17500
+        },
+        {
+          "clave": "mila-plato",
+          "name": "Milanesa al plato",
+          "price": 17500
+        },
+        {
+          "clave": "mila-napo",
+          "name": "Milanesa napolitana",
+          "price": 19500
+        },
+        {
+          "clave": "suprema-plato",
+          "name": "Suprema al plato",
+          "price": 17500
+        },
+        {
+          "clave": "suprema-napo",
+          "name": "Suprema napolitana",
+          "price": 19500
+        },
+        {
+          "clave": "matambre-verdeo",
+          "name": "Matambre al verdeo",
+          "tags": [
+            "sin-tacc"
+          ],
+          "price": 20500
+        },
+        {
+          "clave": "matambre-pizza",
+          "name": "Matambre a la pizza",
+          "tags": [
+            "sin-tacc"
+          ],
+          "price": 20500
+        }
+      ]
+    },
+    {
+      "clave": "pescados",
+      "title": "Pescados y mariscos",
+      "platos": [
+        {
+          "clave": "paella",
+          "name": "Paella",
+          "description": "Arroz sazonado, mariscos y pollo.",
+          "tags": [
+            "sin-tacc"
+          ],
+          "price": 26500
+        },
+        {
+          "clave": "merluza-romana",
+          "name": "Merluza a la romana",
+          "description": "Merluza empanada con guarnición a elección.",
+          "price": 18500
+        },
+        {
+          "clave": "roll-merluza",
+          "name": "Roll de merluza",
+          "description": "Con verduras, sazonado con limón, pimienta negra, salsa de mostaza y papas.",
+          "tags": [
+            "sin-tacc"
+          ],
+          "price": 19500
+        },
+        {
+          "clave": "merluza-quattro",
+          "name": "Merluza quattro formaggi",
+          "description": "Con salsa de cuatro quesos y pimienta negra, acompañada con puré.",
+          "tags": [
+            "sin-tacc"
+          ],
+          "price": 20500
+        },
+        {
+          "clave": "pacu",
+          "name": "Pacú para compartir",
+          "description": "Incluye guarnición a elección.",
+          "tags": [
+            "sin-tacc"
+          ],
+          "price": 34000
+        }
+      ]
+    },
+    {
+      "clave": "gourmet",
+      "title": "Gourmet",
+      "platos": [
+        {
+          "clave": "lomo-salteado",
+          "name": "Lomo salteado",
+          "description": "Lomo en cubos salteado con bacon, hongos portobello y morrón, sazonado con pimienta negra, crema de leche y vino blanco. Acompañado con puré y papas lengua.",
+          "tags": [
+            "sin-tacc"
+          ],
+          "price": 29500
+        },
+        {
+          "clave": "lomo-rossini",
+          "name": "Lomo Rossini",
+          "description": "Lomo cocinado con oliva, albahaca, bacon, olivas negras, tomate, crema de leche y vino chardonnay. Acompañado con papas españolas.",
+          "tags": [
+            "sin-tacc"
+          ],
+          "price": 31500
+        },
+        {
+          "clave": "bondiola-miel",
+          "name": "Bondiola a la miel",
+          "description": "Bondiola braseada con miel de caña, cerveza negra y jugo de naranja. Acompañada con puré.",
+          "tags": [
+            "sin-tacc"
+          ],
+          "price": 24500
+        },
+        {
+          "clave": "bondiola-frutos",
+          "name": "Bondiola con frutos rojos",
+          "description": "Bondiola braseada con miel, mix de frutos rojos y cerveza roja. Acompañada con puré y papas lengua.",
+          "tags": [
+            "sin-tacc"
+          ],
+          "price": 25500
+        },
+        {
+          "clave": "bondiola-dijon",
+          "name": "Bondiola dijón",
+          "description": "Bondiola grillada con salsa dijón. Acompañada con papas españolas.",
+          "tags": [
+            "sin-tacc"
+          ],
+          "price": 24500
+        },
+        {
+          "clave": "ballotine",
+          "name": "Ballotine de pollo",
+          "description": "Filet de pollo relleno con jamón, queso, huevo y verduras. Acompañado con papas españolas.",
+          "tags": [
+            "sin-tacc"
+          ],
+          "price": 22500
+        },
+        {
+          "clave": "pollo-cazadora",
+          "name": "Pollo a la cazadora",
+          "description": "Pollo a la plancha con hongos portobello salteados, bacon y crema de leche. Acompañado con puré.",
+          "tags": [
+            "sin-tacc"
+          ],
+          "price": 21500
+        },
+        {
+          "clave": "pollo-salteado",
+          "name": "Pollo salteado",
+          "description": "Pollo en cubos salteado con bacon, hongos portobello y morrón, sazonado con pimienta negra, crema de leche y vino blanco. Acompañado con puré y papas lengua.",
+          "tags": [
+            "sin-tacc"
+          ],
+          "price": 21500
+        },
+        {
+          "clave": "pollo-tomatato",
+          "name": "Pollo al tomatato",
+          "description": "Pollo cocinado con oliva, ajo, tomate y olivas negras. Acompañado con papas.",
+          "tags": [
+            "sin-tacc"
+          ],
+          "price": 21500
+        }
+      ]
+    },
+    {
+      "clave": "postres",
+      "title": "Postres",
+      "platos": [
+        {
+          "clave": "tiramisu",
+          "name": "Tiramisú",
+          "tags": [
+            "vegetariano"
+          ],
+          "price": 7500
+        },
+        {
+          "clave": "chocotorta",
+          "name": "Chocotorta",
+          "tags": [
+            "vegetariano"
+          ],
+          "price": 7500
+        },
+        {
+          "clave": "helado",
+          "name": "Helado",
+          "description": "Crocante, escocés o suizo.",
+          "tags": [
+            "vegetariano",
+            "sin-tacc"
+          ],
+          "price": 6500
+        },
+        {
+          "clave": "flan",
+          "name": "Flan con dulce de leche",
+          "tags": [
+            "vegetariano",
+            "sin-tacc"
+          ],
+          "price": 6500
+        },
+        {
+          "clave": "budin-pan",
+          "name": "Budín de pan con dulce de leche",
+          "tags": [
+            "vegetariano"
+          ],
+          "price": 6500
+        },
+        {
+          "clave": "brownie",
+          "name": "Brownie de chocolate y nueces",
+          "description": "Con frutos rojos y bocha de helado.",
+          "tags": [
+            "vegetariano"
+          ],
+          "price": 8500
+        },
+        {
+          "clave": "panqueques",
+          "name": "Panqueques de manzana",
+          "description": "Flambeados al ron, azúcar y bocha de helado.",
+          "tags": [
+            "vegetariano"
+          ],
+          "price": 8500
+        },
+        {
+          "clave": "vigilante",
+          "name": "Vigilante",
+          "description": "Dulce de batata con queso.",
+          "tags": [
+            "vegetariano",
+            "sin-tacc"
+          ],
+          "price": 6000
+        },
+        {
+          "clave": "regional",
+          "name": "Regional con quesillo",
+          "description": "Dulce de cayote con nueces o higos en almíbar.",
+          "tags": [
+            "vegetariano",
+            "sin-tacc"
+          ],
+          "price": 7000
+        },
+        {
+          "clave": "postre-chef",
+          "name": "Postre del chef",
+          "price": 8500
+        }
+      ]
+    },
+    {
+      "clave": "bebidas",
+      "title": "Bebidas",
+      "platos": [
+        {
+          "clave": "jarra-limonada",
+          "name": "Jarra de limonada",
+          "price": 7500
+        },
+        {
+          "clave": "jarra-limonada-menta",
+          "name": "Jarra de limonada con menta y jengibre",
+          "price": 8500
+        },
+        {
+          "clave": "gaseosa",
+          "name": "Gaseosa línea Coca Cola 350 cc",
+          "price": 3500
+        },
+        {
+          "clave": "agua",
+          "name": "Agua con o sin gas",
+          "price": 3000
+        },
+        {
+          "clave": "agua-saborizada",
+          "name": "Agua saborizada",
+          "price": 3500
+        }
+      ]
+    },
+    {
+      "clave": "cervezas",
+      "title": "Cervezas",
+      "platos": [
+        {
+          "clave": "imperial",
+          "name": "Imperial 1 litro",
+          "description": "Lager, IPA o roja.",
+          "price": 11500
+        },
+        {
+          "clave": "heineken-litro",
+          "name": "Heineken 1 litro",
+          "price": 12500
+        },
+        {
+          "clave": "miller",
+          "name": "Miller 1 litro",
+          "price": 11500
+        },
+        {
+          "clave": "salta-negra",
+          "name": "Salta Negra 1 litro",
+          "price": 10500
+        },
+        {
+          "clave": "heineken-473",
+          "name": "Heineken 473 cc",
+          "price": 7500
+        },
+        {
+          "clave": "chopp-pampa",
+          "name": "Chopp Pampa",
+          "description": "Artesanal. IPA, amber, honey o dorada.",
+          "price": 9500
+        }
+      ]
+    },
+    {
+      "clave": "vinos-tintos",
+      "title": "Vinos tintos",
+      "description": "Botella 3/4.",
+      "platos": [
+        {
+          "clave": "dv-malbec",
+          "name": "DV Catena Zapata Malbec",
+          "price": 38000
+        },
+        {
+          "clave": "dv-cab-malbec",
+          "name": "DV Catena Zapata Cabernet / Malbec",
+          "price": 38000
+        },
+        {
+          "clave": "rutini-malbec",
+          "name": "Rutini Malbec Reserva",
+          "price": 42000
+        },
+        {
+          "clave": "rutini-cab-malbec",
+          "name": "Rutini Cabernet / Malbec",
+          "price": 42000
+        },
+        {
+          "clave": "luigi-malbec",
+          "name": "Luigi Bosca Malbec",
+          "price": 36000
+        },
+        {
+          "clave": "trumpeter-malbec",
+          "name": "Trumpeter Malbec",
+          "price": 28000
+        },
+        {
+          "clave": "nicasia-red",
+          "name": "Nicasia Red Blend Malbec",
+          "price": 26000
+        },
+        {
+          "clave": "saint-felicien-malbec",
+          "name": "Saint Felicien Malbec",
+          "price": 32000
+        },
+        {
+          "clave": "trapiche-malbec",
+          "name": "Trapiche Malbec Reserva",
+          "price": 24000
+        },
+        {
+          "clave": "celia-malbec",
+          "name": "La Celia Malbec Reserva",
+          "price": 25000
+        },
+        {
+          "clave": "celia-cabernet",
+          "name": "La Celia Cabernet Reserva",
+          "price": 25000
+        },
+        {
+          "clave": "celia-pioneer",
+          "name": "La Celia Pioneer Malbec",
+          "price": 22000
+        },
+        {
+          "clave": "perdices-malbec-reserva",
+          "name": "Las Perdices Malbec Reserva",
+          "price": 27000
+        },
+        {
+          "clave": "perdices-malbec",
+          "name": "Las Perdices Malbec",
+          "price": 23000
+        },
+        {
+          "clave": "cordero-malbec",
+          "name": "Cordero con Piel de Lobo Malbec",
+          "price": 21000
+        }
+      ]
+    },
+    {
+      "clave": "vinos-blancos",
+      "title": "Vinos blancos",
+      "description": "Botella 3/4.",
+      "platos": [
+        {
+          "clave": "luigi-chardonnay",
+          "name": "Luigi Bosca Chardonnay",
+          "price": 34000
+        },
+        {
+          "clave": "rutini-chardonnay",
+          "name": "Rutini Chardonnay",
+          "price": 40000
+        },
+        {
+          "clave": "saint-felicien-chardonnay",
+          "name": "Saint Felicien Chardonnay",
+          "price": 31000
+        },
+        {
+          "clave": "trumpeter-chardonnay",
+          "name": "Trumpeter Chardonnay",
+          "price": 27000
+        },
+        {
+          "clave": "nicasia-blanc",
+          "name": "Nicasia Blanc de Blancs",
+          "price": 26000
+        },
+        {
+          "clave": "celia-pinot",
+          "name": "La Celia Pinot Reserva",
+          "price": 25000
+        },
+        {
+          "clave": "celia-rose",
+          "name": "La Celia Rosé Reserva",
+          "price": 25000
+        },
+        {
+          "clave": "perdices-torrontes",
+          "name": "Las Perdices Torrontés",
+          "price": 23000
+        },
+        {
+          "clave": "perdices-torrontes-dulce",
+          "name": "Las Perdices Torrontés Dulce",
+          "price": 23000
+        },
+        {
+          "clave": "cordero-dulce",
+          "name": "Cordero con Piel de Lobo Dulce",
+          "price": 21000
+        }
+      ]
+    },
+    {
+      "clave": "vinos-espumantes",
+      "title": "Vinos espumantes",
+      "description": "Botella 3/4.",
+      "platos": [
+        {
+          "clave": "nieto-brut-rose",
+          "name": "Nieto Senetiner Brut Rosé",
+          "price": 29000
+        },
+        {
+          "clave": "nieto-extra-brut",
+          "name": "Nieto Senetiner Extra Brut",
+          "price": 29000
+        },
+        {
+          "clave": "norton-brut-nature",
+          "name": "Norton Cosecha Especial Brut Nature",
+          "price": 31000
+        },
+        {
+          "clave": "norton-brut-rose",
+          "name": "Norton Cosecha Especial Brut Rosé",
+          "price": 31000
+        },
+        {
+          "clave": "chandon-extra-brut",
+          "name": "Chandon Extra Brut",
+          "price": 33000
+        }
+      ]
+    },
+    {
+      "clave": "vinos-casa",
+      "title": "Vinos de la casa",
+      "platos": [
+        {
+          "clave": "pinguino-800",
+          "name": "Pingüino 800 cc",
+          "price": 9500
+        },
+        {
+          "clave": "pinguino-350",
+          "name": "Pingüino 350 cc",
+          "price": 5500
+        },
+        {
+          "clave": "copa-tinto",
+          "name": "Copa de vino tinto",
+          "price": 6500
+        },
+        {
+          "clave": "copa-blanco",
+          "name": "Copa de vino blanco",
+          "price": 6500
+        }
+      ]
+    }
+  ]
+}

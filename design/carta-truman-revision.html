@@ -1,0 +1,1654 @@
+<title>Carta Truman</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap"
+/>
+
+<style>
+  /* Una sola paleta: la del propio local. La carta de un restaurante es una
+     hoja de papel, no cambia con el tema del sistema. Los tonos de aviso son
+     chrome de esta herramienta, no del local. */
+  :root {
+    --ground: #FFFFFF;
+    --ink: #1D1D1B;
+    --muted: #6B6B6B;
+    --line: #E5E5E5;
+    --acento: #8E704E;
+    --flag: #a33a2a;
+    --flag-bg: #fbf1ee;
+  }
+
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: "Inter", system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  .envoltorio {
+    max-width: 46rem;
+    margin: 0 auto;
+    padding: 2.5rem 1.25rem 5rem;
+  }
+
+  .titulo {
+    font-family: "Playfair Display", Georgia, serif;
+    font-weight: 600;
+    font-size: clamp(1.9rem, 5vw, 2.6rem);
+    line-height: 1.1;
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  .bajada {
+    color: var(--muted);
+    margin: 0.6rem 0 0;
+    max-width: 34rem;
+  }
+
+  .resumen {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.75rem;
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--line);
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+  .resumen b {
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+  }
+
+  .aviso {
+    margin-top: 1.75rem;
+    padding: 1rem 1.15rem;
+    background: var(--flag-bg);
+    border-left: 3px solid var(--flag);
+    border-radius: 2px;
+  }
+  .aviso h3 {
+    margin: 0 0 0.4rem;
+    font-size: 0.8125rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--flag);
+  }
+  .aviso p {
+    margin: 0 0 0.5rem;
+    font-size: 0.9375rem;
+  }
+  .aviso p:last-child {
+    margin-bottom: 0;
+  }
+
+  .cat {
+    margin-top: 3rem;
+  }
+  .cat__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    border-bottom: 1px dotted var(--acento);
+    padding-bottom: 0.5rem;
+  }
+  .cat__head h2 {
+    font-family: "Playfair Display", Georgia, serif;
+    font-weight: 600;
+    font-size: 1.125rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    line-height: 1.3;
+    color: var(--acento);
+    margin: 0;
+  }
+  .cat__nota {
+    margin: 0.75rem 0 0;
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+
+  .tilde {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8125rem;
+    color: var(--muted);
+    cursor: pointer;
+    white-space: nowrap;
+    min-height: 44px;
+  }
+  .tilde input {
+    width: 1.05rem;
+    height: 1.05rem;
+    accent-color: var(--acento);
+    cursor: pointer;
+  }
+  .tilde input:focus-visible {
+    outline: 2px solid var(--acento);
+    outline-offset: 2px;
+  }
+
+  .platos {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+    padding-top: 1.15rem;
+  }
+
+  .plato--dudoso {
+    background: var(--flag-bg);
+    margin-inline: -0.6rem;
+    padding: 0.6rem;
+    border-radius: 3px;
+  }
+
+  .plato__linea {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+  }
+  .plato__nombre {
+    flex: 1;
+    min-width: 0;
+    font-weight: 500;
+  }
+  .plato__desc {
+    margin: 0.15rem 0 0;
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+
+  .precio {
+    flex-shrink: 0;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    color: var(--acento);
+  }
+  .precio--vacio {
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  .variantes {
+    list-style: none;
+    margin: 0.5rem 0 0;
+    padding: 0 0 0 1rem;
+    border-left: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+  .variante {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    font-size: 0.9375rem;
+  }
+  .variante span:first-child {
+    flex: 1;
+    min-width: 0;
+    color: var(--muted);
+  }
+
+  .marca {
+    display: inline-block;
+    margin-left: 0.5rem;
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--flag);
+    border: 1px solid currentColor;
+    border-radius: 999px;
+    padding: 0.1rem 0.45rem;
+    vertical-align: 0.1em;
+  }
+
+  .pie {
+    margin-top: 3.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--line);
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+</style>
+
+<div class="envoltorio">
+  <h1 class="titulo">Truman</h1>
+  <p class="bajada">
+    Transcripción de las fotos de la carta física, tal cual va a entrar a Sanity.
+    Revisala contra la carta y marcá cada sección; lo que no coincida, decímelo y lo corrijo.
+  </p>
+
+  <div class="resumen">
+    <span><b>15</b> categorías</span>
+    <span><b>127</b> platos</span>
+    <span><b>10</b> variantes</span>
+    <span><b>55</b> sin precio</span>
+    <span><b>1</b> a confirmar</span>
+  </div>
+
+  <div class="aviso">
+    <h3>Para confirmar</h3>
+    <p>
+      Esto es lo que va a entrar a Sanity, transcrito de las fotos de la carta.
+      Los ítems que dicen <strong>sin precio</strong> (55 de
+      127) se van a mostrar solo con el nombre, como en la carta impresa.
+    </p>
+    <p><strong>1 marcado</strong> con fondo rojo: no los pude leer con certeza en la foto.</p>
+  </div>
+
+  <section class="cat">
+    <header class="cat__head">
+      <h2>Datos del local</h2>
+      <label class="tilde">
+        <input type="checkbox" data-cat="__datos" />
+        <span>revisada</span>
+      </label>
+    </header>
+    <ul class="platos">
+      <li class="plato"><div class="plato__linea"><span class="plato__nombre">Nombre</span><span class="precio">Truman</span></div></li>
+      <li class="plato"><div class="plato__linea"><span class="plato__nombre">Bajada</span><span class="precio">Bar &amp; Kitchen</span></div></li>
+      <li class="plato"><div class="plato__linea"><span class="plato__nombre">Instagram</span><span class="precio">@trumanbarkitchen</span></div></li>
+      <li class="plato"><div class="plato__linea"><span class="plato__nombre">Todos los días</span><span class="precio">07:00 a 01:00</span></div></li>
+      <li class="plato plato--dudoso"><div class="plato__linea"><span class="plato__nombre">Dirección<span class="marca">falta</span></span><span class="precio precio--vacio">sin cargar</span></div></li>
+    </ul>
+  </section>
+
+  
+    <section class="cat">
+      <header class="cat__head">
+        <h2>Desayunos y meriendas</h2>
+        <label class="tilde">
+          <input type="checkbox" data-cat="desayunos" />
+          <span>revisada</span>
+        </label>
+      </header>
+      <p class="cat__nota">Todos incluyen infusión. Las infusiones pueden ser sustituidas por: jugo de naranja, limonada o leche de almendras +$500; milkshakes o frappuccinos +$1.500; licuado de frutas, gaseosa o jugo DETOX +$800.</p>
+      <ul class="platos">
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Tradicional</span>
+            <span class="precio">$ 7.500</span>
+          </div>
+          <p class="plato__desc">Infusión con dos medialunas, dos tortillas, o una medialuna de jamón y queso, o una croissant.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Desayuno / merienda light</span>
+            <span class="precio">$ 8.800</span>
+          </div>
+          <p class="plato__desc">Infusión más tostadas con semillas o pan de campo con queso untable y mermelada casera.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Desayuno proteico</span>
+            <span class="precio">$ 15.500</span>
+          </div>
+          <p class="plato__desc">Huevos revueltos con panceta o lomito ahumado, palta, dip de queso crema y tostón de pan de campo.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Desayuno completo</span>
+            <span class="precio">$ 18.500</span>
+          </div>
+          <p class="plato__desc">Bagel con semillas, queso tybo, lomito ahumado o panceta, palta, huevos revueltos, queso crema y tomates confitados.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Brunch para dos</span>
+            <span class="precio">$ 22.500</span>
+          </div>
+          <p class="plato__desc">2 infusiones a elección, huevos revueltos con palta, jamón, queso, tostadas, una croissant o dos medialunas a elección y dos jugos de naranja medianos.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Avocado toast</span>
+            <span class="precio">$ 14.500</span>
+          </div>
+          <p class="plato__desc">Tostón de pan de campo con queso crema, palta y huevos revueltos o poché.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Pancakes proteicos</span>
+            <span class="precio">$ 14.500</span>
+          </div>
+          <p class="plato__desc">Panqueques con frutas de estación, miel y pasta de maní. Keto de vainilla a base de harina de almendras y coco (3 g de carbohidratos), o avena y 100% cacao (15 g de proteínas).</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Parisino</span>
+            <span class="precio precio--vacio">—</span>
+          </div>
+          <p class="plato__desc">Infusión más una opción a elección.</p>
+          
+          <ul class="variantes">
+            <li class="variante">
+              <span>Croissant de jamón y queso</span>
+              <span class="precio">$ 10.000</span>
+            </li>
+            <li class="variante">
+              <span>Roll de canela con frosting de cream cheese y pistachos molidos</span>
+              <span class="precio">$ 11.000</span>
+            </li>
+            <li class="variante">
+              <span>Croissant de nutella</span>
+              <span class="precio">$ 13.000</span>
+            </li>
+            <li class="variante">
+              <span>Croissant mediterránea de jamón crudo, rúcula, queso brie y tomates secos</span>
+              <span class="precio">$ 13.500</span>
+            </li></ul>
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Yogurt griego</span>
+            <span class="precio">$ 14.500</span>
+          </div>
+          <p class="plato__desc">Bowl de yogurt griego, granola, frutos de estación, miel y pasta de maní.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Croque madame</span>
+            <span class="precio">$ 15.500</span>
+          </div>
+          <p class="plato__desc">Sándwich en pan brioche con base de salsa bechamel y mostaza, lomito ahumado, parmesano gratinado y huevo frito.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">French toast</span>
+            <span class="precio">$ 13.500</span>
+          </div>
+          <p class="plato__desc">Tostadas de pan brioche selladas en manteca, con frutas de estación, miel y topping de crema.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Bagel</span>
+            <span class="precio precio--vacio">—</span>
+          </div>
+          <p class="plato__desc">Incluye jugo de naranja mediano. Agregado de palta $2.500.</p>
+          
+          <ul class="variantes">
+            <li class="variante">
+              <span>Con mermelada casera y queso crema</span>
+              <span class="precio">$ 11.000</span>
+            </li>
+            <li class="variante">
+              <span>Con huevos revueltos y queso crema</span>
+              <span class="precio">$ 12.500</span>
+            </li></ul>
+        </li></ul>
+    </section>
+    <section class="cat">
+      <header class="cat__head">
+        <h2>Sándwiches y tostados</h2>
+        <label class="tilde">
+          <input type="checkbox" data-cat="sandwiches" />
+          <span>revisada</span>
+        </label>
+      </header>
+      
+      <ul class="platos">
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Club sándwich</span>
+            <span class="precio">$ 17.500</span>
+          </div>
+          <p class="plato__desc">En pan brioche con pollo, palta, lechuga, tomate, cheddar, jamón cocido, panceta y barbacoa.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Ciabatta de jamón crudo</span>
+            <span class="precio">$ 17.500</span>
+          </div>
+          <p class="plato__desc">Queso brie, rúcula, tomates secos en conserva y pesto de albahaca.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Ciabatta de mortadela</span>
+            <span class="precio">$ 16.000</span>
+          </div>
+          <p class="plato__desc">Queso brie con reducción de aceto y miel, rúcula, pesto y pistachos molidos.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Bagel de salmón ahumado</span>
+            <span class="precio">$ 23.500</span>
+          </div>
+          <p class="plato__desc">Salmón ahumado, palta, queso crema, cebolla morada, ciboulette y alcaparras.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Jamón y queso</span>
+            <span class="precio">$ 12.500</span>
+          </div>
+          <p class="plato__desc">Tostado de jamón y queso. Con tomate +$300.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Ternera y queso</span>
+            <span class="precio">$ 14.500</span>
+          </div>
+          <p class="plato__desc">Tostado de ternera y queso. Con tomate +$300.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Especial de ternera</span>
+            <span class="precio">$ 14.500</span>
+          </div>
+          <p class="plato__desc">Sándwich de miga con ternera, lechuga y tomate.</p>
+          
+          
+        </li></ul>
+    </section>
+    <section class="cat">
+      <header class="cat__head">
+        <h2>Cafetería caliente</h2>
+        <label class="tilde">
+          <input type="checkbox" data-cat="cafeteria-caliente" />
+          <span>revisada</span>
+        </label>
+      </header>
+      <p class="cat__nota">Los marcados con *** los podés pedir en versión ICED. Personalizá tu bebida +$500: leche de almendras, syrup de caramelo, vainilla o pistacho, o topping de crema vegetal.</p>
+      <ul class="platos">
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Espresso</span>
+            <span class="precio">$ 3.900</span>
+          </div>
+          <p class="plato__desc">En pocillo. Café chico con base de agua.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Espresso italiano</span>
+            <span class="precio">$ 3.900</span>
+          </div>
+          <p class="plato__desc">En pocillo. Café corto.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Doppio</span>
+            <span class="precio">$ 3.900</span>
+          </div>
+          <p class="plato__desc">En pocillo. Café chico intenso.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Macchiato</span>
+            <span class="precio">$ 3.900</span>
+          </div>
+          <p class="plato__desc">En pocillo. Café cortado chico.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Cortado</span>
+            <span class="precio">$ 4.400</span>
+          </div>
+          <p class="plato__desc">En jarrita. Café más leche, equilibrada.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Lungo</span>
+            <span class="precio">$ 4.400</span>
+          </div>
+          <p class="plato__desc">En jarrita. Café con base de agua.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Flat white</span>
+            <span class="precio">$ 5.900</span>
+          </div>
+          <p class="plato__desc">En taza mediana. Café con leche, intenso. Disponible ICED.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Americano</span>
+            <span class="precio">$ 4.400</span>
+          </div>
+          <p class="plato__desc">En taza mediana. Café intenso más base de agua.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Latte</span>
+            <span class="precio">$ 4.600</span>
+          </div>
+          <p class="plato__desc">En taza grande o tazón (+$300). Café con leche, suave. Disponible ICED.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Cappuccino</span>
+            <span class="precio">$ 4.600</span>
+          </div>
+          <p class="plato__desc">En taza grande o tazón (+$300). Café con leche, cremoso. Disponible ICED.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Té Intizén</span>
+            <span class="precio">$ 3.900</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Té clásico</span>
+            <span class="precio">$ 3.600</span>
+          </div>
+          
+          
+          
+        </li></ul>
+    </section>
+    <section class="cat">
+      <header class="cat__head">
+        <h2>Cafés especiales</h2>
+        <label class="tilde">
+          <input type="checkbox" data-cat="cafes-especiales" />
+          <span>revisada</span>
+        </label>
+      </header>
+      
+      <ul class="platos">
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Toffe latte</span>
+            <span class="precio">$ 4.800</span>
+          </div>
+          <p class="plato__desc">Salsa toffe, leche y café. Topping: salsa de chocolate.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Latte Dubái</span>
+            <span class="precio">$ 4.800</span>
+          </div>
+          <p class="plato__desc">Syrup de pistacho, leche y café. Toppings: crema, salsa de chocolate y pistachos con salsa de caramelo.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Latte brûlée</span>
+            <span class="precio">$ 4.800</span>
+          </div>
+          <p class="plato__desc">Syrup de vainilla, leche y café. Topping: azúcar caramelizada.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Café bombón</span>
+            <span class="precio">$ 4.800</span>
+          </div>
+          <p class="plato__desc">Leche condensada, leche y café.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Affogato</span>
+            <span class="precio">$ 5.500</span>
+          </div>
+          <p class="plato__desc">Café, helado de americana, cacao o canela.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Nutelatte</span>
+            <span class="precio">$ 4.800</span>
+          </div>
+          <p class="plato__desc">Nutella, leche y café.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Mocaccino</span>
+            <span class="precio">$ 4.800</span>
+          </div>
+          <p class="plato__desc">Cacao, café y leche.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Matcha latte</span>
+            <span class="precio">$ 4.800</span>
+          </div>
+          <p class="plato__desc">Matcha, azúcar y leche.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Submarino</span>
+            <span class="precio">$ 4.800</span>
+          </div>
+          <p class="plato__desc">Leche acompañada de barra de chocolate.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Chocolatada</span>
+            <span class="precio">$ 4.800</span>
+          </div>
+          <p class="plato__desc">Cacao disuelto en leche, caliente o fría.</p>
+          
+          
+        </li></ul>
+    </section>
+    <section class="cat">
+      <header class="cat__head">
+        <h2>Cafetería con alcohol</h2>
+        <label class="tilde">
+          <input type="checkbox" data-cat="cafeteria-alcohol" />
+          <span>revisada</span>
+        </label>
+      </header>
+      
+      <ul class="platos">
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Calipso</span>
+            <span class="precio">$ 5.000</span>
+          </div>
+          <p class="plato__desc">Tía María, café, crema y canela.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Irlandés</span>
+            <span class="precio">$ 5.000</span>
+          </div>
+          <p class="plato__desc">Whiskey, café, crema y cacao.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Bailey</span>
+            <span class="precio">$ 6.000</span>
+          </div>
+          <p class="plato__desc">Baileys y café. Opcional: crema, chocolate o cacao.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Bombón amaretto</span>
+            <span class="precio">$ 5.500</span>
+          </div>
+          <p class="plato__desc">Amaretto, leche condensada, leche y café.</p>
+          
+          
+        </li></ul>
+    </section>
+    <section class="cat">
+      <header class="cat__head">
+        <h2>Frappes</h2>
+        <label class="tilde">
+          <input type="checkbox" data-cat="frappes" />
+          <span>revisada</span>
+        </label>
+      </header>
+      
+      <ul class="platos">
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Smoothie proteico</span>
+            <span class="precio">$ 8.000</span>
+          </div>
+          <p class="plato__desc">1 scoop de 25 g de proteína de vainilla, arándanos, chía hidratada, dátiles de Egipto, yogurt griego y un toque de canela.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Strawberry matcha</span>
+            <span class="precio">$ 6.500</span>
+          </div>
+          <p class="plato__desc">Reducción de frutos rojos, leche, matcha y hielo.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Dubái</span>
+            <span class="precio">$ 6.000</span>
+          </div>
+          <p class="plato__desc">Syrup de pistacho, leche, café y hielo. Topping: crema y pistacho caramelizado.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Caramel crunch</span>
+            <span class="precio">$ 6.000</span>
+          </div>
+          <p class="plato__desc">Syrup de caramelo, leche, café y hielo. Topping: crema, salsa de caramelo y crocante de maní.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Mocca argento</span>
+            <span class="precio">$ 6.000</span>
+          </div>
+          <p class="plato__desc">Chocolate, dulce de leche, café y hielo. Toppings: crema, salsa de chocolate y salsa de dulce de leche.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Cookies &amp; creme</span>
+            <span class="precio">$ 6.500</span>
+          </div>
+          <p class="plato__desc">Oreo, helado de americana, leche y hielo. Topping: crema, oreos y salsa de chocolate.</p>
+          
+          
+        </li></ul>
+    </section>
+    <section class="cat">
+      <header class="cat__head">
+        <h2>Jugos y limonadas</h2>
+        <label class="tilde">
+          <input type="checkbox" data-cat="jugos" />
+          <span>revisada</span>
+        </label>
+      </header>
+      
+      <ul class="platos">
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Verde detox</span>
+            <span class="precio">$ 6.500</span>
+          </div>
+          <p class="plato__desc">Menta, manzana verde, jugo de limón, kiwi, espinaca y pepino.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Naranja energy</span>
+            <span class="precio">$ 6.500</span>
+          </div>
+          <p class="plato__desc">Zanahoria, manzana roja, jugo de naranja, miel y menta.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Limonada</span>
+            <span class="precio precio--vacio">—</span>
+          </div>
+          
+          
+          <ul class="variantes">
+            <li class="variante">
+              <span>Clásica 500 ml</span>
+              <span class="precio">$ 4.000</span>
+            </li>
+            <li class="variante">
+              <span>Clásica 1 l</span>
+              <span class="precio">$ 7.500</span>
+            </li>
+            <li class="variante">
+              <span>Menta y jengibre 500 ml</span>
+              <span class="precio">$ 4.500</span>
+            </li>
+            <li class="variante">
+              <span>Menta y jengibre 1 l</span>
+              <span class="precio">$ 8.000</span>
+            </li></ul>
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Jugo de naranja</span>
+            <span class="precio">$ 4.500</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Licuado de frutas</span>
+            <span class="precio">$ 6.000</span>
+          </div>
+          
+          
+          
+        </li></ul>
+    </section>
+    <section class="cat">
+      <header class="cat__head">
+        <h2>Bakery</h2>
+        <label class="tilde">
+          <input type="checkbox" data-cat="bakery" />
+          <span>revisada</span>
+        </label>
+      </header>
+      
+      <ul class="platos">
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Medialuna de manteca</span>
+            <span class="precio">$ 2.500</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Medialuna de jamón y queso</span>
+            <span class="precio">$ 4.200</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Tortillas</span>
+            <span class="precio">$ 2.500</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Croissant</span>
+            <span class="precio">$ 5.000</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Roll de canela</span>
+            <span class="precio">$ 8.500</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Budín de limón</span>
+            <span class="precio">$ 5.500</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Budín de chocolate</span>
+            <span class="precio">$ 5.500</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Budín de zanahoria</span>
+            <span class="precio">$ 5.500</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Budín de frutos rojos</span>
+            <span class="precio">$ 5.500</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato plato--dudoso">
+          <div class="plato__linea">
+            <span class="plato__nombre">Porción de torta<span class="marca">a confirmar</span></span>
+            <span class="precio">$ 5.500</span>
+          </div>
+          <p class="plato__desc">Consultar variedad del día.</p>
+          <p class="plato__desc"><em>Precio provisorio confirmado por el usuario. No se pudo leer con certeza en la foto: revisar contra la carta cuando se pueda.</em></p>
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Alfajor de maicena</span>
+            <span class="precio">$ 3.500</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Alfajor de chocolate</span>
+            <span class="precio">$ 3.500</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Alfajor de nuez y dulce de leche</span>
+            <span class="precio">$ 3.500</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Tiramisú</span>
+            <span class="precio">$ 10.000</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Mousse de chocolate</span>
+            <span class="precio">$ 10.000</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Cheesecake</span>
+            <span class="precio">$ 10.000</span>
+          </div>
+          <p class="plato__desc">De dulce de leche o frutos rojos.</p>
+          
+          
+        </li></ul>
+    </section>
+    <section class="cat">
+      <header class="cat__head">
+        <h2>Bodega Álamos</h2>
+        <label class="tilde">
+          <input type="checkbox" data-cat="vinos-alamos" />
+          <span>revisada</span>
+        </label>
+      </header>
+      <p class="cat__nota">Precios a consultar.</p>
+      <ul class="platos">
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Malbec</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Cabernet</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Malbec maceración atenuada</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Moscatel Alejandría</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Dulce Natural</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Álamos Extra Brut</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li></ul>
+    </section>
+    <section class="cat">
+      <header class="cat__head">
+        <h2>Bodega Aleanna</h2>
+        <label class="tilde">
+          <input type="checkbox" data-cat="vinos-aleanna" />
+          <span>revisada</span>
+        </label>
+      </header>
+      <p class="cat__nota">Precios a consultar.</p>
+      <ul class="platos">
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">El Enemigo Malbec</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">El Enemigo Cabernet Franc</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">El Gran Enemigo Corte</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li></ul>
+    </section>
+    <section class="cat">
+      <header class="cat__head">
+        <h2>Bodega La Rural</h2>
+        <label class="tilde">
+          <input type="checkbox" data-cat="vinos-la-rural" />
+          <span>revisada</span>
+        </label>
+      </header>
+      <p class="cat__nota">Precios a consultar.</p>
+      <ul class="platos">
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">San Felipe Roble Malbec</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">San Felipe Roble Chardonnay</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">San Felipe Dulce Tardío</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li></ul>
+    </section>
+    <section class="cat">
+      <header class="cat__head">
+        <h2>Bodega Catena Zapata</h2>
+        <label class="tilde">
+          <input type="checkbox" data-cat="vinos-catena" />
+          <span>revisada</span>
+        </label>
+      </header>
+      <p class="cat__nota">Precios a consultar.</p>
+      <ul class="platos">
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Nicasia Red Blend</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Nicasia Blanc de Blancs</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">DV Catena Cabernet – Malbec</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">DV Catena Malbec – Malbec</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">DV Catena Chardonnay – Chardonnay</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Saint Felicien Malbec</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Saint Felicien Chardonnay (elab. en roble)</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Saint Felicien Cabernet Franc</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Saint Felicien Nature (espumante)</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Angélica Zapata Cabernet Alta</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Angélica Zapata Cabernet Franc Alta</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li></ul>
+    </section>
+    <section class="cat">
+      <header class="cat__head">
+        <h2>Bodega Rutini Wines</h2>
+        <label class="tilde">
+          <input type="checkbox" data-cat="vinos-rutini" />
+          <span>revisada</span>
+        </label>
+      </header>
+      <p class="cat__nota">Precios a consultar.</p>
+      <ul class="platos">
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Trumpeter Malbec</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Trumpeter Cabernet Sauvignon</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Trumpeter Sauvignon Blanc</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Trumpeter Chardonnay</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Trumpeter Brut Nature (espumante)</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Colección Rutini Cabernet Sauvignon – Malbec</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Colección Rutini Cabernet – Franc</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Colección Rutini Sauvignon Blanc</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Colección Rutini Extra Brut (espumante)</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li></ul>
+    </section>
+    <section class="cat">
+      <header class="cat__head">
+        <h2>Bodega Salentein</h2>
+        <label class="tilde">
+          <input type="checkbox" data-cat="vinos-salentein" />
+          <span>revisada</span>
+        </label>
+      </header>
+      <p class="cat__nota">Precios a consultar.</p>
+      <ul class="platos">
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Reserva Malbec</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Reserva Cabernet Sauvignon</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Numina Cabernet – Franc</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Numina Malbec</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Salentein Brut Rosé (espumante)</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Salentein Extra Brut (espumante)</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li></ul>
+    </section>
+    <section class="cat">
+      <header class="cat__head">
+        <h2>Cocktails</h2>
+        <label class="tilde">
+          <input type="checkbox" data-cat="cocktails" />
+          <span>revisada</span>
+        </label>
+      </header>
+      <p class="cat__nota">Carta de cócteles realizada en conjunto con Nicolás Argañaraz de Raíz Coctelería. Precios a consultar.</p>
+      <ul class="platos">
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Aperol Spritz</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Aperol Tonic</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Aperol Orange</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Campari Spritz</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Campari Tonic</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Campari Orange</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Negroni</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Campari, gin y vermut rosso.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Negroni Sbagliatto</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Vermut rosso, campari y prosecco.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Gin Tonic Bulldog</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Gin Tonic Blu</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Gin Tonic Gordons</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Vermouth Carpano con soda</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Vermouth Carpano con pomelo</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Cynar Julep</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Cynar, menta y jugo de pomelo.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Mojito</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Cuba Libre</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Fernet Branca</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li></ul>
+    </section>
+
+  <p class="pie">
+    Generado desde <code>scripts/truman-carta.json</code>. Los precios se importan sin publicar:
+    el menú se publica desde el Studio recién después de esta revisión.
+  </p>
+</div>
+
+<script>
+  // Las marcas de "revisada" son una comodidad local de quien revisa: viven solo
+  // en su navegador y no viajan a ningun lado.
+  (function () {
+    var CLAVE = 'truman-carta-revisada';
+    var estado = {};
+    try {
+      estado = JSON.parse(localStorage.getItem(CLAVE) || '{}');
+    } catch (e) {
+      estado = {};
+    }
+
+    var cajas = document.querySelectorAll('input[data-cat]');
+    for (var i = 0; i < cajas.length; i++) {
+      (function (caja) {
+        var id = caja.getAttribute('data-cat');
+        caja.checked = Boolean(estado[id]);
+        caja.addEventListener('change', function () {
+          estado[id] = caja.checked;
+          try {
+            localStorage.setItem(CLAVE, JSON.stringify(estado));
+          } catch (e) {
+            /* modo privado o almacenamiento bloqueado: se pierde al recargar */
+          }
+        });
+      })(cajas[i]);
+    }
+  })();
+</script>

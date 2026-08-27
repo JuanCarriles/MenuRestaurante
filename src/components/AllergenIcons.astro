@@ -1,0 +1,42 @@
+---
+import Icon from './Icon.astro';
+import { hayIcono } from '~/lib/icons';
+
+export interface Props {
+  tags?: string[];
+}
+
+const tags = Astro.props.tags ?? [];
+
+/**
+ * Nombre que anuncian los lectores de pantalla. Antes esto era un atributo
+ * `title`, que se anuncia de forma inconsistente y no aparece en tactil.
+ *
+ * La lista de iconos disponibles ya no vive aca: es lo que haya en src/icons/.
+ * Esto solo pone el nombre legible de los que conocemos.
+ */
+const ETIQUETAS: Record<string, string> = {
+  vegetariano: 'Vegetariano',
+  vegano: 'Vegano',
+  'sin-tacc': 'Sin TACC',
+  picante: 'Picante',
+  'sin-lactosa': 'Sin lactosa',
+};
+
+const presentes = tags
+  .map((t) => t.toLowerCase().trim())
+  .filter((t) => hayIcono(t))
+  .slice(0, 5);
+---
+
+{
+  presentes.length > 0 && (
+    <ul class="allergen-list" aria-label="Alérgenos y preferencias">
+      {presentes.map((tag) => (
+        <li>
+          <Icon name={tag} class="allergen-icon" label={ETIQUETAS[tag] ?? tag} />
+        </li>
+      ))}
+    </ul>
+  )
+}

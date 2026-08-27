@@ -85,7 +85,17 @@ export const restaurant = defineType({
       group: 'menu',
     }),
 
-    defineField({ name: 'theme', title: 'Estetica', type: 'theme', group: 'estetica' }),
+    // El producto paso a front-ends a medida por restaurante, asi que el tema
+    // ya no afecta nada. Se oculta en vez de borrarse: un control que no hace
+    // nada confunde mas que su ausencia, pero los datos guardados no se tocan
+    // por si se retoma la linea de plataforma.
+    defineField({
+      name: 'theme',
+      title: 'Estetica',
+      type: 'theme',
+      group: 'estetica',
+      hidden: true,
+    }),
 
     defineField({
       name: 'contact',
@@ -104,7 +114,15 @@ export const restaurant = defineType({
         defineField({
           name: 'instagram',
           title: 'Instagram',
-          description: 'Solo el usuario, sin @.',
+          description:
+            'El usuario (sin @) o el link completo al perfil. Si lo cargás, aparece al pie del menú.',
+          type: 'string',
+        }),
+        defineField({
+          name: 'facebook',
+          title: 'Facebook',
+          description:
+            'El link completo a la página. Si lo cargás, aparece al pie del menú.',
           type: 'string',
         }),
         defineField({ name: 'address', title: 'Direccion', type: 'string' }),

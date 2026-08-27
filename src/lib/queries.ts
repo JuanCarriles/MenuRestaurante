@@ -100,7 +100,8 @@ export interface DishData {
   _id: string;
   name: string;
   description?: string;
-  price: number;
+  /** Opcional: la carta de vinos y la de cocteles no llevan precio impreso. */
+  price?: number;
   variants?: { label: string; price: number }[];
   tags?: string[];
   available?: boolean;
@@ -137,7 +138,10 @@ export interface RestaurantData {
   contact?: {
     whatsapp?: string;
     phone?: string;
+    /** Usuario o link completo. Resolver con `instagramUrl()` de ~/lib/social. */
     instagram?: string;
+    /** Usuario o link completo. Resolver con `facebookUrl()` de ~/lib/social. */
+    facebook?: string;
     address?: string;
     mapsUrl?: string;
   };

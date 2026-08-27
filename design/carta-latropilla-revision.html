@@ -1,0 +1,1719 @@
+<title>Carta La Tropilla</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Parisienne&display=swap"
+/>
+
+<style>
+  /* Una sola paleta: la del propio local. La carta de un restaurante es una
+     hoja de papel, no cambia con el tema del sistema. Los tonos de aviso son
+     chrome de esta herramienta, no del local. */
+  :root {
+    --ground: #FFFFFF;
+    --ink: #111111;
+    --muted: #5A5A5A;
+    --line: #DCDCDC;
+    --acento: #111111;
+    --flag: #a33a2a;
+    --flag-bg: #fbf1ee;
+  }
+
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: "Jost", "Century Gothic", system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  .envoltorio {
+    max-width: 46rem;
+    margin: 0 auto;
+    padding: 2.5rem 1.25rem 5rem;
+  }
+
+  .titulo {
+    font-family: "Parisienne", "Apple Chancery", cursive;
+    font-weight: 600;
+    font-size: clamp(1.9rem, 5vw, 2.6rem);
+    line-height: 1.1;
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  .bajada {
+    color: var(--muted);
+    margin: 0.6rem 0 0;
+    max-width: 34rem;
+  }
+
+  .resumen {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.75rem;
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--line);
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+  .resumen b {
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+  }
+
+  .aviso {
+    margin-top: 1.75rem;
+    padding: 1rem 1.15rem;
+    background: var(--flag-bg);
+    border-left: 3px solid var(--flag);
+    border-radius: 2px;
+  }
+  .aviso h3 {
+    margin: 0 0 0.4rem;
+    font-size: 0.8125rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--flag);
+  }
+  .aviso p {
+    margin: 0 0 0.5rem;
+    font-size: 0.9375rem;
+  }
+  .aviso p:last-child {
+    margin-bottom: 0;
+  }
+
+  .cat {
+    margin-top: 3rem;
+  }
+  .cat__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    border-bottom: 1px dotted var(--acento);
+    padding-bottom: 0.5rem;
+  }
+  .cat__head h2 {
+    font-family: "Parisienne", "Apple Chancery", cursive;
+    font-weight: 600;
+    font-size: 2.5rem;
+    letter-spacing: 0em;
+    text-transform: none;
+    line-height: 1.3;
+    color: var(--acento);
+    margin: 0;
+  }
+  .cat__nota {
+    margin: 0.75rem 0 0;
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+
+  .tilde {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8125rem;
+    color: var(--muted);
+    cursor: pointer;
+    white-space: nowrap;
+    min-height: 44px;
+  }
+  .tilde input {
+    width: 1.05rem;
+    height: 1.05rem;
+    accent-color: var(--acento);
+    cursor: pointer;
+  }
+  .tilde input:focus-visible {
+    outline: 2px solid var(--acento);
+    outline-offset: 2px;
+  }
+
+  .platos {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+    padding-top: 1.15rem;
+  }
+
+  .plato--dudoso {
+    background: var(--flag-bg);
+    margin-inline: -0.6rem;
+    padding: 0.6rem;
+    border-radius: 3px;
+  }
+
+  .plato__linea {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+  }
+  .plato__nombre {
+    flex: 1;
+    min-width: 0;
+    font-weight: 500;
+  }
+  .plato__desc {
+    margin: 0.15rem 0 0;
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+
+  .precio {
+    flex-shrink: 0;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    color: var(--acento);
+  }
+  .precio--vacio {
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  .variantes {
+    list-style: none;
+    margin: 0.5rem 0 0;
+    padding: 0 0 0 1rem;
+    border-left: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+  .variante {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    font-size: 0.9375rem;
+  }
+  .variante span:first-child {
+    flex: 1;
+    min-width: 0;
+    color: var(--muted);
+  }
+
+  .marca {
+    display: inline-block;
+    margin-left: 0.5rem;
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--flag);
+    border: 1px solid currentColor;
+    border-radius: 999px;
+    padding: 0.1rem 0.45rem;
+    vertical-align: 0.1em;
+  }
+
+  .pie {
+    margin-top: 3.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--line);
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+</style>
+
+<div class="envoltorio">
+  <h1 class="titulo">La Tropilla</h1>
+  <p class="bajada">
+    Transcripción de las fotos de la carta física, tal cual va a entrar a Sanity.
+    Revisala contra la carta y marcá cada sección; lo que no coincida, decímelo y lo corrijo.
+  </p>
+
+  <div class="resumen">
+    <span><b>18</b> categorías</span>
+    <span><b>135</b> platos</span>
+    <span><b>0</b> variantes</span>
+    <span><b>135</b> sin precio</span>
+    <span><b>0</b> a confirmar</span>
+  </div>
+
+  <div class="aviso">
+    <h3>Para confirmar</h3>
+    <p>
+      Esto es lo que va a entrar a Sanity, transcrito de las fotos de la carta.
+      Los ítems que dicen <strong>sin precio</strong> (135 de
+      135) se van a mostrar solo con el nombre, como en la carta impresa.
+    </p>
+    
+  </div>
+
+  <section class="cat">
+    <header class="cat__head">
+      <h2>Datos del local</h2>
+      <label class="tilde">
+        <input type="checkbox" data-cat="__datos" />
+        <span>revisada</span>
+      </label>
+    </header>
+    <ul class="platos">
+      <li class="plato"><div class="plato__linea"><span class="plato__nombre">Nombre</span><span class="precio">La Tropilla</span></div></li>
+      <li class="plato"><div class="plato__linea"><span class="plato__nombre">Bajada</span><span class="precio">Parrilla</span></div></li>
+      <li class="plato"><div class="plato__linea"><span class="plato__nombre">Instagram</span><span class="precio">@—</span></div></li>
+      
+      <li class="plato plato--dudoso"><div class="plato__linea"><span class="plato__nombre">Dirección<span class="marca">falta</span></span><span class="precio precio--vacio">sin cargar</span></div></li>
+    </ul>
+  </section>
+
+  
+    <section class="cat">
+      <header class="cat__head">
+        <h2>Entradas</h2>
+        <label class="tilde">
+          <input type="checkbox" data-cat="entradas" />
+          <span>revisada</span>
+        </label>
+      </header>
+      
+      <ul class="platos">
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Tablita de chinchulines</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Acompañada con papas fritas.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Tablita de mollejas</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Acompañada con papas fritas.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Tablita de riñón a la provenzal</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Acompañada con papas fritas.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Chorizo (2 parrilleros)</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Acompañados con papas fritas.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Morcilla</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Acompañada con papas fritas.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Rabas</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Provoleta</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li></ul>
+    </section>
+    <section class="cat">
+      <header class="cat__head">
+        <h2>Empanadas</h2>
+        <label class="tilde">
+          <input type="checkbox" data-cat="empanadas" />
+          <span>revisada</span>
+        </label>
+      </header>
+      
+      <ul class="platos">
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Carne</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Carne picante</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Pollo</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Mondongo</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Sfija</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Jamón y queso</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Ternera y queso</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Queso</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Cebolla y queso</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Cuatro quesos</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Humita</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li></ul>
+    </section>
+    <section class="cat">
+      <header class="cat__head">
+        <h2>Infantil</h2>
+        <label class="tilde">
+          <input type="checkbox" data-cat="infantil" />
+          <span>revisada</span>
+        </label>
+      </header>
+      
+      <ul class="platos">
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Hamburguesa con papas</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Nuggets de pollo con papas</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li></ul>
+    </section>
+    <section class="cat">
+      <header class="cat__head">
+        <h2>Carnes a las brasas</h2>
+        <label class="tilde">
+          <input type="checkbox" data-cat="carnes" />
+          <span>revisada</span>
+        </label>
+      </header>
+      <p class="cat__nota">Incluyen guarnición a elección: papas fritas, puré de papas, arroz, ensalada rusa o mixta.</p>
+      <ul class="platos">
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Promo parrillada</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Tira de asado, bondiola, chinchulín, molleja, riñón, chorizo y morcilla.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Tira de asado</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Entraña fina</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Bife de chorizo</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Picana</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Vacío de novillo</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Matambrito de cerdo</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Bondiola de cerdo</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li></ul>
+    </section>
+    <section class="cat">
+      <header class="cat__head">
+        <h2>Guarniciones</h2>
+        <label class="tilde">
+          <input type="checkbox" data-cat="guarniciones" />
+          <span>revisada</span>
+        </label>
+      </header>
+      
+      <ul class="platos">
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Ensalada de rúcula, parmesano y nuez</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Ensalada rusa</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Ensalada mixta</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Papas fritas</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Papas gratinadas</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Puré de papas</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Puré mixto (zapallo al horno y papas)</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Arroz</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li></ul>
+    </section>
+    <section class="cat">
+      <header class="cat__head">
+        <h2>Pastas caseras</h2>
+        <label class="tilde">
+          <input type="checkbox" data-cat="pastas" />
+          <span>revisada</span>
+        </label>
+      </header>
+      <p class="cat__nota">Todas incluyen salsa clásica a elección.</p>
+      <ul class="platos">
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Sorrentinos de jamón y queso</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Sorrentinos de espinaca y ricota</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Sorrentinos de ternera y queso</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Sorrentinos de calabaza</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Fettuccine</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Espinaca o morrón.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Spaghetti</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Espinaca o morrón. Opcional sin TACC.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Ñoquis</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Canelones</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Malfatti</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li></ul>
+    </section>
+    <section class="cat">
+      <header class="cat__head">
+        <h2>Salsas clásicas</h2>
+        <label class="tilde">
+          <input type="checkbox" data-cat="salsas-clasicas" />
+          <span>revisada</span>
+        </label>
+      </header>
+      <p class="cat__nota">Incluidas en todas las pastas.</p>
+      <ul class="platos">
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Fileto</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Salsa de tomate, cebolla, ajo, oliva, sal y pimienta.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Blanca</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Salsa a base de leche, maicena, manteca y pimienta negra.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Mixta</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Combinación de salsa roja y blanca.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Boloñesa</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Salsa de tomate, cebolla, ajo, zanahoria y carne molida.</p>
+          
+          
+        </li></ul>
+    </section>
+    <section class="cat">
+      <header class="cat__head">
+        <h2>Salsas para acompañar</h2>
+        <label class="tilde">
+          <input type="checkbox" data-cat="salsas-acompanar" />
+          <span>revisada</span>
+        </label>
+      </header>
+      <p class="cat__nota">Para pastas y carnes.</p>
+      <ul class="platos">
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Fileto con pollo</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Salsa de tomate con pollo.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Fileto con carne</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Salsa de tomate con carne.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Margarita</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Cherrys, ajo, albahaca, crema de leche y vino chardonnay.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Entraña</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Entraña, morrones, ajo, crema de leche y vino chardonnay.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Hongos del bosque</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Ajo, pimienta negra, manteca, hongos, vino chardonnay, crema de leche, aceite de oliva y queso parmesano.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Alla puttanesca</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Salsa de tomate, albahaca, olivas negras, alcaparras, anchoas, ají molido, aceite de oliva y ajo.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Cuatro quesos</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Crema de leche, vino chardonnay, muzzarella, roquefort, cremoso y parmesano.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Parisienne</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Salsa blanca, pollo y jamón.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Verdeo</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Crema de leche, leche y cebolla de verdeo.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Provenzal</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Ajo y perejil.</p>
+          
+          
+        </li></ul>
+    </section>
+    <section class="cat">
+      <header class="cat__head">
+        <h2>Minutas</h2>
+        <label class="tilde">
+          <input type="checkbox" data-cat="minutas" />
+          <span>revisada</span>
+        </label>
+      </header>
+      <p class="cat__nota">Incluyen guarnición a elección: papas fritas, puré de papas, arroz, ensalada rusa o mixta.</p>
+      <ul class="platos">
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Bife de pollo a la plancha o a las brasas</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Milanesa al plato</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Milanesa napolitana</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Suprema al plato</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Suprema napolitana</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Matambre al verdeo</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Matambre a la pizza</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li></ul>
+    </section>
+    <section class="cat">
+      <header class="cat__head">
+        <h2>Pescados y mariscos</h2>
+        <label class="tilde">
+          <input type="checkbox" data-cat="pescados" />
+          <span>revisada</span>
+        </label>
+      </header>
+      
+      <ul class="platos">
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Paella</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Arroz sazonado, mariscos y pollo.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Merluza a la romana</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Merluza empanada con guarnición a elección.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Roll de merluza</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Con verduras, sazonado con limón, pimienta negra, salsa de mostaza y papas.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Merluza quattro formaggi</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Con salsa de cuatro quesos y pimienta negra, acompañada con puré.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Pacú para compartir</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Incluye guarnición a elección.</p>
+          
+          
+        </li></ul>
+    </section>
+    <section class="cat">
+      <header class="cat__head">
+        <h2>Gourmet</h2>
+        <label class="tilde">
+          <input type="checkbox" data-cat="gourmet" />
+          <span>revisada</span>
+        </label>
+      </header>
+      
+      <ul class="platos">
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Lomo salteado</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Lomo en cubos salteado con bacon, hongos portobello y morrón, sazonado con pimienta negra, crema de leche y vino blanco. Acompañado con puré y papas lengua.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Lomo Rossini</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Lomo cocinado con oliva, albahaca, bacon, olivas negras, tomate, crema de leche y vino chardonnay. Acompañado con papas españolas.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Bondiola a la miel</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Bondiola braseada con miel de caña, cerveza negra y jugo de naranja. Acompañada con puré.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Bondiola con frutos rojos</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Bondiola braseada con miel, mix de frutos rojos y cerveza roja. Acompañada con puré y papas lengua.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Bondiola dijón</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Bondiola grillada con salsa dijón. Acompañada con papas españolas.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Ballotine de pollo</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Filet de pollo relleno con jamón, queso, huevo y verduras. Acompañado con papas españolas.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Pollo a la cazadora</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Pollo a la plancha con hongos portobello salteados, bacon y crema de leche. Acompañado con puré.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Pollo salteado</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Pollo en cubos salteado con bacon, hongos portobello y morrón, sazonado con pimienta negra, crema de leche y vino blanco. Acompañado con puré y papas lengua.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Pollo al tomatato</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Pollo cocinado con oliva, ajo, tomate y olivas negras. Acompañado con papas.</p>
+          
+          
+        </li></ul>
+    </section>
+    <section class="cat">
+      <header class="cat__head">
+        <h2>Postres</h2>
+        <label class="tilde">
+          <input type="checkbox" data-cat="postres" />
+          <span>revisada</span>
+        </label>
+      </header>
+      
+      <ul class="platos">
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Tiramisú</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Chocotorta</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Helado</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Crocante, escocés o suizo.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Flan con dulce de leche</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Budín de pan con dulce de leche</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Brownie de chocolate y nueces</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Con frutos rojos y bocha de helado.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Panqueques de manzana</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Flambeados al ron, azúcar y bocha de helado.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Vigilante</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Dulce de batata con queso.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Regional con quesillo</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Dulce de cayote con nueces o higos en almíbar.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Postre del chef</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li></ul>
+    </section>
+    <section class="cat">
+      <header class="cat__head">
+        <h2>Bebidas</h2>
+        <label class="tilde">
+          <input type="checkbox" data-cat="bebidas" />
+          <span>revisada</span>
+        </label>
+      </header>
+      
+      <ul class="platos">
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Jarra de limonada</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Jarra de limonada con menta y jengibre</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Gaseosa línea Coca Cola 350 cc</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Agua con o sin gas</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Agua saborizada</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li></ul>
+    </section>
+    <section class="cat">
+      <header class="cat__head">
+        <h2>Cervezas</h2>
+        <label class="tilde">
+          <input type="checkbox" data-cat="cervezas" />
+          <span>revisada</span>
+        </label>
+      </header>
+      
+      <ul class="platos">
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Imperial 1 litro</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Lager, IPA o roja.</p>
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Heineken 1 litro</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Miller 1 litro</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Salta Negra 1 litro</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Heineken 473 cc</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Chopp Pampa</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          <p class="plato__desc">Artesanal. IPA, amber, honey o dorada.</p>
+          
+          
+        </li></ul>
+    </section>
+    <section class="cat">
+      <header class="cat__head">
+        <h2>Vinos tintos</h2>
+        <label class="tilde">
+          <input type="checkbox" data-cat="vinos-tintos" />
+          <span>revisada</span>
+        </label>
+      </header>
+      <p class="cat__nota">Botella 3/4.</p>
+      <ul class="platos">
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">DV Catena Zapata Malbec</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">DV Catena Zapata Cabernet / Malbec</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Rutini Malbec Reserva</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Rutini Cabernet / Malbec</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Luigi Bosca Malbec</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Trumpeter Malbec</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Nicasia Red Blend Malbec</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Saint Felicien Malbec</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Trapiche Malbec Reserva</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">La Celia Malbec Reserva</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">La Celia Cabernet Reserva</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">La Celia Pioneer Malbec</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Las Perdices Malbec Reserva</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Las Perdices Malbec</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Cordero con Piel de Lobo Malbec</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li></ul>
+    </section>
+    <section class="cat">
+      <header class="cat__head">
+        <h2>Vinos blancos</h2>
+        <label class="tilde">
+          <input type="checkbox" data-cat="vinos-blancos" />
+          <span>revisada</span>
+        </label>
+      </header>
+      <p class="cat__nota">Botella 3/4.</p>
+      <ul class="platos">
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Luigi Bosca Chardonnay</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Rutini Chardonnay</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Saint Felicien Chardonnay</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Trumpeter Chardonnay</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Nicasia Blanc de Blancs</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">La Celia Pinot Reserva</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">La Celia Rosé Reserva</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Las Perdices Torrontés</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Las Perdices Torrontés Dulce</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Cordero con Piel de Lobo Dulce</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li></ul>
+    </section>
+    <section class="cat">
+      <header class="cat__head">
+        <h2>Vinos espumantes</h2>
+        <label class="tilde">
+          <input type="checkbox" data-cat="vinos-espumantes" />
+          <span>revisada</span>
+        </label>
+      </header>
+      <p class="cat__nota">Botella 3/4.</p>
+      <ul class="platos">
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Nieto Senetiner Brut Rosé</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Nieto Senetiner Extra Brut</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Norton Cosecha Especial Brut Nature</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Norton Cosecha Especial Brut Rosé</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Chandon Extra Brut</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li></ul>
+    </section>
+    <section class="cat">
+      <header class="cat__head">
+        <h2>Vinos de la casa</h2>
+        <label class="tilde">
+          <input type="checkbox" data-cat="vinos-casa" />
+          <span>revisada</span>
+        </label>
+      </header>
+      
+      <ul class="platos">
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Pingüino 800 cc</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Pingüino 350 cc</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Copa de vino tinto</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li>
+        <li class="plato">
+          <div class="plato__linea">
+            <span class="plato__nombre">Copa de vino blanco</span>
+            <span class="precio precio--vacio">sin precio</span>
+          </div>
+          
+          
+          
+        </li></ul>
+    </section>
+
+  <p class="pie">
+    Generado desde <code>scripts/latropilla-carta.json</code>. Los precios se importan sin publicar:
+    el menú se publica desde el Studio recién después de esta revisión.
+  </p>
+</div>
+
+<script>
+  // Las marcas de "revisada" son una comodidad local de quien revisa: viven solo
+  // en su navegador y no viajan a ningun lado.
+  (function () {
+    var CLAVE = 'latropilla-carta-revisada';
+    var estado = {};
+    try {
+      estado = JSON.parse(localStorage.getItem(CLAVE) || '{}');
+    } catch (e) {
+      estado = {};
+    }
+
+    var cajas = document.querySelectorAll('input[data-cat]');
+    for (var i = 0; i < cajas.length; i++) {
+      (function (caja) {
+        var id = caja.getAttribute('data-cat');
+        caja.checked = Boolean(estado[id]);
+        caja.addEventListener('change', function () {
+          estado[id] = caja.checked;
+          try {
+            localStorage.setItem(CLAVE, JSON.stringify(estado));
+          } catch (e) {
+            /* modo privado o almacenamiento bloqueado: se pierde al recargar */
+          }
+        });
+      })(cajas[i]);
+    }
+  })();
+</script>
