@@ -262,6 +262,12 @@ Cosas que costaron y conviene no volver a tropezar:
   `null` en vez de desaparecer, y el array queda lleno de nulls que revientan
   cualquier `.map` del componente. Este bug tumbo la pagina la primera vez que
   se cargo contenido real.
+- **Un `_id` de Sanity con PUNTOS es privado.** El punto crea una ruta (como
+  `drafts.x`) y los documentos bajo una ruta no se leen de forma anonima, ni
+  siquiera en un dataset publico. Con ids `truman.cat.desayunos` el Studio
+  mostraba la carta completa y el menu del QR —que consulta sin token— la
+  recibia VACIA. Se usan guiones: `truman-cat-desayunos`.
+  Corolario: verificar SIEMPRE sin token, que es como consulta el sitio.
 - **`defined(@->_id)` no es opcional.** Con `perspective: 'published'`, una
   referencia a un documento en borrador dereferencia a `null`. Y el dueño va a
   crear platos sin publicarlos: es el flujo por defecto del Studio.

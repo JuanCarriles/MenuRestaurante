@@ -22,8 +22,10 @@ export const dish = defineType({
     defineField({
       name: 'price',
       title: 'Precio',
+      description:
+        'Se puede dejar vacio: hay secciones que no llevan precio en la carta, como los vinos.',
       type: 'number',
-      validation: (rule) => rule.required().positive(),
+      validation: (rule) => rule.positive(),
     }),
     defineField({
       name: 'variants',

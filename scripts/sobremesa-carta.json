@@ -1,0 +1,390 @@
+{
+  "_aviso": "Fuente de verdad del import. Editar ESTE archivo, no el codigo.",
+  "_transcripcion": "Carta INVENTADA para el menu demo que se le muestra a prospectos. Ejercita a proposito todas las capacidades del sistema: promocion con descuento, variantes, etiquetas de alergenos, aviso del dia y un plato sin precio.",
+  "revisado": true,
+  "restaurante": {
+    "name": "Sobremesa",
+    "tagline": "Cocina de estación",
+    "currency": "ARS",
+    "notice": "Cocina abierta hasta las 00:30",
+    "contact": {
+      "address": "Av. Aristóbulo del Valle 1420",
+      "whatsapp": "5493815550100",
+      "instagram": "sobremesa.cocina",
+      "facebook": "https://www.facebook.com/sobremesa.cocina"
+    },
+    "hours": [
+      {
+        "days": "Martes a jueves",
+        "hours": "19:30 a 00:30"
+      },
+      {
+        "days": "Viernes y sábados",
+        "hours": "19:30 a 01:30"
+      }
+    ]
+  },
+  "promociones": [
+    {
+      "clave": "menu-casa",
+      "name": "Menú de la casa",
+      "description": "Una entrada, un principal y una copa de vino, de martes a jueves.",
+      "price": 32000,
+      "compareAtPrice": 41000
+    }
+  ],
+  "categorias": [
+    {
+      "clave": "compartir",
+      "title": "Para compartir",
+      "platos": [
+        {
+          "clave": "provoleta",
+          "name": "Provoleta al romero",
+          "description": "Con tomates confitados y aceite de oliva.",
+          "tags": [
+            "vegetariano",
+            "sin-tacc"
+          ],
+          "price": 9800
+        },
+        {
+          "clave": "croquetas",
+          "name": "Croquetas de osobuco",
+          "description": "Con alioli de ajo asado.",
+          "price": 11500
+        },
+        {
+          "clave": "burrata",
+          "name": "Burrata con higos",
+          "description": "Rúcula, almendras tostadas y reducción de aceto.",
+          "tags": [
+            "vegetariano",
+            "sin-tacc"
+          ],
+          "price": 14200
+        },
+        {
+          "clave": "pan-masa-madre",
+          "name": "Pan de masa madre",
+          "description": "Con manteca de hierbas.",
+          "tags": [
+            "vegetariano"
+          ],
+          "price": 4800
+        },
+        {
+          "clave": "tabla",
+          "name": "Tabla de fiambres y quesos",
+          "description": "Selección del día, con encurtidos caseros.",
+          "price": 18500,
+          "variants": [
+            {
+              "label": "Para dos",
+              "price": 18500
+            },
+            {
+              "label": "Para cuatro",
+              "price": 32000
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "clave": "principales",
+      "title": "Principales",
+      "platos": [
+        {
+          "clave": "bife",
+          "name": "Bife de chorizo",
+          "description": "Papas confitadas al romero y chimichurri de la casa.",
+          "tags": [
+            "sin-tacc"
+          ],
+          "price": 26500
+        },
+        {
+          "clave": "cordero",
+          "name": "Cordero braseado",
+          "description": "Ocho horas al horno, con puré de zapallo.",
+          "tags": [
+            "sin-tacc"
+          ],
+          "price": 29800
+        },
+        {
+          "clave": "pesca",
+          "name": "Pesca del día",
+          "description": "Consultá con el salón. Con vegetales grillados.",
+          "tags": [
+            "sin-tacc"
+          ]
+        },
+        {
+          "clave": "risotto",
+          "name": "Risotto de hongos",
+          "description": "Portobello, parmesano y aceite de trufa.",
+          "tags": [
+            "vegetariano",
+            "sin-tacc"
+          ],
+          "price": 21500
+        },
+        {
+          "clave": "mollejas",
+          "name": "Mollejas al verdeo",
+          "description": "Con puré de papas ahumado.",
+          "tags": [
+            "sin-tacc"
+          ],
+          "price": 23500
+        },
+        {
+          "clave": "milanesa",
+          "name": "Milanesa napolitana",
+          "description": "Con papas rústicas.",
+          "price": 19500,
+          "variants": [
+            {
+              "label": "Individual",
+              "price": 19500
+            },
+            {
+              "label": "Para compartir",
+              "price": 31000
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "clave": "pastas",
+      "title": "Pastas",
+      "description": "Todas se pueden pedir con salsa a elección.",
+      "platos": [
+        {
+          "clave": "sorrentinos",
+          "name": "Sorrentinos de calabaza",
+          "description": "Manteca de salvia y nueces.",
+          "tags": [
+            "vegetariano"
+          ],
+          "price": 19800
+        },
+        {
+          "clave": "ravioles",
+          "name": "Ravioles de osobuco",
+          "description": "Salsa de tomate lento y albahaca.",
+          "price": 21500
+        },
+        {
+          "clave": "fettuccine",
+          "name": "Fettuccine al limón",
+          "description": "Crema de limón, alcaparras y perejil.",
+          "tags": [
+            "vegetariano"
+          ],
+          "price": 18500
+        },
+        {
+          "clave": "noquis",
+          "name": "Ñoquis de papa",
+          "description": "Amasados el mismo día.",
+          "tags": [
+            "vegetariano"
+          ],
+          "price": 17500
+        }
+      ]
+    },
+    {
+      "clave": "huerta",
+      "title": "De la huerta",
+      "platos": [
+        {
+          "clave": "ensalada",
+          "name": "Ensalada de estación",
+          "description": "Hojas verdes, semillas y vinagreta de miel.",
+          "tags": [
+            "vegetariano",
+            "sin-tacc"
+          ],
+          "price": 12500
+        },
+        {
+          "clave": "zapallo",
+          "name": "Zapallo asado",
+          "description": "Con labneh, za’atar y granada.",
+          "tags": [
+            "vegetariano",
+            "sin-tacc"
+          ],
+          "price": 14800
+        },
+        {
+          "clave": "coliflor",
+          "name": "Coliflor entera",
+          "description": "Rostizada, con tahini y hierbas frescas.",
+          "tags": [
+            "vegetariano",
+            "sin-tacc"
+          ],
+          "price": 15500
+        }
+      ]
+    },
+    {
+      "clave": "postres",
+      "title": "Postres",
+      "platos": [
+        {
+          "clave": "flan",
+          "name": "Flan de dulce de leche",
+          "description": "Con crema batida.",
+          "tags": [
+            "vegetariano",
+            "sin-tacc"
+          ],
+          "price": 8500
+        },
+        {
+          "clave": "tarta-limon",
+          "name": "Tarta de limón",
+          "description": "Merengue quemado.",
+          "tags": [
+            "vegetariano"
+          ],
+          "price": 9200
+        },
+        {
+          "clave": "helado",
+          "name": "Helado artesanal",
+          "description": "Sabores del día.",
+          "tags": [
+            "vegetariano",
+            "sin-tacc"
+          ],
+          "price": 6500,
+          "variants": [
+            {
+              "label": "Dos bochas",
+              "price": 6500
+            },
+            {
+              "label": "Tres bochas",
+              "price": 8500
+            }
+          ]
+        },
+        {
+          "clave": "queso-dulce",
+          "name": "Queso y dulce",
+          "description": "Quesillo con cayote.",
+          "tags": [
+            "vegetariano",
+            "sin-tacc"
+          ],
+          "price": 7800
+        }
+      ]
+    },
+    {
+      "clave": "vinos",
+      "title": "Vinos por copa",
+      "platos": [
+        {
+          "clave": "malbec",
+          "name": "Malbec de altura",
+          "description": "Valle de Uco.",
+          "price": 7500
+        },
+        {
+          "clave": "cabernet-franc",
+          "name": "Cabernet franc",
+          "description": "Mendoza.",
+          "price": 8200
+        },
+        {
+          "clave": "chardonnay",
+          "name": "Chardonnay con barrica",
+          "description": "Valle de Uco.",
+          "price": 7800
+        },
+        {
+          "clave": "torrontes",
+          "name": "Torrontés",
+          "description": "Cafayate.",
+          "price": 6900
+        },
+        {
+          "clave": "espumante",
+          "name": "Espumante nature",
+          "description": "Método tradicional.",
+          "price": 9500
+        }
+      ]
+    },
+    {
+      "clave": "cocteles",
+      "title": "Cócteles",
+      "platos": [
+        {
+          "clave": "negroni",
+          "name": "Negroni de la casa",
+          "description": "Gin, vermut rosso y bitter, reposado en barrica.",
+          "price": 9800
+        },
+        {
+          "clave": "spritz",
+          "name": "Spritz de pomelo",
+          "description": "Aperitivo, prosecco y pomelo rosado.",
+          "price": 8900
+        },
+        {
+          "clave": "old-fashioned",
+          "name": "Old fashioned",
+          "description": "Bourbon, azúcar y bitter de naranja.",
+          "price": 10500
+        },
+        {
+          "clave": "gin-tonic",
+          "name": "Gin tonic botánico",
+          "description": "Con enebro, romero y lima.",
+          "price": 9200
+        }
+      ]
+    },
+    {
+      "clave": "cafeteria",
+      "title": "Cafetería",
+      "platos": [
+        {
+          "clave": "espresso",
+          "name": "Espresso",
+          "price": 3200
+        },
+        {
+          "clave": "cortado",
+          "name": "Cortado",
+          "price": 3600
+        },
+        {
+          "clave": "filtro",
+          "name": "Café de filtro",
+          "description": "Grano de origen, método V60.",
+          "price": 4800
+        },
+        {
+          "clave": "te",
+          "name": "Té de hierbas",
+          "description": "Selección de la casa.",
+          "tags": [
+            "vegetariano"
+          ],
+          "price": 3800
+        }
+      ]
+    }
+  ]
+}

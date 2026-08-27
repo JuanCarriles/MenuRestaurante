@@ -1,0 +1,44 @@
+---
+import { ICONOS } from '~/lib/icons';
+
+export interface Props {
+  /** Nombre del archivo en src/icons/, sin extensión. */
+  name: string;
+  class?: string;
+  /**
+   * Nombre accesible. Si se omite, el icono queda como decorativo y los
+   * lectores de pantalla lo ignoran — que es lo correcto cuando el texto de
+   * al lado ya dice lo mismo, o cuando el enlace que lo contiene tiene su
+   * propio aria-label.
+   */
+  label?: string;
+}
+
+const { name, class: clase, label } = Astro.props;
+const svg = ICONOS[name];
+---
+
+{/* Si el archivo no existe no se renderiza nada: nunca un recuadro roto. */}
+{
+  svg && (
+    <span
+      class:list={['icono', clase]}
+      role={label ? 'img' : undefined}
+      aria-label={label}
+      aria-hidden={label ? undefined : 'true'}
+      set:html={svg}
+    />
+  )
+}
+
+<style is:global>
+  .icono {
+    display: inline-flex;
+    line-height: 0;
+  }
+  .icono > svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+</style>

@@ -1,0 +1,805 @@
+{
+  "_aviso": "Fuente de verdad del import. Editar ESTE archivo, no el codigo.",
+  "_transcripcion": "Transcrito de las fotos de la carta fisica (paginas 01, 02 y 03). Los items con \"revisar\": true tienen el precio dudoso por la calidad de la foto y hay que confirmarlos contra la carta antes de poner preciosReales en true.",
+  "revisado": true,
+  "restaurante": {
+    "name": "Truman",
+    "tagline": "Bar & Kitchen",
+    "currency": "ARS",
+    "contact": {
+      "instagram": "trumanbarkitchen",
+      "address": "25 de Mayo esquina Corrientes"
+    },
+    "hours": [
+      {
+        "days": "Todos los días",
+        "hours": "07:00 a 01:00"
+      }
+    ]
+  },
+  "categorias": [
+    {
+      "clave": "desayunos",
+      "title": "Desayunos y meriendas",
+      "description": "Todos incluyen infusión. Las infusiones pueden ser sustituidas por: jugo de naranja, limonada o leche de almendras +$500; milkshakes o frappuccinos +$1.500; licuado de frutas, gaseosa o jugo DETOX +$800.",
+      "platos": [
+        {
+          "clave": "tradicional",
+          "name": "Tradicional",
+          "description": "Infusión con dos medialunas, dos tortillas, o una medialuna de jamón y queso, o una croissant.",
+          "price": 7500
+        },
+        {
+          "clave": "light",
+          "name": "Desayuno / merienda light",
+          "description": "Infusión más tostadas con semillas o pan de campo con queso untable y mermelada casera.",
+          "price": 8800
+        },
+        {
+          "clave": "proteico",
+          "name": "Desayuno proteico",
+          "description": "Huevos revueltos con panceta o lomito ahumado, palta, dip de queso crema y tostón de pan de campo.",
+          "price": 15500
+        },
+        {
+          "clave": "completo",
+          "name": "Desayuno completo",
+          "description": "Bagel con semillas, queso tybo, lomito ahumado o panceta, palta, huevos revueltos, queso crema y tomates confitados.",
+          "price": 18500
+        },
+        {
+          "clave": "brunch-dos",
+          "name": "Brunch para dos",
+          "description": "2 infusiones a elección, huevos revueltos con palta, jamón, queso, tostadas, una croissant o dos medialunas a elección y dos jugos de naranja medianos.",
+          "price": 22500
+        },
+        {
+          "clave": "avocado-toast",
+          "name": "Avocado toast",
+          "description": "Tostón de pan de campo con queso crema, palta y huevos revueltos o poché.",
+          "price": 14500
+        },
+        {
+          "clave": "pancakes",
+          "name": "Pancakes proteicos",
+          "description": "Panqueques con frutas de estación, miel y pasta de maní. Keto de vainilla a base de harina de almendras y coco (3 g de carbohidratos), o avena y 100% cacao (15 g de proteínas).",
+          "price": 14500
+        },
+        {
+          "clave": "parisino",
+          "name": "Parisino",
+          "description": "Infusión más una opción a elección.",
+          "price": 10000,
+          "variants": [
+            {
+              "label": "Croissant de jamón y queso",
+              "price": 10000
+            },
+            {
+              "label": "Roll de canela con frosting de cream cheese y pistachos molidos",
+              "price": 11000
+            },
+            {
+              "label": "Croissant de nutella",
+              "price": 13000
+            },
+            {
+              "label": "Croissant mediterránea de jamón crudo, rúcula, queso brie y tomates secos",
+              "price": 13500
+            }
+          ]
+        },
+        {
+          "clave": "yogurt-griego",
+          "name": "Yogurt griego",
+          "description": "Bowl de yogurt griego, granola, frutos de estación, miel y pasta de maní.",
+          "price": 14500
+        },
+        {
+          "clave": "croque-madame",
+          "name": "Croque madame",
+          "description": "Sándwich en pan brioche con base de salsa bechamel y mostaza, lomito ahumado, parmesano gratinado y huevo frito.",
+          "price": 15500
+        },
+        {
+          "clave": "french-toast",
+          "name": "French toast",
+          "description": "Tostadas de pan brioche selladas en manteca, con frutas de estación, miel y topping de crema.",
+          "price": 13500
+        },
+        {
+          "clave": "bagel-desayuno",
+          "name": "Bagel",
+          "description": "Incluye jugo de naranja mediano. Agregado de palta $2.500.",
+          "price": 11000,
+          "variants": [
+            {
+              "label": "Con mermelada casera y queso crema",
+              "price": 11000
+            },
+            {
+              "label": "Con huevos revueltos y queso crema",
+              "price": 12500
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "clave": "sandwiches",
+      "title": "Sándwiches y tostados",
+      "platos": [
+        {
+          "clave": "club",
+          "name": "Club sándwich",
+          "description": "En pan brioche con pollo, palta, lechuga, tomate, cheddar, jamón cocido, panceta y barbacoa.",
+          "price": 17500
+        },
+        {
+          "clave": "ciabatta-crudo",
+          "name": "Ciabatta de jamón crudo",
+          "description": "Queso brie, rúcula, tomates secos en conserva y pesto de albahaca.",
+          "price": 17500
+        },
+        {
+          "clave": "ciabatta-mortadela",
+          "name": "Ciabatta de mortadela",
+          "description": "Queso brie con reducción de aceto y miel, rúcula, pesto y pistachos molidos.",
+          "price": 16000
+        },
+        {
+          "clave": "bagel-salmon",
+          "name": "Bagel de salmón ahumado",
+          "description": "Salmón ahumado, palta, queso crema, cebolla morada, ciboulette y alcaparras.",
+          "price": 23500
+        },
+        {
+          "clave": "tostado-jyq",
+          "name": "Jamón y queso",
+          "description": "Tostado de jamón y queso. Con tomate +$300.",
+          "price": 12500
+        },
+        {
+          "clave": "tostado-ternera",
+          "name": "Ternera y queso",
+          "description": "Tostado de ternera y queso. Con tomate +$300.",
+          "price": 14500
+        },
+        {
+          "clave": "especial-ternera",
+          "name": "Especial de ternera",
+          "description": "Sándwich de miga con ternera, lechuga y tomate.",
+          "price": 14500
+        }
+      ]
+    },
+    {
+      "clave": "cafeteria-caliente",
+      "title": "Cafetería caliente",
+      "description": "Los marcados con *** los podés pedir en versión ICED. Personalizá tu bebida +$500: leche de almendras, syrup de caramelo, vainilla o pistacho, o topping de crema vegetal.",
+      "platos": [
+        {
+          "clave": "espresso",
+          "name": "Espresso",
+          "description": "En pocillo. Café chico con base de agua.",
+          "price": 3900
+        },
+        {
+          "clave": "espresso-italiano",
+          "name": "Espresso italiano",
+          "description": "En pocillo. Café corto.",
+          "price": 3900
+        },
+        {
+          "clave": "doppio",
+          "name": "Doppio",
+          "description": "En pocillo. Café chico intenso.",
+          "price": 3900
+        },
+        {
+          "clave": "macchiato",
+          "name": "Macchiato",
+          "description": "En pocillo. Café cortado chico.",
+          "price": 3900
+        },
+        {
+          "clave": "cortado",
+          "name": "Cortado",
+          "description": "En jarrita. Café más leche, equilibrada.",
+          "price": 4400
+        },
+        {
+          "clave": "lungo",
+          "name": "Lungo",
+          "description": "En jarrita. Café con base de agua.",
+          "price": 4400
+        },
+        {
+          "clave": "flat-white",
+          "name": "Flat white",
+          "description": "En taza mediana. Café con leche, intenso. Disponible ICED.",
+          "price": 5900
+        },
+        {
+          "clave": "americano",
+          "name": "Americano",
+          "description": "En taza mediana. Café intenso más base de agua.",
+          "price": 4400
+        },
+        {
+          "clave": "latte",
+          "name": "Latte",
+          "description": "En taza grande o tazón (+$300). Café con leche, suave. Disponible ICED.",
+          "price": 4600
+        },
+        {
+          "clave": "cappuccino",
+          "name": "Cappuccino",
+          "description": "En taza grande o tazón (+$300). Café con leche, cremoso. Disponible ICED.",
+          "price": 4600
+        },
+        {
+          "clave": "te-intizen",
+          "name": "Té Intizén",
+          "price": 3900
+        },
+        {
+          "clave": "te-clasico",
+          "name": "Té clásico",
+          "price": 3600
+        }
+      ]
+    },
+    {
+      "clave": "cafes-especiales",
+      "title": "Cafés especiales",
+      "platos": [
+        {
+          "clave": "toffe-latte",
+          "name": "Toffe latte",
+          "description": "Salsa toffe, leche y café. Topping: salsa de chocolate.",
+          "price": 4800
+        },
+        {
+          "clave": "latte-dubai",
+          "name": "Latte Dubái",
+          "description": "Syrup de pistacho, leche y café. Toppings: crema, salsa de chocolate y pistachos con salsa de caramelo.",
+          "price": 4800
+        },
+        {
+          "clave": "latte-brulee",
+          "name": "Latte brûlée",
+          "description": "Syrup de vainilla, leche y café. Topping: azúcar caramelizada.",
+          "price": 4800
+        },
+        {
+          "clave": "cafe-bombon",
+          "name": "Café bombón",
+          "description": "Leche condensada, leche y café.",
+          "price": 4800
+        },
+        {
+          "clave": "affogato",
+          "name": "Affogato",
+          "description": "Café, helado de americana, cacao o canela.",
+          "price": 5500
+        },
+        {
+          "clave": "nutelatte",
+          "name": "Nutelatte",
+          "description": "Nutella, leche y café.",
+          "price": 4800
+        },
+        {
+          "clave": "mocaccino",
+          "name": "Mocaccino",
+          "description": "Cacao, café y leche.",
+          "price": 4800
+        },
+        {
+          "clave": "matcha-latte",
+          "name": "Matcha latte",
+          "description": "Matcha, azúcar y leche.",
+          "price": 4800
+        },
+        {
+          "clave": "submarino",
+          "name": "Submarino",
+          "description": "Leche acompañada de barra de chocolate.",
+          "price": 4800
+        },
+        {
+          "clave": "chocolatada",
+          "name": "Chocolatada",
+          "description": "Cacao disuelto en leche, caliente o fría.",
+          "price": 4800
+        }
+      ]
+    },
+    {
+      "clave": "cafeteria-alcohol",
+      "title": "Cafetería con alcohol",
+      "platos": [
+        {
+          "clave": "calipso",
+          "name": "Calipso",
+          "description": "Tía María, café, crema y canela.",
+          "price": 5000
+        },
+        {
+          "clave": "irlandes",
+          "name": "Irlandés",
+          "description": "Whiskey, café, crema y cacao.",
+          "price": 5000
+        },
+        {
+          "clave": "bailey",
+          "name": "Bailey",
+          "description": "Baileys y café. Opcional: crema, chocolate o cacao.",
+          "price": 6000
+        },
+        {
+          "clave": "bombon-amaretto",
+          "name": "Bombón amaretto",
+          "description": "Amaretto, leche condensada, leche y café.",
+          "price": 5500
+        }
+      ]
+    },
+    {
+      "clave": "frappes",
+      "title": "Frappes",
+      "platos": [
+        {
+          "clave": "smoothie-proteico",
+          "name": "Smoothie proteico",
+          "description": "1 scoop de 25 g de proteína de vainilla, arándanos, chía hidratada, dátiles de Egipto, yogurt griego y un toque de canela.",
+          "price": 8000
+        },
+        {
+          "clave": "strawberry-matcha",
+          "name": "Strawberry matcha",
+          "description": "Reducción de frutos rojos, leche, matcha y hielo.",
+          "price": 6500
+        },
+        {
+          "clave": "frappe-dubai",
+          "name": "Dubái",
+          "description": "Syrup de pistacho, leche, café y hielo. Topping: crema y pistacho caramelizado.",
+          "price": 6000
+        },
+        {
+          "clave": "caramel-crunch",
+          "name": "Caramel crunch",
+          "description": "Syrup de caramelo, leche, café y hielo. Topping: crema, salsa de caramelo y crocante de maní.",
+          "price": 6000
+        },
+        {
+          "clave": "mocca-argento",
+          "name": "Mocca argento",
+          "description": "Chocolate, dulce de leche, café y hielo. Toppings: crema, salsa de chocolate y salsa de dulce de leche.",
+          "price": 6000
+        },
+        {
+          "clave": "cookies-creme",
+          "name": "Cookies & creme",
+          "description": "Oreo, helado de americana, leche y hielo. Topping: crema, oreos y salsa de chocolate.",
+          "price": 6500
+        }
+      ]
+    },
+    {
+      "clave": "jugos",
+      "title": "Jugos y limonadas",
+      "platos": [
+        {
+          "clave": "verde-detox",
+          "name": "Verde detox",
+          "description": "Menta, manzana verde, jugo de limón, kiwi, espinaca y pepino.",
+          "price": 6500
+        },
+        {
+          "clave": "naranja-energy",
+          "name": "Naranja energy",
+          "description": "Zanahoria, manzana roja, jugo de naranja, miel y menta.",
+          "price": 6500
+        },
+        {
+          "clave": "limonada",
+          "name": "Limonada",
+          "price": 4000,
+          "variants": [
+            {
+              "label": "Clásica 500 ml",
+              "price": 4000
+            },
+            {
+              "label": "Clásica 1 l",
+              "price": 7500
+            },
+            {
+              "label": "Menta y jengibre 500 ml",
+              "price": 4500
+            },
+            {
+              "label": "Menta y jengibre 1 l",
+              "price": 8000
+            }
+          ]
+        },
+        {
+          "clave": "jugo-naranja",
+          "name": "Jugo de naranja",
+          "price": 4500
+        },
+        {
+          "clave": "licuado-frutas",
+          "name": "Licuado de frutas",
+          "price": 6000
+        }
+      ]
+    },
+    {
+      "clave": "bakery",
+      "title": "Bakery",
+      "platos": [
+        {
+          "clave": "medialuna-manteca",
+          "name": "Medialuna de manteca",
+          "price": 2500
+        },
+        {
+          "clave": "medialuna-jyq",
+          "name": "Medialuna de jamón y queso",
+          "price": 4200
+        },
+        {
+          "clave": "tortillas",
+          "name": "Tortillas",
+          "price": 2500
+        },
+        {
+          "clave": "croissant",
+          "name": "Croissant",
+          "price": 5000
+        },
+        {
+          "clave": "roll-canela",
+          "name": "Roll de canela",
+          "price": 8500
+        },
+        {
+          "clave": "budin-limon",
+          "name": "Budín de limón",
+          "price": 5500
+        },
+        {
+          "clave": "budin-chocolate",
+          "name": "Budín de chocolate",
+          "price": 5500
+        },
+        {
+          "clave": "budin-zanahoria",
+          "name": "Budín de zanahoria",
+          "price": 5500
+        },
+        {
+          "clave": "budin-frutos-rojos",
+          "name": "Budín de frutos rojos",
+          "price": 5500
+        },
+        {
+          "clave": "porcion-torta",
+          "name": "Porción de torta",
+          "description": "Consultar variedad del día.",
+          "price": 5500,
+          "revisar": true,
+          "nota": "Precio provisorio confirmado por el usuario. No se pudo leer con certeza en la foto: revisar contra la carta cuando se pueda."
+        },
+        {
+          "clave": "alfajor-maicena",
+          "name": "Alfajor de maicena",
+          "price": 3500
+        },
+        {
+          "clave": "alfajor-chocolate",
+          "name": "Alfajor de chocolate",
+          "price": 3500
+        },
+        {
+          "clave": "alfajor-nuez",
+          "name": "Alfajor de nuez y dulce de leche",
+          "price": 3500
+        },
+        {
+          "clave": "tiramisu",
+          "name": "Tiramisú",
+          "price": 10000
+        },
+        {
+          "clave": "mousse-chocolate",
+          "name": "Mousse de chocolate",
+          "price": 10000
+        },
+        {
+          "clave": "cheesecake",
+          "name": "Cheesecake",
+          "description": "De dulce de leche o frutos rojos.",
+          "price": 10000
+        }
+      ]
+    },
+    {
+      "clave": "vinos-alamos",
+      "title": "Bodega Álamos",
+      "description": "Precios a consultar.",
+      "platos": [
+        {
+          "clave": "alamos-malbec",
+          "name": "Malbec"
+        },
+        {
+          "clave": "alamos-cabernet",
+          "name": "Cabernet"
+        },
+        {
+          "clave": "alamos-malbec-maceracion",
+          "name": "Malbec maceración atenuada"
+        },
+        {
+          "clave": "alamos-moscatel",
+          "name": "Moscatel Alejandría"
+        },
+        {
+          "clave": "alamos-dulce",
+          "name": "Dulce Natural"
+        },
+        {
+          "clave": "alamos-extra-brut",
+          "name": "Álamos Extra Brut"
+        }
+      ]
+    },
+    {
+      "clave": "vinos-aleanna",
+      "title": "Bodega Aleanna",
+      "description": "Precios a consultar.",
+      "platos": [
+        {
+          "clave": "aleanna-enemigo-malbec",
+          "name": "El Enemigo Malbec"
+        },
+        {
+          "clave": "aleanna-enemigo-cf",
+          "name": "El Enemigo Cabernet Franc"
+        },
+        {
+          "clave": "aleanna-gran-enemigo",
+          "name": "El Gran Enemigo Corte"
+        }
+      ]
+    },
+    {
+      "clave": "vinos-la-rural",
+      "title": "Bodega La Rural",
+      "description": "Precios a consultar.",
+      "platos": [
+        {
+          "clave": "larural-sf-roble-malbec",
+          "name": "San Felipe Roble Malbec"
+        },
+        {
+          "clave": "larural-sf-roble-chardonnay",
+          "name": "San Felipe Roble Chardonnay"
+        },
+        {
+          "clave": "larural-sf-dulce-tardio",
+          "name": "San Felipe Dulce Tardío"
+        }
+      ]
+    },
+    {
+      "clave": "vinos-catena",
+      "title": "Bodega Catena Zapata",
+      "description": "Precios a consultar.",
+      "platos": [
+        {
+          "clave": "catena-nicasia-red",
+          "name": "Nicasia Red Blend"
+        },
+        {
+          "clave": "catena-nicasia-blanc",
+          "name": "Nicasia Blanc de Blancs"
+        },
+        {
+          "clave": "catena-dv-cab-malbec",
+          "name": "DV Catena Cabernet – Malbec"
+        },
+        {
+          "clave": "catena-dv-malbec-malbec",
+          "name": "DV Catena Malbec – Malbec"
+        },
+        {
+          "clave": "catena-dv-chard",
+          "name": "DV Catena Chardonnay – Chardonnay"
+        },
+        {
+          "clave": "catena-sf-malbec",
+          "name": "Saint Felicien Malbec"
+        },
+        {
+          "clave": "catena-sf-chardonnay",
+          "name": "Saint Felicien Chardonnay (elab. en roble)"
+        },
+        {
+          "clave": "catena-sf-cabernet-franc",
+          "name": "Saint Felicien Cabernet Franc"
+        },
+        {
+          "clave": "catena-sf-nature",
+          "name": "Saint Felicien Nature (espumante)"
+        },
+        {
+          "clave": "catena-az-cabernet-alta",
+          "name": "Angélica Zapata Cabernet Alta"
+        },
+        {
+          "clave": "catena-az-cf-alta",
+          "name": "Angélica Zapata Cabernet Franc Alta"
+        }
+      ]
+    },
+    {
+      "clave": "vinos-rutini",
+      "title": "Bodega Rutini Wines",
+      "description": "Precios a consultar.",
+      "platos": [
+        {
+          "clave": "rutini-trumpeter-malbec",
+          "name": "Trumpeter Malbec"
+        },
+        {
+          "clave": "rutini-trumpeter-cs",
+          "name": "Trumpeter Cabernet Sauvignon"
+        },
+        {
+          "clave": "rutini-trumpeter-sb",
+          "name": "Trumpeter Sauvignon Blanc"
+        },
+        {
+          "clave": "rutini-trumpeter-chard",
+          "name": "Trumpeter Chardonnay"
+        },
+        {
+          "clave": "rutini-trumpeter-brut",
+          "name": "Trumpeter Brut Nature (espumante)"
+        },
+        {
+          "clave": "rutini-coleccion-cs-malbec",
+          "name": "Colección Rutini Cabernet Sauvignon – Malbec"
+        },
+        {
+          "clave": "rutini-coleccion-cab-franc",
+          "name": "Colección Rutini Cabernet – Franc"
+        },
+        {
+          "clave": "rutini-coleccion-sb",
+          "name": "Colección Rutini Sauvignon Blanc"
+        },
+        {
+          "clave": "rutini-coleccion-extra-brut",
+          "name": "Colección Rutini Extra Brut (espumante)"
+        }
+      ]
+    },
+    {
+      "clave": "vinos-salentein",
+      "title": "Bodega Salentein",
+      "description": "Precios a consultar.",
+      "platos": [
+        {
+          "clave": "salentein-reserva-malbec",
+          "name": "Reserva Malbec"
+        },
+        {
+          "clave": "salentein-reserva-cs",
+          "name": "Reserva Cabernet Sauvignon"
+        },
+        {
+          "clave": "salentein-numina-cf",
+          "name": "Numina Cabernet – Franc"
+        },
+        {
+          "clave": "salentein-numina-malbec",
+          "name": "Numina Malbec"
+        },
+        {
+          "clave": "salentein-brut-rose",
+          "name": "Salentein Brut Rosé (espumante)"
+        },
+        {
+          "clave": "salentein-extra-brut",
+          "name": "Salentein Extra Brut (espumante)"
+        }
+      ]
+    },
+    {
+      "clave": "cocktails",
+      "title": "Cocktails",
+      "description": "Carta de cócteles realizada en conjunto con Nicolás Argañaraz de Raíz Coctelería. Precios a consultar.",
+      "platos": [
+        {
+          "clave": "aperol-spritz",
+          "name": "Aperol Spritz"
+        },
+        {
+          "clave": "aperol-tonic",
+          "name": "Aperol Tonic"
+        },
+        {
+          "clave": "aperol-orange",
+          "name": "Aperol Orange"
+        },
+        {
+          "clave": "campari-spritz",
+          "name": "Campari Spritz"
+        },
+        {
+          "clave": "campari-tonic",
+          "name": "Campari Tonic"
+        },
+        {
+          "clave": "campari-orange",
+          "name": "Campari Orange"
+        },
+        {
+          "clave": "negroni",
+          "name": "Negroni",
+          "description": "Campari, gin y vermut rosso."
+        },
+        {
+          "clave": "negroni-sbagliatto",
+          "name": "Negroni Sbagliatto",
+          "description": "Vermut rosso, campari y prosecco."
+        },
+        {
+          "clave": "gt-bulldog",
+          "name": "Gin Tonic Bulldog"
+        },
+        {
+          "clave": "gt-blu",
+          "name": "Gin Tonic Blu"
+        },
+        {
+          "clave": "gt-gordons",
+          "name": "Gin Tonic Gordons"
+        },
+        {
+          "clave": "vermouth-soda",
+          "name": "Vermouth Carpano con soda"
+        },
+        {
+          "clave": "vermouth-pomelo",
+          "name": "Vermouth Carpano con pomelo"
+        },
+        {
+          "clave": "cynar-julep",
+          "name": "Cynar Julep",
+          "description": "Cynar, menta y jugo de pomelo."
+        },
+        {
+          "clave": "mojito",
+          "name": "Mojito"
+        },
+        {
+          "clave": "cuba-libre",
+          "name": "Cuba Libre"
+        },
+        {
+          "clave": "fernet-branca",
+          "name": "Fernet Branca"
+        }
+      ]
+    }
+  ]
+}

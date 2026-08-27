@@ -1,0 +1,506 @@
+---
+import type { SanityClient } from '@sanity/client';
+import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
+import AllergenIcons from '~/components/AllergenIcons.astro';
+import Icon from '~/components/Icon.astro';
+import { imageFor } from '~/lib/image';
+import { discountPercent, formatPrice, formatShortDate } from '~/lib/format';
+import { facebookUrl, instagramUrl } from '~/lib/social';
+import type { RestaurantData, SanityPhoto } from '~/lib/queries';
+
+export interface Props {
+  data: RestaurantData;
+  slug: string;
+  client: SanityClient;
+}
+
+const { data, client } = Astro.props;
+
+const img = (photo: SanityPhoto | undefined) =>
+  photo?.asset ? imageFor(client, photo as unknown as SanityImageSource) : null;
+
+const logo = img(data.logo);
+const heroImg = img(data.hero);
+const currency = data.currency ?? 'ARS';
+const menu = (data.menu ?? []).filter((c) => c != null);
+const promotions = (data.promotions ?? []).filter((p) => p != null);
+const hours = data.hours ?? [];
+
+const instagram = instagramUrl(data.contact?.instagram);
+const facebook = facebookUrl(data.contact?.facebook);
+const whatsapp = data.contact?.whatsapp;
+---
+
+{/* La portada es la tesis: el nombre solo sobre el fondo oscuro, sin nada que
+    compita. Lo que dice en el primer segundo es "esto es un lugar de noche".
+    La navegación asoma justo abajo del pliegue, y esa es toda la invitación a
+    seguir bajando que hace falta. */}
+<header class="portada">
+  {heroImg && (
+    <img
+      src={heroImg.src}
+      srcset={heroImg.srcset}
+      sizes="100vw"
+      alt={data.hero?.alt ?? ''}
+      loading="eager"
+      fetchpriority="high"
+      class="portada__foto"
+    />
+  )}
+  <div class="portada__contenido">
+    {logo && (
+      <img
+        src={logo.src}
+        srcset={logo.srcset}
+        sizes="72px"
+        alt={data.logo?.alt ?? `Logo de ${data.name}`}
+        width="72"
+        height="72"
+        loading="eager"
+        class="portada__logo"
+      />
+    )}
+    <h1 class="nombre">{data.name}</h1>
+    {data.tagline && <p class="bajada">{data.tagline}</p>}
+  </div>
+</header>
+
+{data.notice && <p class="aviso">{data.notice}</p>}
+
+{menu.length > 1 && (
+  <nav aria-label="Secciones de la carta" class="navegacion">
+    <div class="navegacion__pista">
+      {promotions.length > 0 && <a href="#promos" class="salto">Menú de la casa</a>}
+      {menu.map((category) => (
+        <a href={`#cat-${category._id}`} class="salto">
+          {category.title}
+        </a>
+      ))}
+    </div>
+  </nav>
+)}
+
+<main class="cuerpo">
+  {promotions.length > 0 && (
+    <section id="promos" class="seccion">
+      <h2 class="titulo-seccion">Menú de la casa</h2>
+      <ul class="lista">
+        {promotions.map((promo) => {
+          const off =
+            promo.compareAtPrice != null && promo.compareAtPrice > promo.price
+              ? discountPercent(promo.price, promo.compareAtPrice)
+              : null;
+          return (
+            <li class="plato">
+              <div class="plato__linea">
+                <h3 class="plato__nombre plato__nombre--promo">{promo.name}</h3>
+                <span class="precio">{formatPrice(promo.price, currency)}</span>
+              </div>
+              {promo.description && <p class="plato__detalle">{promo.description}</p>}
+              {(promo.compareAtPrice != null || off != null) && (
+                <p class="promo__rebaja">
+                  {promo.compareAtPrice != null && (
+                    <span class="precio precio--tachado">
+                      {formatPrice(promo.compareAtPrice, currency)}
+                    </span>
+                  )}
+                  {off != null && <span class="promo__sello">{off}% menos</span>}
+                </p>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  )}
+
+  {menu.map((category) => (
+    <section id={`cat-${category._id}`} class="seccion">
+      <h2 class="titulo-seccion">{category.title}</h2>
+      {category.description && <p class="seccion__nota">{category.description}</p>}
+
+      {(category.items ?? []).length === 0 ? (
+        <p class="plato__detalle">Todavía no hay platos en esta sección.</p>
+      ) : (
+        <ul class="lista">
+          {(category.items ?? [])
+            .filter((i) => i != null)
+            .map((item) => {
+              const variants = item.variants ?? [];
+              return (
+                <li class="plato">
+                  <div class="plato__linea">
+                    <span class="plato__titulo">
+                      <h3 class="plato__nombre">{item.name}</h3>
+                      <AllergenIcons tags={item.tags} />
+                    </span>
+                    {variants.length === 0 && item.price != null && (
+                      <span class="precio">{formatPrice(item.price, currency)}</span>
+                    )}
+                  </div>
+
+                  {item.description && <p class="plato__detalle">{item.description}</p>}
+
+                  {variants.length > 0 && (
+                    <ul class="variantes">
+                      {variants.map((variant) => (
+                        <li class="variante">
+                          <span class="variante__nombre">{variant.label}</span>
+                          <span class="precio precio--variante">
+                            {formatPrice(variant.price, currency)}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              );
+            })}
+        </ul>
+      )}
+    </section>
+  ))}
+</main>
+
+<footer class="pie">
+  {data.contact?.address && <p class="pie__linea">{data.contact.address}</p>}
+  {hours.map((slot) => (
+    <p class="pie__linea">
+      {slot.days} · {slot.hours}
+    </p>
+  ))}
+
+  {(whatsapp || instagram || facebook) && (
+    <div class="pie__redes">
+      {whatsapp && (
+        <a class="social-btn boton-red" href={`https://wa.me/${whatsapp}`} aria-label="WhatsApp">
+          <Icon name="whatsapp" />
+        </a>
+      )}
+      {instagram && (
+        <a
+          class="social-btn boton-red"
+          href={instagram}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Instagram"
+        >
+          <Icon name="instagram" />
+        </a>
+      )}
+      {facebook && (
+        <a
+          class="social-btn boton-red"
+          href={facebook}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Facebook"
+        >
+          <Icon name="facebook" />
+        </a>
+      )}
+    </div>
+  )}
+
+  {data.pricesUpdatedAt && (
+    <p class="pie__linea pie__linea--chica">
+      Precios actualizados al {formatShortDate(data.pricesUpdatedAt)}
+    </p>
+  )}
+</footer>
+
+<style>
+  /* ---------- portada ---------- */
+
+  .portada {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48vh;
+    padding: 3rem 1.5rem 2.5rem;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .portada__foto {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* La foto se hunde en el fondo en vez de competir con el nombre. */
+    opacity: 0.34;
+  }
+
+  .portada__contenido {
+    position: relative;
+  }
+
+  .portada__logo {
+    display: block;
+    margin: 0 auto 1.5rem;
+    width: 4.5rem;
+    height: 4.5rem;
+    object-fit: contain;
+  }
+
+  /* Bodoni en 600: las didónicas tienen gruesas finísimas que se comen los
+     fondos oscuros, y en 400 el nombre se deshilacha. */
+  .nombre {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(3rem, 15vw, 4.5rem);
+    line-height: 1;
+    letter-spacing: 0.005em;
+    text-wrap: balance;
+  }
+
+  .bajada {
+    margin: 1.25rem 0 0;
+    font-size: 0.6875rem;
+    font-weight: 400;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  /* ---------- aviso ---------- */
+
+  /* Una línea, no una banda de color: sobre fondo oscuro un bloque lleno de
+     bronce grita, y el aviso es información de servicio, no una promoción. */
+  .aviso {
+    margin: 0;
+    padding: 0 1.5rem 2rem;
+    text-align: center;
+    font-size: 0.75rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  /* ---------- navegación ---------- */
+
+  .navegacion {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .navegacion__pista {
+    display: flex;
+    gap: 1.75rem;
+    overflow-x: auto;
+    padding: 0.9rem 1.5rem;
+  }
+
+  .salto {
+    flex-shrink: 0;
+    font-size: 0.6875rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 140ms ease;
+  }
+  .salto:hover {
+    color: var(--accent);
+  }
+  .salto:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+  }
+
+  /* ---------- carta ---------- */
+
+  .cuerpo {
+    max-width: 40rem;
+    margin: 0 auto;
+    padding: 0 1.5rem 5rem;
+  }
+
+  .seccion {
+    margin-top: 3.5rem;
+    scroll-margin-top: 4rem;
+  }
+
+  .titulo-seccion {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: var(--category-size);
+    line-height: 1.2;
+    color: var(--accent);
+  }
+
+  .seccion__nota {
+    margin: 0.6rem 0 0;
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+  }
+
+  .lista {
+    list-style: none;
+    margin: 1.75rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+  }
+
+  .plato__linea {
+    display: flex;
+    align-items: baseline;
+    gap: 1.25rem;
+  }
+
+  .plato__titulo {
+    display: flex;
+    min-width: 0;
+    flex: 1;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem 0.6rem;
+  }
+
+  .plato__nombre {
+    margin: 0;
+    font-size: 1.0625rem;
+    font-weight: 500;
+    line-height: 1.35;
+  }
+
+  .plato__nombre--promo {
+    flex: 1;
+    min-width: 0;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.375rem;
+  }
+
+  .plato__detalle {
+    margin: 0.4rem 0 0;
+    font-size: 0.875rem;
+    font-weight: 300;
+    line-height: 1.65;
+    color: var(--text-muted);
+  }
+
+  /* EL DETALLE DE LA CASA: los precios en monoespaciada con cifras tabulares.
+     Al lado de una didónica leen como una carta de vinos, y las cifras alinean
+     en columna perfecta, cosa que ninguna proporcional hace. */
+  .precio {
+    flex-shrink: 0;
+    white-space: nowrap;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    font-weight: 400;
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum';
+    letter-spacing: -0.01em;
+  }
+
+  .precio--tachado {
+    color: var(--text-muted);
+    text-decoration: line-through;
+  }
+
+  .precio--variante {
+    color: var(--text-muted);
+  }
+
+  .variantes {
+    list-style: none;
+    margin: 0.7rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .variante {
+    display: flex;
+    align-items: baseline;
+    gap: 1.25rem;
+    font-size: 0.875rem;
+  }
+
+  .variante__nombre {
+    flex: 1;
+    min-width: 0;
+    font-weight: 300;
+    color: var(--text-muted);
+  }
+
+  /* ---------- promoción ---------- */
+
+  .promo__rebaja {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    margin: 0.7rem 0 0;
+  }
+
+  .promo__sello {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-contrast);
+    background: var(--accent);
+    padding: 0.2rem 0.5rem;
+  }
+
+  /* ---------- pie ---------- */
+
+  .pie {
+    border-top: 1px solid var(--border);
+    padding: 2.5rem 1.5rem 3.5rem;
+    text-align: center;
+  }
+
+  .pie__linea {
+    margin: 0 0 0.4rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .pie__linea--chica {
+    margin-top: 1.5rem;
+    letter-spacing: 0.08em;
+  }
+
+  .pie__redes {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+  }
+
+  .boton-red {
+    color: var(--text-muted);
+    transition: color 140ms ease;
+  }
+  .boton-red:hover {
+    color: var(--accent);
+  }
+  .boton-red:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  @media (min-width: 640px) {
+    .portada {
+      min-height: 56vh;
+    }
+  }
+</style>

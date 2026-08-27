@@ -1,0 +1,26 @@
+---
+export interface Props {
+  /** true = Sanity no respondio; false = el menu no esta publicado todavia. */
+  failed: boolean;
+}
+
+const { failed } = Astro.props;
+---
+
+{/*
+  Quien ve esto esta sentado en una mesa con el telefono en la mano. No puede
+  ver un stack trace ni una pagina en blanco: tiene que entender que pasa y si
+  vale la pena reintentar.
+*/}
+<main class="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center px-6 text-center">
+  <h1 class="font-display text-2xl">
+    {failed ? 'No pudimos cargar el menú' : 'Menú no disponible'}
+  </h1>
+  <p class="mt-3 text-text-muted">
+    {
+      failed
+        ? 'Probá de nuevo en unos segundos.'
+        : 'Este restaurante todavía no publicó su menú.'
+    }
+  </p>
+</main>

@@ -1,0 +1,308 @@
+---
+import type { SanityClient } from '@sanity/client';
+import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
+import AllergenIcons from '~/components/AllergenIcons.astro';
+import Icon from '~/components/Icon.astro';
+import { imageFor } from '~/lib/image';
+import { discountPercent, formatPrice, formatShortDate } from '~/lib/format';
+import { facebookUrl, instagramUrl, nombreDeRed } from '~/lib/social';
+import type { RestaurantData, SanityPhoto } from '~/lib/queries';
+
+export interface Props {
+  data: RestaurantData;
+  slug: string;
+  client: SanityClient;
+}
+
+const { data, slug, client } = Astro.props;
+
+const img = (photo: SanityPhoto | undefined) =>
+  photo?.asset ? imageFor(client, photo as unknown as SanityImageSource) : null;
+
+const logo = img(data.logo);
+const heroImg = img(data.hero);
+const currency = data.currency ?? 'ARS';
+const menu = (data.menu ?? []).filter((c) => c != null);
+const promotions = (data.promotions ?? []).filter((p) => p != null);
+const hours = data.hours ?? [];
+
+const instagram = instagramUrl(data.contact?.instagram);
+const instagramNombre = nombreDeRed(data.contact?.instagram);
+const facebook = facebookUrl(data.contact?.facebook);
+---
+
+{data.notice && (
+  <p class="bg-accent px-4 py-2 text-center text-sm font-medium text-accent-contrast">
+    {data.notice}
+  </p>
+)}
+
+<header>
+  <div class="mx-auto flex max-w-2xl items-center justify-between gap-4 px-5 py-5">
+    <a href={`/r/${slug}`} class="flex min-w-0 items-center gap-3">
+      {/* El sello y el logotipo son activos de marca, no contenido editable:
+          viven en /public y no pasan por Sanity. */}
+      <img
+        src={logo?.src ?? '/truman-seal.png'}
+        alt={`Logo de ${data.name}`}
+        width="64"
+        height="64"
+        class="h-14 w-14 shrink-0 object-contain"
+        loading="eager"
+      />
+      <img
+        src="/truman-wordmark.png"
+        alt={data.name}
+        width="140"
+        height="32"
+        class="h-7 w-auto object-contain"
+        loading="eager"
+      />
+    </a>
+    {instagram && (
+      <a
+        href={instagram}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="shrink-0 text-sm tracking-wide text-text-muted hover:text-accent-ink"
+      >
+        @{instagramNombre}
+      </a>
+    )}
+  </div>
+  <div class="dotted-divider"></div>
+</header>
+
+{heroImg && (
+  <div class="relative h-48 w-full overflow-hidden sm:h-64">
+    <img
+      src={heroImg.src}
+      srcset={heroImg.srcset}
+      sizes="100vw"
+      alt={data.hero?.alt ?? ''}
+      loading="eager"
+      fetchpriority="high"
+      class="h-full w-full object-cover"
+    />
+    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+  </div>
+)}
+
+<main class="mx-auto max-w-2xl px-5 pb-16">
+  {data.tagline && (
+    <div class="py-8 text-center">
+      <p class="text-xs font-medium tracking-[0.25em] text-text-muted uppercase">
+        {data.tagline}
+      </p>
+    </div>
+  )}
+
+  {/* Las promociones van PRIMERO y con tratamiento propio: no son una
+      categoría más. El borde continuo las separa del resto de la carta, que
+      usa reglas punteadas. */}
+  {promotions.length > 0 && (
+    <section id="promos" aria-labelledby="promos-titulo" class="mb-8 scroll-mt-24">
+      <h2 id="promos-titulo" class="cat-title text-accent-ink">Promociones</h2>
+      <div class="cat-rule mt-3"></div>
+
+      <ul class="mt-4 space-y-3">
+        {promotions.map((promo) => {
+          const foto = img(promo.image);
+          const off =
+            promo.compareAtPrice != null && promo.compareAtPrice > promo.price
+              ? discountPercent(promo.price, promo.compareAtPrice)
+              : null;
+
+          return (
+            <li class="border border-accent px-3 py-2.5">
+              <div class="flex items-baseline justify-between gap-3">
+                <h3 class="min-w-0 font-display text-base leading-tight font-medium">{promo.name}</h3>
+                <span class="shrink-0 font-semibold whitespace-nowrap text-accent-ink">
+                  {formatPrice(promo.price, currency)}
+                </span>
+              </div>
+
+              {promo.description && (
+                <p class="mt-0.5 text-sm leading-snug text-text-muted">{promo.description}</p>
+              )}
+
+              {(promo.compareAtPrice != null || off != null) && (
+                <p class="mt-1.5 flex items-center gap-2.5 text-sm">
+                  {promo.compareAtPrice != null && (
+                    <span class="text-text-muted line-through">
+                      {formatPrice(promo.compareAtPrice, currency)}
+                    </span>
+                  )}
+                  {off != null && (
+                    <span class="bg-accent px-2 py-0.5 text-xs font-semibold text-accent-contrast">
+                      {off}% OFF
+                    </span>
+                  )}
+                </p>
+              )}
+
+              {(promo.includes ?? []).length > 0 && (
+                <p class="mt-1.5 text-sm text-text-muted">
+                  Incluye: {(promo.includes ?? []).map((d) => d.name).join(', ')}
+                </p>
+              )}
+
+              {foto && (
+                <img
+                  src={foto.src}
+                  srcset={foto.srcset}
+                  sizes="(min-width: 640px) 600px, 100vw"
+                  alt={promo.image?.alt ?? ''}
+                  loading="lazy"
+                  decoding="async"
+                  class="mt-2.5 max-h-44 w-full object-cover"
+                />
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  )}
+
+  {menu.length > 1 && (
+    <nav
+      aria-label="Categorías"
+      class="sticky top-0 z-10 mb-10 flex gap-2 overflow-x-auto border-b border-border bg-bg py-3"
+    >
+      {promotions.length > 0 && (
+        <a
+          href="#promos"
+          class="shrink-0 rounded-full border border-accent px-4 py-1.5 text-xs font-medium tracking-wide text-accent-ink uppercase transition-colors hover:bg-accent hover:text-accent-contrast"
+        >
+          Promos
+        </a>
+      )}
+      {menu.map((category) => (
+        <a
+          href={`#cat-${category._id}`}
+          class="shrink-0 rounded-full border border-border px-4 py-1.5 text-xs font-medium tracking-wide text-text-muted uppercase transition-colors hover:border-accent hover:text-accent-ink"
+        >
+          {category.title}
+        </a>
+      ))}
+    </nav>
+  )}
+
+  {menu.map((category) => (
+    <section id={`cat-${category._id}`} class="mb-12 scroll-mt-24">
+      <div class="mb-5">
+        <h2 class="cat-title text-accent-ink">{category.title}</h2>
+        <div class="cat-rule mt-3"></div>
+        {category.description && (
+          <p class="mt-2 text-sm text-text-muted italic">{category.description}</p>
+        )}
+      </div>
+
+      {(category.items ?? []).length === 0 ? (
+        <p class="text-sm text-text-muted">Todavía no hay platos en esta sección.</p>
+      ) : (
+        <ul class="space-y-5">
+          {(category.items ?? []).filter((i) => i != null).map((item) => {
+            const variants = item.variants ?? [];
+            return (
+              <li>
+                <div class="flex items-baseline justify-between gap-3">
+                  <h3 class="min-w-0 font-display text-lg leading-tight font-medium text-text">
+                    {item.name}
+                  </h3>
+                  {variants.length === 0 && item.price != null && (
+                    <span class="shrink-0 font-semibold whitespace-nowrap text-accent-ink">
+                      {formatPrice(item.price, currency)}
+                    </span>
+                  )}
+                </div>
+
+                {item.description && (
+                  <p class="mt-1 text-sm leading-relaxed text-text-muted">{item.description}</p>
+                )}
+
+                {/* Las variantes van a lo ancho, no en una columna derecha:
+                    una etiqueta larga en columna fija desborda la fila y
+                    termina scrolleando la pagina de costado. */}
+                {variants.length > 0 && (
+                  <ul class="mt-2 space-y-1">
+                    {variants.map((variant) => (
+                      <li class="flex items-baseline gap-3 text-sm">
+                        <span class="min-w-0 flex-1 text-text-muted">{variant.label}</span>
+                        <span class="shrink-0 font-semibold whitespace-nowrap text-accent-ink">
+                          {formatPrice(variant.price, currency)}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+
+                <div class="mt-2 flex items-center gap-3">
+                  <AllergenIcons tags={item.tags} />
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </section>
+  ))}
+
+  {menu.length === 0 && <p class="text-text-muted">El menú todavía está vacío.</p>}
+</main>
+
+<footer class="border-t border-border px-5 py-10 text-center text-sm text-text-muted">
+  {data.contact?.address && <p class="mb-1">{data.contact.address}</p>}
+  {hours.map((slot) => (
+    <p>
+      {slot.days}: {slot.hours}
+    </p>
+  ))}
+  {/* Solo icono: el nombre accesible va en el enlace, y el SVG queda oculto
+      para lectores de pantalla para no anunciarlo dos veces. */}
+  <div class="mt-3 flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
+    {data.contact?.whatsapp && (
+      <a
+        class="social-btn transition-colors hover:text-accent-ink"
+        href={`https://wa.me/${data.contact.whatsapp}`}
+        aria-label="WhatsApp"
+      >
+        <Icon name="whatsapp" />
+      </a>
+    )}
+    {instagram && (
+      <a
+        class="social-btn transition-colors hover:text-accent-ink"
+        href={instagram}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Instagram"
+      >
+        <Icon name="instagram" />
+      </a>
+    )}
+    {facebook && (
+      <a
+        class="social-btn transition-colors hover:text-accent-ink"
+        href={facebook}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Facebook"
+      >
+        <Icon name="facebook" />
+      </a>
+    )}
+  </div>
+  {data.pricesUpdatedAt && (
+    <p class="mt-4 text-xs">Precios actualizados al {formatShortDate(data.pricesUpdatedAt)}</p>
+  )}
+</footer>
+
+<style>
+  /* Separador punteado de la carta de Truman. Vive acá y no en global.css
+     porque es de este local, no del sistema. */
+  .dotted-divider {
+    border-top: 1px dotted var(--accent);
+  }
+</style>

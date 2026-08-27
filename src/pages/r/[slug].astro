@@ -1,28 +1,25 @@
 ---
-import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
-import { getTenant } from '~/tenants';
+import MenuUnavailable from '~/components/MenuUnavailable.astro';
 import { clientFor } from '~/lib/sanity';
-import { imageFor } from '~/lib/image';
-import { MENU_QUERY, type RestaurantData, type SanityPhoto } from '~/lib/queries';
-import { formatPrice, formatShortDate, today } from '~/lib/format';
-import AllergenIcons from '~/components/AllergenIcons.astro';
-import {
-  TRUMAN_MENU,
-  TRUMAN_NAME,
-  TRUMAN_TAGLINE,
-  TRUMAN_CURRENCY,
-  TRUMAN_CONTACT,
-  TRUMAN_HOURS,
-  type TrumanCategory,
-} from '~/lib/truman-menu';
+import { MENU_QUERY, type RestaurantData } from '~/lib/queries';
+import { today } from '~/lib/format';
+import { getDesign } from '~/restaurants';
+import { getTenant } from '~/tenants';
 import '~/styles/global.css';
 
 export const prerender = false;
 
+/**
+ * Despachador. No dibuja nada del menu: resuelve el restaurante, trae los
+ * datos con la query compartida, resuelve los estados de error y delega el
+ * render al diseño a medida de ese local (src/restaurants/).
+ */
+
 const { slug } = Astro.params;
 const tenant = getTenant(slug);
+const design = getDesign(slug);
 
-if (!tenant) {
+if (!tenant || !design) {
   return new Response('Restaurante no encontrado', { status: 404 });
 }
 
@@ -36,63 +33,25 @@ try {
     today: today(tenant.timezone),
   });
 } catch {
-  // El cliente escanea el QR en la mesa: nunca debe ver un stack trace.
+  // Quien escanea el QR esta sentado en una mesa: nunca debe ver un stack trace.
   failed = true;
 }
 
-const unavailable = false;
+// Sanity es la unica fuente de verdad: no hay menu de respaldo. Si el
+// contenido no esta publicado o Sanity no responde, se muestra un cartel
+// entendible, nunca datos viejos que puedan contradecir a la carta impresa.
+const sanityUsable = sanityData?.published === true && (sanityData.menu?.length ?? 0) > 0;
 
-// Si Sanity tiene datos de Truman publicados los usamos; de lo contrario
-// caemos al menu hardcodeado para que la demo sea visible inmediatamente.
-const isTrumanData =
-  sanityData &&
-  sanityData.published === true &&
-  (sanityData.name?.toLowerCase().includes('truman') ?? false) &&
-  (sanityData.menu?.length ?? 0) > 0;
+const data: RestaurantData | null = sanityUsable ? sanityData : null;
 
-const useSanity = isTrumanData;
-
-const data = {
-  name: useSanity ? sanityData!.name : TRUMAN_NAME,
-  tagline: useSanity ? sanityData!.tagline : TRUMAN_TAGLINE,
-  notice: useSanity ? sanityData!.notice : undefined,
-  currency: useSanity ? sanityData!.currency : TRUMAN_CURRENCY,
-  pricesUpdatedAt: useSanity ? sanityData!.pricesUpdatedAt : undefined,
-  contact: useSanity ? sanityData!.contact : TRUMAN_CONTACT,
-  hours: useSanity ? sanityData!.hours : TRUMAN_HOURS,
-  menu: useSanity ? (sanityData!.menu as TrumanCategory[]) : TRUMAN_MENU,
-};
-
-const img = (photo: SanityPhoto | undefined) =>
-  photo?.asset ? imageFor(client, photo as unknown as SanityImageSource) : null;
-
-const sanityAssets = useSanity ? sanityData : undefined;
-const logo = img(sanityAssets?.logo);
-const heroImg = img(sanityAssets?.hero);
-
-const themeFontLink =
-  'https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap';
-
-const themeCss = `
-:root{
-  --bg:#FFFFFF;
-  --surface:#FFFFFF;
-  --text:#1D1D1B;
-  --text-muted:#6B6B6B;
-  --accent:#B28C62;
-  --accent-contrast:#FFFFFF;
-  --border:#E5E5E5;
-  --radius:0.5rem;
-  --font-display:"Playfair Display", Georgia, serif;
-  --font-body:"Inter", system-ui, sans-serif;
-  --category-size:1.125rem;
-  --category-transform:uppercase;
-  --category-tracking:0.18em;
-  --category-rule:1px dotted var(--accent);
+// Sin datos y sin respaldo hay que decir por que: 503 si Sanity no respondio
+// (reintentar sirve), 404 si simplemente no hay menu publicado (no sirve).
+if (!data) {
+  Astro.response.status = failed ? 503 : 404;
 }
-`;
 
-const title = `Menu de ${data.name}`;
+const Menu = design.component;
+const title = data?.name ? `Menú de ${data.name}` : 'Menú';
 ---
 
 <html lang="es">
@@ -100,174 +59,23 @@ const title = `Menu de ${data.name}`;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
-    {data.tagline && <meta name="description" content={data.tagline} />}
+    {data?.tagline && <meta name="description" content={data.tagline} />}
     <meta property="og:title" content={title} />
     <meta property="og:type" content="website" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href={themeFontLink} />
+    <link rel="stylesheet" href={design.fontLink} />
 
-    <style is:inline set:html={themeCss}></style>
+    <style is:inline set:html={design.themeCss}></style>
   </head>
 
   <body>
     {
-      unavailable ? (
-        <main class="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center px-6 text-center">
-          <h1 class="font-display text-2xl">No pudimos cargar el menu</h1>
-          <p class="mt-3 text-text-muted">Proba de nuevo en unos segundos.</p>
-        </main>
+      data ? (
+        <Menu data={data} slug={slug!} client={client} />
       ) : (
-        <>
-          {data.notice && (
-            <p class="bg-accent px-4 py-2 text-center text-sm font-medium text-accent-contrast">
-              {data.notice}
-            </p>
-          )}
-
-          <header class="truman-header">
-            <div class="mx-auto flex max-w-2xl items-center justify-between px-5 py-5">
-              <a href={`/r/${slug}`} class="flex items-center gap-3">
-                <img
-                  src={logo?.src ?? '/truman-seal.png'}
-                  alt={`Logo de ${data.name}`}
-                  width="64"
-                  height="64"
-                  class="h-14 w-14 object-contain"
-                  loading="eager"
-                />
-                <img
-                  src="/truman-wordmark.png"
-                  alt={data.name}
-                  width="140"
-                  height="32"
-                  class="h-7 w-auto object-contain"
-                  loading="eager"
-                />
-              </a>
-              {data.contact?.instagram && (
-                <a
-                  href={`https://instagram.com/${data.contact.instagram}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="text-sm tracking-wide text-text-muted hover:text-accent"
-                >
-                  @{data.contact.instagram}
-                </a>
-              )}
-            </div>
-            <div class="dotted-divider" />
-          </header>
-
-          {heroImg && (
-            <div class="relative h-48 w-full overflow-hidden sm:h-64">
-              <img
-                src={heroImg.src}
-                srcset={heroImg.srcset}
-                sizes="100vw"
-                alt={sanityData?.hero?.alt ?? ''}
-                loading="eager"
-                class="h-full w-full object-cover"
-              />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-            </div>
-          )}
-
-          <main class="mx-auto max-w-2xl px-5 pb-16">
-            <div class="py-8 text-center">
-              <p class="text-xs font-medium uppercase tracking-[0.25em] text-text-muted">
-                {data.tagline}
-              </p>
-            </div>
-
-            {data.menu.length > 1 && (
-              <nav
-                aria-label="Categorias"
-                class="sticky top-0 z-10 mb-10 flex gap-2 overflow-x-auto border-b border-border bg-bg py-3"
-              >
-                {data.menu.map((category) => (
-                  <a
-                    href={`#cat-${category._id}`}
-                    class="shrink-0 rounded-full border border-border px-4 py-1.5 text-xs font-medium uppercase tracking-wide text-text-muted transition-colors hover:border-accent hover:text-accent"
-                  >
-                    {category.title}
-                  </a>
-                ))}
-              </nav>
-            )}
-
-            {data.menu.map((category) => (
-              <section id={`cat-${category._id}`} class="mb-12 scroll-mt-24">
-                <div class="mb-5">
-                  <h2 class="cat-title text-accent">{category.title}</h2>
-                  <div class="cat-rule mt-3" />
-                  {category.description && (
-                    <p class="mt-2 text-sm italic text-text-muted">{category.description}</p>
-                  )}
-                </div>
-
-                {(category.items ?? []).length === 0 ? (
-                  <p class="text-sm text-text-muted">Todavia no hay platos en esta seccion.</p>
-                ) : (
-                  <ul class="space-y-5">
-                    {(category.items ?? []).map((item) => (
-                      <li class="group">
-                        <div class="flex items-baseline justify-between gap-3">
-                          <h3 class="font-display text-lg font-medium leading-tight text-text">
-                            {item.name}
-                          </h3>
-                          <span class="shrink-0 font-semibold whitespace-nowrap text-accent">
-                            {formatPrice(item.price, data.currency)}
-                          </span>
-                        </div>
-                        {item.description && (
-                          <p class="mt-1 text-sm leading-relaxed text-text-muted">
-                            {item.description}
-                          </p>
-                        )}
-                        <div class="mt-2 flex items-center gap-3">
-                          <AllergenIcons tags={item.tags} />
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </section>
-            ))}
-          </main>
-
-          <footer class="border-t border-border px-5 py-10 text-center text-sm text-text-muted">
-            {data.contact?.address && <p class="mb-1">{data.contact.address}</p>}
-            {(data.hours ?? []).map((slot) => (
-              <p>
-                {slot.days}: {slot.hours}
-              </p>
-            ))}
-            <div class="mt-4 flex items-center justify-center gap-6">
-              {data.contact?.whatsapp && (
-                <a class="underline hover:text-accent" href={`https://wa.me/${data.contact.whatsapp}`}>
-                  WhatsApp
-                </a>
-              )}
-              {data.contact?.instagram && (
-                <a
-                  class="underline hover:text-accent"
-                  href={`https://instagram.com/${data.contact.instagram}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Instagram
-                </a>
-              )}
-            </div>
-            {data.pricesUpdatedAt && (
-              <p class="mt-4 text-xs">
-                Precios actualizados al {formatShortDate(data.pricesUpdatedAt)}
-              </p>
-            )}
-          </footer>
-        </>
+        <MenuUnavailable failed={failed} />
       )
     }
   </body>
